@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Documentation Platform - User Personas</title>
+    <link rel="stylesheet" href="design-system.css">
+    <style>
+        .persona-card {
+            margin-bottom: var(--space-8);
+        }
+
+        .persona-header {
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
+            color: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .persona-avatar {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-2xl);
+            font-weight: bold;
+            margin-right: var(--space-4);
+        }
+
+        .pain-point {
+            background-color: var(--error-50);
+            border-left: 4px solid var(--error-500);
+            padding: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .goal-item {
+            background-color: var(--success-50);
+            border-left: 4px solid var(--success-500);
+            padding: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .journey-stage {
+            background-color: var(--primary-50);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+            border: 1px solid var(--primary-200);
+        }
+
+        .emotion-indicator {
+            display: inline-block;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            font-weight: 500;
+            margin-right: var(--space-2);
+        }
+
+        .emotion-positive {
+            background-color: var(--success-100);
+            color: var(--success-700);
+        }
+
+        .emotion-neutral {
+            background-color: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .emotion-negative {
+            background-color: var(--error-100);
+            color: var(--error-700);
+        }
+
+        .touchpoint {
+            background-color: var(--gray-50);
+            padding: var(--space-2);
+            border-radius: var(--radius-sm);
+            margin: var(--space-1) 0;
+            font-size: var(--text-sm);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header style="padding: var(--space-8) 0; text-align: center;">
+            <h1 class="text-display">Enterprise Documentation Platform</h1>
+            <p class="text-lg" style="color: var(--gray-600); margin-top: var(--space-2);">User Personas & Journey Mapping</p>
+        </header>
+
+        <!-- Primary Personas -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Primary User Personas</h2>
+
+            <!-- CCO/Executive Persona -->
+            <div class="card persona-card">
+                <div class="persona-header">
+                    <div class="flex items-center">
+                        <div class="persona-avatar">SC</div>
+                        <div>
+                            <h3 class="text-h2">Sarah Chen</h3>
+                            <p class="text-lg">Chief Compliance Officer</p>
+                            <p style="opacity: 0.8; margin-top: var(--space-2);">Fortune 500 Financial Services | 15+ years experience</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6);">
+                        <div>
+                            <h4 class="text-h3" style="margin-bottom: var(--space-4); color: var(--error-700);">Pain Points</h4>
+                            <div class="pain-point">
+                                <strong>Fragmented Documentation:</strong> Critical compliance docs scattered across 15+ systems
+                            </div>
+                            <div class="pain-point">
+                                <strong>Audit Nightmare:</strong> Takes weeks to gather documentation for regulatory audits
+                            </div>
+                            <div class="pain-point">
+                                <strong>Version Control Chaos:</strong> Multiple versions of policies in circulation
+                            </div>
+                            <div class="pain-point">
+                                <strong>Lack of Visibility:</strong> No real-time view of compliance status across business units
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-h3" style="margin-bottom: var(--space-4); color: var(--success-700);">Goals & Motivations</h4>
+                            <div class="goal-item">
+                                <strong>Centralized Control:</strong> Single source of truth for all compliance documentation
+                            </div>
+                            <div class="goal-item">
+                                <strong>Risk Mitigation:</strong> Proactively identify and address compliance gaps
+                            </div>
+                            <div class="goal-item">
+                                <strong>Efficiency Gains:</strong> Reduce audit preparation time from weeks to hours
+                            </div>
+                            <div class="goal-item">
+                                <strong>Executive Reporting:</strong> Real-time dashboard for board presentations
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: var(--space-6);">
+                        <h4 class="text-h3" style="margin-bottom: var(--space-4);">Tech Comfort & Constraints</h4>
+                        <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                            <li>High-level tech literacy, prefers executive dashboards</li>
+                            <li>Limited time for detailed system interaction</li>
+                            <li>Needs mobile access for board meetings and travel</li>
+                            <li>Requires integration with existing enterprise tools (Salesforce, SharePoint)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legal Team Persona -->
+            <div class="card persona-card">
+                <div class="persona-header">
+                    <div class="flex items-center">
+                        <div class="persona-avatar">MR</div>
+                        <div>
+                            <h3 class="text-h2">Marcus Rodriguez</h3>
+                            <p class="text-lg">Senior Legal Counsel</p>
+                            <p style="opacity: 0.8; margin-top: var(--space-2);">Corporate Legal Department | 8 years experience</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6);">
+                        <div>
+                            <h4 class="text-h3" style="margin-bottom: var(--space-4); color: var(--error-700);">Pain Points</h4>
+                            <div class="pain-point">
+                                <strong>Document Archaeology:</strong> Spending hours searching for contract templates and precedents
+                            </div>
+                            <div class="pain-point">
+                                <strong>Inconsistent Standards:</strong> Different departments using outdated or unauthorized templates
+                            </div>
+                            <div class="pain-point">
+                                <strong>Review Bottleneck:</strong> Manual review process creates delays in business deals
+                            </div>
+                            <div class="pain-point">
+                                <strong>Knowledge Silos:</strong> Institutional knowledge locked in individual lawyers' heads
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-h3" style="margin-bottom: var(--space-4); color: var(--success-700);">Goals & Motivations</h4>
+                            <div class="goal-item">
+                                <strong>Standardization:</strong> Ensure all departments use current, approved templates
+                            </div>
+                            <div class="goal-item">
+                                <strong>Speed to Market:</strong> Accelerate contract review and approval processes
+                            </div>
+                            <div class="goal-item">
+                                <strong>Knowledge Management:</strong> Capture and share legal expertise across teams
+                            </div>
+                            <div class="goal-item">
+                                <strong>Quality Assurance:</strong> Reduce legal risk through consistent documentation
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IT Administrator Persona -->
+            <div class="card persona-card">
+                <div class="persona-header">
+                    <div class="flex items-center">
+                        <div class="persona-avatar">AK</div>
+                        <div>
+                            <h3 class="text-h2">Aisha Kumar</h3>
+                            <p class="text-lg">IT Systems Administrator</p>
+                            <p style="opacity: 0.8; margin-top: var(--space-2);">Enterprise IT Department | 12 years experience</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6);">
+                        <div>
+                            <h4 class="text-h3" style="margin-bottom: var(--space-4); color: var(--error-700);">Pain Points</h4>
+                            <div class="pain-point">
+                                <strong>Integration Complexity:</strong> Each department wants different tools that don't play well together
+                            </div>
+                            <div class="pain-point">
+                                <strong>Security Concerns:</strong> Documents stored in unsecured personal drives and email
+                            </div>
+                            <div class="pain-point">
+                                <strong>User Support Burden:</strong> Constant requests for document recovery and access issues
+                            </div>
+                            <div class="pain-point">
+                                <strong>Compliance Pressure:</strong> IT held responsible for data governance failures
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-h3" style="margin-bottom: var(--space-4); color: var(--success-700);">Goals & Motivations</h4>
+                            <div class="goal-item">
+                                <strong>Unified Platform:</strong> Single system that meets all departmental needs
+                            </div>
+                            <div class="goal-item">
+                                <strong>Security by Design:</strong> Built-in encryption, access controls, and audit trails
+                            </div>
+                            <div class="goal-item">
+                                <strong>Easy Integration:</strong> Works with existing enterprise tools (SSO, AD, etc.)
+                            </div>
+                            <div class="goal-item">
+                                <strong>Reduced Support Tickets:</strong> Intuitive system that users can manage independently
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End User Persona -->
+            <div class="card persona-card">
+                <div class="persona-header">
+                    <div class="flex items-center">
+                        <div class="persona-avatar">JD</div>
+                        <div>
+                            <h3 class="text-h2">Jennifer Davis</h3>
+                            <p class="text-lg">Business Operations Manager</p>
+                            <p style="opacity: 0.8; margin-top: var(--space-2);">Mid-level Knowledge Worker | 6 years experience</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6);">
+                        <div>
+                            <h4 class="text-h3" style="margin-bottom: var(--space-4); color: var(--error-700);">Pain Points</h4>
+                            <div class="pain-point">
+                                <strong>Information Overload:</strong> Too many systems to check for the right document
+                            </div>
+                            <div class="pain-point">
+                                <strong>Version Confusion:</strong> Never sure if using the most current policy or procedure
+                            </div>
+                            <div class="pain-point">
+                                <strong>Process Opacity:</strong> Doesn't understand approval workflows or next steps
+                            </div>
+                            <div class="pain-point">
+                                <strong>Time Waste:</strong> Spending more time finding docs than actually working
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-h3" style="margin-bottom: var(--space-4); color: var(--success-700);">Goals & Motivations</h4>
+                            <div class="goal-item">
+                                <strong>Quick Access:</strong> Find the right document in under 30 seconds
+                            </div>
+                            <div class="goal-item">
+                                <strong>Confidence:</strong> Know she's using the correct, current version
+                            </div>
+                            <div class="goal-item">
+                                <strong>Transparency:</strong> Understand where documents are in approval process
+                            </div>
+                            <div class="goal-item">
+                                <strong>Mobile Access:</strong> Review documents while traveling or working remotely
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Journey Mapping -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">User Journey: Document Standardization Process</h2>
+
+            <div class="journey-stage">
+                <div class="flex justify-between items-center" style="margin-bottom: var(--space-4);">
+                    <h3 class="text-h3">1. Discovery & Assessment</h3>
+                    <span class="emotion-indicator emotion-negative">Frustrated</span>
+                </div>
+                <p style="margin-bottom: var(--space-4); color: var(--gray-600);">Legal team realizes contract templates are inconsistent across departments</p>
+                <div>
+                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Touchpoints:</h4>
+                    <div class="touchpoint">Email complaints from business units about conflicting requirements</div>
+                    <div class="touchpoint">SharePoint folders with multiple template versions</div>
+                    <div class="touchpoint">Manual audit reveals 47 different contract templates in use</div>
+                </div>
+                <div style="margin-top: var(--space-4);">
+                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Opportunities:</h4>
+                    <ul style="color: var(--primary-700); font-size: var(--text-sm);">
+                        <li>Automated discovery and inventory of existing documents</li>
+                        <li>Gap analysis dashboard highlighting inconsistencies</li>
+                        <li>Impact assessment showing business risk and cost</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="journey-stage">
+                <div class="flex justify-between items-center" style="margin-bottom: var(--space-4);">
+                    <h3 class="text-h3">2. Planning & Stakeholder Buy-in</h3>
+                    <span class="emotion-indicator emotion-neutral">Cautious</span>
+                </div>
+                <p style="margin-bottom: var(--space-4); color: var(--gray-600);">Building case for standardization platform and getting executive approval</p>
+                <div>
+                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Touchpoints:</h4>
+                    <div class="touchpoint">ROI presentation to C-suite with risk mitigation benefits</div>
+                    <div class="touchpoint">IT requirements gathering and security assessment</div>
+                    <div class="touchpoint">Vendor evaluation and pilot program proposal</div>
+                </div>
+                <div style="margin-top: var(--space-4);">
+                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Opportunities:</h4>
+                    <ul style="color: var(--primary-700); font-size: var(--text-sm);">
+                        <li>Pre-built ROI calculator with industry benchmarks</li>
+                        <li>Executive summary templates for different stakeholders</li>
+                        <li>Integration assessment tool for existing systems</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="journey-stage">
+                <div class="flex justify-between items-center" style="margin-bottom: var(--space-4);">
+                    <h3 class="text-h3">3. Implementation & Migration</h3>
+                    <span class="emotion-indicator emotion-negative">Overwhelmed</span>
+                </div>
+                <p style="margin-bottom: var(--space-4); color: var(--gray-600);">Setting up platform, migrating existing docs, and establishing new workflows</p>
+                <div>
+                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Touchpoints:</h4>
+                    <div class="touchpoint">Platform configuration and customization workshops</div>
+                    <div class="touchpoint">Bulk document upload and classification process</div>
+                    <div class="touchpoint">User training sessions and change management communications</div>
+                </div>
+                <div style="margin-top: var(--space-4);">
+                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Opportunities:</h4>
+                    <ul style="color: var(--primary-700); font-size: var(--text-sm);">
+                        <li>Guided setup wizard with progress tracking</li>
+                        <li>AI-powered document classification and tagging</li>
+                        <li>Interactive training modules with role-based scenarios</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="journey-stage">
+                <div class="flex justify-between items-center" style="margin-bottom: var(--space-4);">
+                    <h3 class="text-h3">4. Adoption & Daily Use</h3>
+                    <span class="emotion-indicator emotion-neutral">Learning</span>
+                </div>
+                <p style="margin-bottom: var(--space-4); color: var(--gray-600);">Users beginning to integrate platform into daily workflows</p>
+                <div>
+                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Touchpoints:</h4>
+                    <div class="touchpoint">Daily document search and retrieval activities</div>
+                    <div class="touchpoint">Approval workflow participation and notifications</div>
+                    <div class="touchpoint">Template customization and version management</div>
+                </div>
+                <div style="margin-top: var(--space-4);">
+                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Opportunities:</h4>
+                    <ul style="color: var(--primary-700); font-size: var(--text-sm);">
+                        <li>Smart search with natural language processing</li>
+                        <li>Contextual help and just-in-time learning</li>
+                        <li>Usage analytics to identify adoption barriers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="journey-stage">
+                <div class="flex justify-between items-center" style="margin-bottom: var(--space-4);">
+                    <h3 class="text-h3">5. Optimization & Value Realization</h3>
+                    <span class="emotion-indicator emotion-positive">Confident</span>
+                </div>
+                <p style="margin-bottom: var(--space-4); color: var(--gray-600);">Platform delivering measurable value, users advocating for expansion</p>
+                <div>
+                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Touchpoints:</h4>
+                    <div class="touchpoint">Performance dashboard showing time savings and compliance metrics</div>
+                    <div class="touchpoint">Advanced workflow automation and AI recommendations</div>
+                    <div class="touchpoint">Expansion planning for additional document types and departments</div>
+                </div>
+                <div style="margin-top: var(--space-4);">
+                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Opportunities:</h4>
+                    <ul style="color: var(--primary-700); font-size: var(--text-sm);">
+                        <li>Predictive analytics for compliance risk identification</li>
+                        <li>Advanced automation suggestions based on usage patterns</li>
+                        <li>Success metrics dashboard for executive reporting</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Design Principles -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">UX Design Principles</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6);">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-h3">Cognitive Load Reduction</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                            <li>Progressive disclosure of complex features</li>
+                            <li>Smart defaults based on user role</li>
+                            <li>Contextual navigation and breadcrumbs</li>
+                            <li>Visual hierarchy emphasizing primary actions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-h3">Role-Based Optimization</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                            <li>Customized dashboards per persona</li>
+                            <li>Permission-aware interface elements</li>
+                            <li>Workflow shortcuts for frequent tasks</li>
+                            <li>Relevant notifications and alerts</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-h3">Enterprise Integration</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                            <li>SSO and identity provider integration</li>
+                            <li>Familiar interaction patterns</li>
+                            <li>Consistent branding and theming</li>
+                            <li>API-first architecture for extensibility</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-h3">Change Management</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                            <li>Gradual feature introduction</li>
+                            <li>In-app guidance and tooltips</li>
+                            <li>Migration assistance tools</li>
+                            <li>Success metrics and feedback loops</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

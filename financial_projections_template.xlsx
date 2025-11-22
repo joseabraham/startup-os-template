@@ -1,0 +1,336 @@
+# Financial Projections Template - 5 Year Model
+# Enterprise Documentation SaaS - Panama S.A.
+
+## This is a structured template for financial modeling.
+## In actual implementation, this would be an Excel file with formulas and linked worksheets.
+
+# EXECUTIVE SUMMARY TAB
+-----------------------------------
+
+Key Metrics (5-Year Summary):
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Revenue             $500K     $1.5M     $4.2M     $8.5M     $15.0M
+Growth Rate           -       200%      180%      102%       76%
+Gross Margin         85%       87%       88%       90%       90%
+EBITDA Margin       -50%      -20%       15%       25%       32%
+Net Income         -$350K    -$450K     $420K    $1.7M     $3.8M
+Cash Burn          -$400K    -$600K    -$200K      $1M       $3M
+Employees             15        35        65       110       150
+
+# REVENUE MODEL TAB
+-----------------------------------
+
+## Subscription Revenue (Primary)
+
+Customer Acquisition:
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+New Customers         10        25        45        65        80
+Lost Customers         1         3         6        10        12
+Net New Customers      9        22        39        55        68
+Total Customers        9        31        70       125       193
+
+Average Contract Value (ACV):
+- Small Enterprise: $15K annually
+- Mid Enterprise:   $35K annually
+- Large Enterprise: $75K annually
+
+Customer Mix:
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Small (60%)           6        19        42        75       116
+Mid (30%)             3         9        21        38        58
+Large (10%)           0         3         7        12        19
+
+Monthly Recurring Revenue (MRR):
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Small Enterprise    $7.5K     $24K      $53K      $94K     $145K
+Mid Enterprise     $8.8K     $26K      $61K     $111K     $169K
+Large Enterprise      $0      $19K      $44K      $75K     $119K
+Total MRR          $16.3K     $69K     $158K     $280K     $433K
+Annual Revenue     $195K     $828K    $1.9M     $3.36M    $5.2M
+
+## Professional Services Revenue
+
+Implementation Services:
+- 80% of customers require implementation
+- Average implementation: $25K
+- Recognition: Over 6 months
+
+Training Services:
+- 60% of customers purchase training
+- Average training package: $10K
+- Recognition: Point in time
+
+Annual Services Revenue:
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Implementation     $180K     $440K     $788K    $1.3M     $1.7M
+Training           $54K     $132K     $234K     $390K     $510K
+Total Services     $234K     $572K    $1.02M    $1.69M    $2.21M
+
+## International vs Panama Revenue Split
+
+Geographic Distribution:
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Panama (Taxable)      15%       12%       10%        8%        7%
+International         85%       88%       90%       92%       93%
+
+Revenue by Source:
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Panama Source       $75K     $168K     $420K     $680K     $1.05M
+Foreign Source     $425K    $1.23M    $3.78M    $7.82M   $13.95M
+
+# COST STRUCTURE TAB
+-----------------------------------
+
+## Cost of Revenue (15% of Revenue)
+
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Hosting/Cloud        $30K      $90K     $252K     $510K     $900K
+Payment Processing   $10K      $30K      $84K     $170K     $300K
+Third-party Licenses $15K      $45K     $126K     $255K     $450K
+Customer Support     $20K      $60K     $168K     $340K     $600K
+Total COGS          $75K     $225K     $630K    $1.275M   $2.25M
+Gross Profit       $425K    $1.275M   $3.57M    $7.225M   $12.75M
+Gross Margin         85%       85%       85%       85%       85%
+
+## Operating Expenses
+
+### Sales & Marketing (40% of Revenue in Years 1-2, scaling down)
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Personnel           $120K     $300K     $840K    $1.36M    $2.1M
+Digital Marketing    $30K      $90K     $168K     $255K     $300K
+Events/Conferences   $15K      $45K      $84K     $128K     $150K
+Sales Tools          $10K      $30K      $42K      $68K     $90K
+Total S&M          $175K     $465K    $1.134M   $1.811M   $2.64M
+
+### Research & Development (25% of Revenue, CATI Benefits)
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Engineering        $100K     $250K     $735K    $1.275M   $1.95M
+Product Design      $25K      $63K     $147K     $255M     $390K
+Development Tools   $10K      $25K      $42K      $68K      $90K
+R&D Infrastructure   $5K      $12K      $21K      $34K      $45K
+Total R&D          $140K     $350K    $945K    $1.632M   $2.475M
+
+### General & Administrative (15% of Revenue)
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Executive/Admin     $50K     $125K     $315K     $510K     $750K
+Legal/Accounting    $15K      $38K      $63K     $102K     $150K
+Office/Facilities   $10K      $25K      $42K      $68K     $105K
+Insurance           $5K      $13K      $21K      $34K      $45K
+Total G&A          $80K     $201K     $441K     $714K    $1.05M
+
+Total OpEx         $395K    $1.016M   $2.52M    $4.157M   $6.165M
+
+# P&L STATEMENT TAB
+-----------------------------------
+
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Revenue            $500K    $1.5M     $4.2M     $8.5M     $15M
+Cost of Revenue     $75K     $225K     $630K    $1.275M   $2.25M
+Gross Profit       $425K    $1.275M   $3.57M    $7.225M   $12.75M
+Gross Margin         85%       85%       85%       85%       85%
+
+Operating Expenses:
+Sales & Marketing  $175K     $465K    $1.134M   $1.811M   $2.64M
+R&D                $140K     $350K     $945K    $1.632M   $2.475M
+G&A                 $80K     $201K     $441K     $714K    $1.05M
+Total OpEx         $395K    $1.016M   $2.52M    $4.157M   $6.165M
+
+EBITDA              $30K     $259K    $1.05M    $3.068M   $6.585M
+EBITDA Margin         6%       17%       25%       36%       44%
+
+Depreciation        $15K      $35K      $70K     $128K     $195K
+Interest Expense     $5K      $15K      $25K      $40K      $60K
+
+Pre-tax Income      $10K     $209K     $955K    $2.9M     $6.33M
+
+Income Tax:
+Panama Source Tax   $19K      $42K     $105K     $170K     $263K
+Foreign Source Tax    $0        $0        $0        $0        $0
+Total Tax           $19K      $42K     $105K     $170K     $263K
+
+Net Income         -$9K     $167K     $850K    $2.73M    $6.067M
+Net Margin          -2%       11%       20%       32%       40%
+
+# BALANCE SHEET TAB
+-----------------------------------
+
+## Assets
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Current Assets:
+Cash               $200K     $350K     $1.2M     $3.9M     $9.9M
+Accounts Receivable $42K     $125K     $350K     $708K    $1.25M
+Prepaid Expenses    $10K      $25K      $42K      $68K     $105K
+Total Current      $252K     $500K    $1.592M   $4.676M   $11.255M
+
+Fixed Assets:
+PP&E (net)          $35K      $65K     $120K     $215M     $345K
+Intangible Assets   $25K      $45K      $85K     $150K     $240K
+Total Fixed         $60K     $110K     $205K     $365K     $585K
+
+Total Assets       $312K     $610K    $1.797M   $5.041M   $11.84M
+
+## Liabilities & Equity
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Current Liabilities:
+Accounts Payable    $15K      $35K      $70K     $128K     $195K
+Accrued Expenses    $25K      $58K     $105K     $193K     $285K
+Deferred Revenue    $75K     $188K     $420K     $850K    $1.5M
+Total Current      $115K     $281K     $595K    $1.171M   $1.98M
+
+Long-term Debt       $50K     $125K     $200K     $300K     $400K
+
+Total Liabilities  $165K     $406K     $795K    $1.471M   $2.38M
+
+Equity:
+Common Stock        $100K     $100K     $100K     $100K     $100K
+Additional PIC      $400K    $1.4M     $1.4M     $1.4M     $1.4M
+Retained Earnings  -$353K    -$1.3M    -$498K    $2.07M    $7.96M
+Total Equity       $147K     $204K     $1.002M   $3.57M    $9.46M
+
+Total Lib & Equity $312K     $610K    $1.797M   $5.041M   $11.84M
+
+# CASH FLOW TAB
+-----------------------------------
+
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Operating Activities:
+Net Income         -$9K     $167K     $850K    $2.73M    $6.067M
+Depreciation        $15K      $35K      $70K     $128K     $195K
+Change in AR       -$42K     -$83K    -$225K    -$358K    -$542K
+Change in AP        $15K      $20K      $35K      $58K      $67K
+Change in Def Rev   $75K     $113K     $232K     $430K     $650K
+Other Working Cap   -$5K     -$15K     -$22K     -$38K     -$52K
+Net Operating CF    $49K     $237K     $940K    $2.95M    $6.385M
+
+Investing Activities:
+CapEx              -$25K     -$45K     -$80K    -$145K    -$225K
+Software/IP        -$15K     -$30K     -$55K    -$105K    -$165K
+Net Investing CF   -$40K     -$75K    -$135K    -$250K    -$390K
+
+Financing Activities:
+Debt Proceeds       $50K      $75K      $75K     $100K     $100K
+Equity Financing   $400K    $1.0M        $0        $0        $0
+Debt Payments        $0      -$25K     -$50K     -$75K    -$100K
+Net Financing CF   $450K    $1.05M      $25K      $25K        $0
+
+Net Change in Cash $459K     $1.21M     $830K    $2.725M   $5.995M
+Beginning Cash      $50K     $509K     $1.72M    $2.55M    $5.275M
+Ending Cash        $509K     $1.72M     $2.55M    $5.275M   $11.27M
+
+# UNIT ECONOMICS TAB
+-----------------------------------
+
+Customer Metrics:
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+CAC (Customer        $18K      $21K      $25K      $28K      $33K
+Acquisition Cost)
+
+LTV (Lifetime Value) $45K      $52K      $58K      $65K      $72K
+
+LTV/CAC Ratio        2.5       2.5       2.3       2.3       2.2
+
+Payback Period     18 mos    20 mos    22 mos    23 mos    24 mos
+
+Monthly Churn Rate    2.5%      2.0%      1.8%      1.5%      1.3%
+
+Net Revenue         95%       96%       97%       98%       98%
+Retention
+
+# SCENARIO ANALYSIS TAB
+-----------------------------------
+
+Base Case (Above)
+Conservative (75% of Base)
+Optimistic (125% of Base)
+
+Key Sensitivity Drivers:
+- Customer acquisition rate
+- Average contract value
+- Churn rate
+- Sales cycle length
+- Gross margin
+
+# FUNDING REQUIREMENTS TAB
+-----------------------------------
+
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Beginning Cash      $50K     $200K     $350K    $1.2M     $3.9M
+Operating CF        $49K     $237K     $940K    $2.95M    $6.385M
+Investment CF      -$40K     -$75K    -$135K    -$250K    -$390K
+Financing Needed   $391K     $188K        $0        $0        $0
+
+Funding Rounds:
+Seed Round         $500K (Year 1)
+Series A          $1.5M (Year 2)
+Total Raised      $2.0M
+
+Use of Funds:
+Product Development  40%
+Sales & Marketing    35%
+Working Capital      15%
+General Corporate    10%
+
+# TAX OPTIMIZATION TAB
+-----------------------------------
+
+Panama Territorial Tax Benefits:
+                    Year 1    Year 2    Year 3    Year 4    Year 5
+Total Revenue      $500K    $1.5M     $4.2M     $8.5M     $15M
+Panama Source       $75K     $168K     $420K     $680K    $1.05M
+Foreign Source     $425K    $1.23M    $3.78M    $7.82M   $13.95M
+
+Tax Calculation:
+Panama Income       $75K     $168K     $420K     $680K    $1.05M
+Less: Allocable     -$56K    -$126K    -$315K    -$510K    -$787K
+Expenses
+Panama Taxable      $19K      $42K     $105K     $170K     $263K
+Income
+
+Tax @ 25%           $5K      $11K      $26K      $43K      $66K
+
+CATI Benefits (if approved):
+Standard Tax        $5K      $11K      $26K      $43K      $66K
+CATI Tax            $0        $0        $0        $0        $0
+Annual Savings      $5K      $11K      $26K      $43K      $66K
+15-Year NPV       $1.2M (estimated)
+
+Transfer Pricing Structure:
+IP Holding Company (CATI qualified)
+Operating Company (customer-facing)
+Service Company (back-office)
+
+# KEY ASSUMPTIONS TAB
+-----------------------------------
+
+Market Assumptions:
+- Total Addressable Market: $2B
+- Serviceable Market: $200M
+- Annual Market Growth: 15%
+
+Product Assumptions:
+- SaaS platform with 99.9% uptime
+- AI-powered document processing
+- Multi-tenant architecture
+- Enterprise security compliance
+
+Financial Assumptions:
+- USD functional currency
+- Monthly subscription billing
+- 30-day payment terms
+- 2% annual price increases
+
+Operational Assumptions:
+- Panama headquarters
+- Remote-first workforce
+- Cloud-native infrastructure
+- Agile development methodology
+
+---
+
+Note: This template should be implemented in Excel with:
+- Linked formulas across worksheets
+- Scenario analysis with data tables
+- Charts and visualizations
+- Monthly detail for first 2 years
+- Quarterly detail for years 3-5
+- Sensitivity analysis on key drivers

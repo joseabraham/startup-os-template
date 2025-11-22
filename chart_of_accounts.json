@@ -1,0 +1,558 @@
+{
+  "chart_of_accounts": {
+    "company": "Enterprise Documentation SaaS - Panama S.A.",
+    "currency": "USD",
+    "accounting_standard": "IFRS",
+    "assets": {
+      "1000_current_assets": {
+        "1010": {
+          "name": "Caja General",
+          "name_en": "Cash on Hand",
+          "category": "Cash"
+        },
+        "1020": {
+          "name": "Banco - Cuenta Corriente USD",
+          "name_en": "Bank - USD Checking",
+          "category": "Cash"
+        },
+        "1025": {
+          "name": "Banco - Cuenta Corriente EUR",
+          "name_en": "Bank - EUR Checking",
+          "category": "Cash"
+        },
+        "1030": {
+          "name": "Inversiones a Corto Plazo",
+          "name_en": "Short-term Investments",
+          "category": "Cash Equivalents"
+        },
+        "1100": {
+          "name": "Cuentas por Cobrar - Clientes",
+          "name_en": "Accounts Receivable - Customers",
+          "category": "Receivables"
+        },
+        "1105": {
+          "name": "Cuentas por Cobrar - Fuente Panameña",
+          "name_en": "AR - Panama Source",
+          "category": "Receivables",
+          "note": "Separate tracking for territorial tax"
+        },
+        "1106": {
+          "name": "Cuentas por Cobrar - Fuente Extranjera",
+          "name_en": "AR - Foreign Source",
+          "category": "Receivables",
+          "note": "International customers - tax exempt"
+        },
+        "1110": {
+          "name": "(-) Provisión Cuentas Incobrables",
+          "name_en": "Allowance for Bad Debt",
+          "category": "Receivables"
+        },
+        "1200": {
+          "name": "Ingresos Diferidos por Cobrar",
+          "name_en": "Unbilled Revenue",
+          "category": "Receivables",
+          "note": "Revenue recognized but not yet invoiced"
+        },
+        "1300": {
+          "name": "Gastos Pagados por Anticipado",
+          "name_en": "Prepaid Expenses",
+          "category": "Prepaids"
+        },
+        "1310": {
+          "name": "Seguros Pagados por Anticipado",
+          "name_en": "Prepaid Insurance",
+          "category": "Prepaids"
+        },
+        "1320": {
+          "name": "Software y Licencias Prepagadas",
+          "name_en": "Prepaid Software Licenses",
+          "category": "Prepaids"
+        },
+        "1330": {
+          "name": "Comisiones de Ventas Diferidas",
+          "name_en": "Deferred Commission Costs",
+          "category": "Prepaids",
+          "note": "ASC 340-40 capitalized commissions"
+        },
+        "1400": {
+          "name": "ITBMS por Cobrar",
+          "name_en": "VAT Receivable",
+          "category": "Tax Assets"
+        },
+        "1410": {
+          "name": "Retenciones por Cobrar",
+          "name_en": "Withholdings Receivable",
+          "category": "Tax Assets"
+        },
+        "1420": {
+          "name": "Impuesto Renta por Cobrar",
+          "name_en": "Income Tax Receivable",
+          "category": "Tax Assets"
+        }
+      },
+      "1500_non_current_assets": {
+        "1510": {
+          "name": "Mobiliario y Equipo de Oficina",
+          "name_en": "Office Furniture & Equipment",
+          "category": "PP&E",
+          "depreciation_rate": "10%",
+          "useful_life": "10 years"
+        },
+        "1520": {
+          "name": "Equipo de Computación",
+          "name_en": "Computer Equipment",
+          "category": "PP&E",
+          "depreciation_rate": "33%",
+          "useful_life": "3 years"
+        },
+        "1530": {
+          "name": "Mejoras a Propiedades Arrendadas",
+          "name_en": "Leasehold Improvements",
+          "category": "PP&E"
+        },
+        "1540": {
+          "name": "(-) Depreciación Acumulada",
+          "name_en": "Accumulated Depreciation",
+          "category": "PP&E"
+        },
+        "1600": {
+          "name": "Activos Intangibles - Software",
+          "name_en": "Intangible Assets - Software",
+          "category": "Intangibles",
+          "amortization_rate": "33%",
+          "useful_life": "3 years"
+        },
+        "1610": {
+          "name": "Desarrollo de Producto Capitalizado",
+          "name_en": "Capitalized Product Development",
+          "category": "Intangibles",
+          "note": "Qualifying R&D under CATI regime"
+        },
+        "1620": {
+          "name": "Propiedad Intelectual",
+          "name_en": "Intellectual Property",
+          "category": "Intangibles"
+        },
+        "1630": {
+          "name": "(-) Amortización Acumulada",
+          "name_en": "Accumulated Amortization",
+          "category": "Intangibles"
+        },
+        "1700": {
+          "name": "Depósitos y Fianzas",
+          "name_en": "Deposits & Bonds",
+          "category": "Other Assets"
+        },
+        "1800": {
+          "name": "Activos por Derecho de Uso (IFRS 16)",
+          "name_en": "Right of Use Assets",
+          "category": "Lease Assets",
+          "note": "Office lease under IFRS 16"
+        }
+      }
+    },
+    "liabilities": {
+      "2000_current_liabilities": {
+        "2010": {
+          "name": "Cuentas por Pagar - Proveedores",
+          "name_en": "Accounts Payable - Vendors",
+          "category": "Payables"
+        },
+        "2020": {
+          "name": "Gastos Acumulados por Pagar",
+          "name_en": "Accrued Expenses",
+          "category": "Accrued Liabilities"
+        },
+        "2100": {
+          "name": "Salarios y Beneficios por Pagar",
+          "name_en": "Salaries & Benefits Payable",
+          "category": "Payroll Liabilities"
+        },
+        "2110": {
+          "name": "Vacaciones por Pagar",
+          "name_en": "Vacation Payable",
+          "category": "Payroll Liabilities"
+        },
+        "2120": {
+          "name": "Décimo Tercer Mes por Pagar",
+          "name_en": "13th Month Payable",
+          "category": "Payroll Liabilities"
+        },
+        "2130": {
+          "name": "Preaviso y Antigüedad por Pagar",
+          "name_en": "Severance Payable",
+          "category": "Payroll Liabilities"
+        },
+        "2140": {
+          "name": "Comisiones de Ventas por Pagar",
+          "name_en": "Sales Commissions Payable",
+          "category": "Accrued Liabilities"
+        },
+        "2200": {
+          "name": "Impuesto Sobre la Renta por Pagar",
+          "name_en": "Income Tax Payable",
+          "category": "Tax Liabilities"
+        },
+        "2210": {
+          "name": "ITBMS por Pagar",
+          "name_en": "VAT Payable",
+          "category": "Tax Liabilities"
+        },
+        "2220": {
+          "name": "Retenciones por Pagar",
+          "name_en": "Withholdings Payable",
+          "category": "Tax Liabilities"
+        },
+        "2230": {
+          "name": "CSS por Pagar",
+          "name_en": "Social Security Payable",
+          "category": "Tax Liabilities"
+        },
+        "2300": {
+          "name": "Ingresos Diferidos - Corto Plazo",
+          "name_en": "Deferred Revenue - Current",
+          "category": "Deferred Revenue",
+          "note": "Next 12 months of contract value"
+        },
+        "2310": {
+          "name": "Ingresos Diferidos - Fuente Panameña",
+          "name_en": "Deferred Revenue - Panama Source",
+          "category": "Deferred Revenue"
+        },
+        "2320": {
+          "name": "Ingresos Diferidos - Fuente Extranjera",
+          "name_en": "Deferred Revenue - Foreign Source",
+          "category": "Deferred Revenue"
+        },
+        "2400": {
+          "name": "Pasivos por Arrendamiento - Corto Plazo",
+          "name_en": "Lease Liabilities - Current",
+          "category": "Lease Liabilities"
+        },
+        "2500": {
+          "name": "Notas Convertibles - Corto Plazo",
+          "name_en": "Convertible Notes - Current",
+          "category": "Debt"
+        }
+      },
+      "2600_non_current_liabilities": {
+        "2610": {
+          "name": "Ingresos Diferidos - Largo Plazo",
+          "name_en": "Deferred Revenue - Non-Current",
+          "category": "Deferred Revenue",
+          "note": "Beyond 12 months"
+        },
+        "2620": {
+          "name": "Pasivos por Arrendamiento - Largo Plazo",
+          "name_en": "Lease Liabilities - Non-Current",
+          "category": "Lease Liabilities"
+        },
+        "2700": {
+          "name": "Notas Convertibles - Largo Plazo",
+          "name_en": "Convertible Notes - Non-Current",
+          "category": "Debt"
+        },
+        "2800": {
+          "name": "Provisiones a Largo Plazo",
+          "name_en": "Long-term Provisions",
+          "category": "Provisions"
+        }
+      }
+    },
+    "equity": {
+      "3000_equity": {
+        "3010": {
+          "name": "Capital Social Autorizado",
+          "name_en": "Authorized Capital Stock",
+          "category": "Capital Stock"
+        },
+        "3020": {
+          "name": "Capital Social Suscrito y Pagado",
+          "name_en": "Issued & Paid-in Capital",
+          "category": "Capital Stock"
+        },
+        "3030": {
+          "name": "Prima en Emisión de Acciones",
+          "name_en": "Additional Paid-in Capital",
+          "category": "Capital Stock"
+        },
+        "3100": {
+          "name": "Reserva Legal",
+          "name_en": "Legal Reserve",
+          "category": "Reserves",
+          "note": "5% of profits until 20% of capital"
+        },
+        "3200": {
+          "name": "Opciones sobre Acciones Emitidas",
+          "name_en": "Stock Options Granted",
+          "category": "Stock-based Compensation"
+        },
+        "3300": {
+          "name": "Utilidades Retenidas",
+          "name_en": "Retained Earnings",
+          "category": "Retained Earnings"
+        },
+        "3310": {
+          "name": "Utilidad/Pérdida del Ejercicio",
+          "name_en": "Current Year P&L",
+          "category": "Current Earnings"
+        },
+        "3400": {
+          "name": "Dividendos Declarados",
+          "name_en": "Dividends Declared",
+          "category": "Dividends"
+        }
+      }
+    },
+    "revenue": {
+      "4000_revenue": {
+        "4100": {
+          "name": "Ingresos por Suscripción - Fuente Panameña",
+          "name_en": "Subscription Revenue - Panama Source",
+          "category": "SaaS Revenue",
+          "tax_treatment": "Taxable in Panama at 25%"
+        },
+        "4200": {
+          "name": "Ingresos por Suscripción - Fuente Extranjera",
+          "name_en": "Subscription Revenue - Foreign Source",
+          "category": "SaaS Revenue",
+          "tax_treatment": "Tax-free under territorial system"
+        },
+        "4300": {
+          "name": "Ingresos por Servicios Profesionales - Local",
+          "name_en": "Professional Services - Local",
+          "category": "Services Revenue"
+        },
+        "4400": {
+          "name": "Ingresos por Servicios Profesionales - Internacional",
+          "name_en": "Professional Services - International",
+          "category": "Services Revenue"
+        },
+        "4500": {
+          "name": "Ingresos por Implementación",
+          "name_en": "Implementation Revenue",
+          "category": "Services Revenue"
+        },
+        "4600": {
+          "name": "Ingresos por Capacitación",
+          "name_en": "Training Revenue",
+          "category": "Services Revenue"
+        },
+        "4700": {
+          "name": "Otros Ingresos Operativos",
+          "name_en": "Other Operating Revenue",
+          "category": "Other Revenue"
+        }
+      }
+    },
+    "cost_of_revenue": {
+      "5000_cost_of_revenue": {
+        "5100": {
+          "name": "Hosting e Infraestructura",
+          "name_en": "Hosting & Infrastructure",
+          "category": "Technology Costs"
+        },
+        "5110": {
+          "name": "Servicios de Nube (AWS/GCP/Azure)",
+          "name_en": "Cloud Services",
+          "category": "Technology Costs"
+        },
+        "5120": {
+          "name": "CDN y Ancho de Banda",
+          "name_en": "CDN & Bandwidth",
+          "category": "Technology Costs"
+        },
+        "5200": {
+          "name": "Procesamiento de Pagos",
+          "name_en": "Payment Processing",
+          "category": "Transaction Costs"
+        },
+        "5300": {
+          "name": "Licencias de Software de Terceros",
+          "name_en": "Third-party Software Licenses",
+          "category": "Technology Costs"
+        },
+        "5400": {
+          "name": "Soporte Técnico Directo",
+          "name_en": "Direct Customer Support",
+          "category": "Support Costs"
+        },
+        "5500": {
+          "name": "Costos de Implementación",
+          "name_en": "Implementation Costs",
+          "category": "Services Costs"
+        }
+      }
+    },
+    "operating_expenses": {
+      "6000_sales_marketing": {
+        "6100": {
+          "name": "Salarios - Ventas y Marketing",
+          "name_en": "Sales & Marketing Salaries",
+          "category": "Personnel"
+        },
+        "6110": {
+          "name": "Comisiones de Ventas",
+          "name_en": "Sales Commissions",
+          "category": "Personnel"
+        },
+        "6120": {
+          "name": "CSS - Ventas y Marketing",
+          "name_en": "Social Security - Sales & Marketing",
+          "category": "Personnel"
+        },
+        "6200": {
+          "name": "Marketing Digital y Publicidad",
+          "name_en": "Digital Marketing & Advertising",
+          "category": "Marketing"
+        },
+        "6210": {
+          "name": "Eventos y Conferencias",
+          "name_en": "Events & Conferences",
+          "category": "Marketing"
+        },
+        "6220": {
+          "name": "Marketing de Contenido",
+          "name_en": "Content Marketing",
+          "category": "Marketing"
+        },
+        "6300": {
+          "name": "Herramientas de Ventas (CRM)",
+          "name_en": "Sales Tools (CRM)",
+          "category": "Technology"
+        },
+        "6400": {
+          "name": "Viajes de Ventas",
+          "name_en": "Sales Travel",
+          "category": "Travel"
+        }
+      },
+      "7000_research_development": {
+        "7100": {
+          "name": "Salarios - Ingeniería",
+          "name_en": "Engineering Salaries",
+          "category": "Personnel",
+          "note": "Eligible for CATI tax incentives"
+        },
+        "7110": {
+          "name": "Salarios - Diseño de Producto",
+          "name_en": "Product Design Salaries",
+          "category": "Personnel"
+        },
+        "7120": {
+          "name": "CSS - Investigación y Desarrollo",
+          "name_en": "Social Security - R&D",
+          "category": "Personnel"
+        },
+        "7200": {
+          "name": "Herramientas de Desarrollo",
+          "name_en": "Development Tools",
+          "category": "Technology"
+        },
+        "7300": {
+          "name": "Consultoría Técnica Externa",
+          "name_en": "External Technical Consulting",
+          "category": "Consulting"
+        },
+        "7400": {
+          "name": "Investigación y Patentes",
+          "name_en": "Research & Patents",
+          "category": "IP Development"
+        }
+      },
+      "8000_general_administrative": {
+        "8100": {
+          "name": "Salarios - Administración",
+          "name_en": "Administrative Salaries",
+          "category": "Personnel"
+        },
+        "8110": {
+          "name": "CSS - Administración",
+          "name_en": "Social Security - Admin",
+          "category": "Personnel"
+        },
+        "8200": {
+          "name": "Servicios Profesionales - Legal",
+          "name_en": "Legal Services",
+          "category": "Professional Services"
+        },
+        "8210": {
+          "name": "Servicios Profesionales - Contabilidad",
+          "name_en": "Accounting Services",
+          "category": "Professional Services"
+        },
+        "8220": {
+          "name": "Auditoría",
+          "name_en": "Audit Fees",
+          "category": "Professional Services"
+        },
+        "8300": {
+          "name": "Alquiler de Oficina",
+          "name_en": "Office Rent",
+          "category": "Facilities"
+        },
+        "8400": {
+          "name": "Servicios Públicos",
+          "name_en": "Utilities",
+          "category": "Facilities"
+        },
+        "8500": {
+          "name": "Seguros",
+          "name_en": "Insurance",
+          "category": "Insurance"
+        },
+        "8600": {
+          "name": "Gastos Bancarios",
+          "name_en": "Bank Fees",
+          "category": "Financial"
+        },
+        "8700": {
+          "name": "Depreciación y Amortización",
+          "name_en": "Depreciation & Amortization",
+          "category": "Non-cash"
+        },
+        "8800": {
+          "name": "Impuestos y Licencias",
+          "name_en": "Taxes & Licenses",
+          "category": "Taxes"
+        },
+        "8810": {
+          "name": "Franquicia Anual",
+          "name_en": "Annual Franchise Tax",
+          "category": "Taxes"
+        }
+      }
+    },
+    "other_income_expense": {
+      "9000_other": {
+        "9100": {
+          "name": "Ingresos por Intereses",
+          "name_en": "Interest Income",
+          "category": "Financial Income"
+        },
+        "9200": {
+          "name": "Gastos por Intereses",
+          "name_en": "Interest Expense",
+          "category": "Financial Expense"
+        },
+        "9300": {
+          "name": "Ganancia/Pérdida Cambiaria",
+          "name_en": "Foreign Exchange Gain/Loss",
+          "category": "FX"
+        },
+        "9400": {
+          "name": "Impuesto Sobre la Renta",
+          "name_en": "Income Tax Expense",
+          "category": "Tax Expense"
+        }
+      }
+    }
+  },
+  "notes": {
+    "territorial_tax_optimization": "Separate tracking of Panama vs Foreign source revenue is critical for territorial tax benefits",
+    "saas_revenue_recognition": "Follow ASC 606 for subscription revenue recognition",
+    "cati_regime": "R&D expenses may qualify for additional tax benefits under CATI",
+    "transfer_pricing": "Intercompany charges must be at arms-length rates",
+    "ifrs_compliance": "Chart designed for IFRS reporting standards"
+  }
+}

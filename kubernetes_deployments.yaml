@@ -1,0 +1,733 @@
+# Enterprise Documentation AI Platform - Kubernetes Deployments
+# =============================================================
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ocr-service
+  namespace: enterprise-docs
+  labels:
+    app: ocr-service
+    tier: processing
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: ocr-service
+  template:
+    metadata:
+      labels:
+        app: ocr-service
+        tier: processing
+    spec:
+      nodeSelector:
+        workload: gpu-inference
+      containers:
+      - name: ocr-service
+        image: enterprise-docs/ocr-service:v1.0.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: AZURE_COGNITIVE_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: azure-cognitive-secret
+              key: endpoint
+        - name: AZURE_COGNITIVE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: azure-cognitive-secret
+              key: api-key
+        - name: PADDLE_OCR_MODEL_PATH
+          value: "/models/ocr/paddleocr"
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 8Gi
+            nvidia.com/gpu: 1
+          limits:
+            cpu: 4000m
+            memory: 16Gi
+            nvidia.com/gpu: 1
+        volumeMounts:
+        - name: model-storage
+          mountPath: /models
+        - name: temp-storage
+          mountPath: /tmp
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc
+      - name: temp-storage
+        emptyDir:
+          sizeLimit: 10Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nlp-classification-service
+  namespace: enterprise-docs
+  labels:
+    app: nlp-classification-service
+    tier: processing
+spec:
+  replicas: 8
+  selector:
+    matchLabels:
+      app: nlp-classification-service
+  template:
+    metadata:
+      labels:
+        app: nlp-classification-service
+        tier: processing
+    spec:
+      nodeSelector:
+        workload: gpu-inference
+      containers:
+      - name: nlp-service
+        image: enterprise-docs/nlp-classification:v1.0.0
+        ports:
+        - containerPort: 8081
+        env:
+        - name: MODEL_PATH
+          value: "/models/nlp"
+        - name: BATCH_SIZE
+          value: "16"
+        - name: MAX_LENGTH
+          value: "512"
+        resources:
+          requests:
+            cpu: 4000m
+            memory: 16Gi
+            nvidia.com/gpu: 1
+          limits:
+            cpu: 8000m
+            memory: 32Gi
+            nvidia.com/gpu: 1
+        volumeMounts:
+        - name: model-storage
+          mountPath: /models
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8081
+          initialDelaySeconds: 90
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8081
+          initialDelaySeconds: 60
+          periodSeconds: 15
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: standardization-service
+  namespace: enterprise-docs
+  labels:
+    app: standardization-service
+    tier: processing
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: standardization-service
+  template:
+    metadata:
+      labels:
+        app: standardization-service
+        tier: processing
+    spec:
+      nodeSelector:
+        workload: gpu-inference
+      containers:
+      - name: standardization-service
+        image: enterprise-docs/standardization:v1.0.0
+        ports:
+        - containerPort: 8082
+        env:
+        - name: T5_MODEL_PATH
+          value: "/models/standardization/t5-template-generator"
+        - name: SENTENCE_BERT_MODEL_PATH
+          value: "/models/embeddings/sentence-bert-enterprise"
+        resources:
+          requests:
+            cpu: 4000m
+            memory: 24Gi
+            nvidia.com/gpu: 1
+          limits:
+            cpu: 8000m
+            memory: 48Gi
+            nvidia.com/gpu: 1
+        volumeMounts:
+        - name: model-storage
+          mountPath: /models
+        - name: template-storage
+          mountPath: /templates
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8082
+          initialDelaySeconds: 120
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8082
+          initialDelaySeconds: 90
+          periodSeconds: 20
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc
+      - name: template-storage
+        persistentVolumeClaim:
+          claimName: template-storage-pvc
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compliance-service
+  namespace: enterprise-docs
+  labels:
+    app: compliance-service
+    tier: processing
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: compliance-service
+  template:
+    metadata:
+      labels:
+        app: compliance-service
+        tier: processing
+    spec:
+      nodeSelector:
+        workload: cpu-intensive
+      containers:
+      - name: compliance-service
+        image: enterprise-docs/compliance:v1.0.0
+        ports:
+        - containerPort: 8083
+        env:
+        - name: BERT_LEGAL_MODEL_PATH
+          value: "/models/compliance/bert-legal"
+        - name: XGBOOST_RISK_MODEL_PATH
+          value: "/models/risk/xgboost-risk-scorer"
+        - name: REGULATIONS_CONFIG_PATH
+          value: "/config/regulations"
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 8Gi
+          limits:
+            cpu: 4000m
+            memory: 16Gi
+        volumeMounts:
+        - name: model-storage
+          mountPath: /models
+        - name: config-storage
+          mountPath: /config
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8083
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8083
+          initialDelaySeconds: 45
+          periodSeconds: 15
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc
+      - name: config-storage
+        configMap:
+          name: compliance-config
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: knowledge-graph-service
+  namespace: enterprise-docs
+  labels:
+    app: knowledge-graph-service
+    tier: analytics
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: knowledge-graph-service
+  template:
+    metadata:
+      labels:
+        app: knowledge-graph-service
+        tier: analytics
+    spec:
+      nodeSelector:
+        workload: cpu-intensive
+      containers:
+      - name: kg-service
+        image: enterprise-docs/knowledge-graph:v1.0.0
+        ports:
+        - containerPort: 8084
+        env:
+        - name: NEO4J_URI
+          value: "bolt://neo4j-cluster:7687"
+        - name: NEO4J_USER
+          valueFrom:
+            secretKeyRef:
+              name: neo4j-secret
+              key: username
+        - name: NEO4J_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: neo4j-secret
+              key: password
+        - name: SPACY_MODEL_PATH
+          value: "/models/nlp/spacy-enterprise"
+        resources:
+          requests:
+            cpu: 4000m
+            memory: 16Gi
+          limits:
+            cpu: 8000m
+            memory: 32Gi
+        volumeMounts:
+        - name: model-storage
+          mountPath: /models
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8084
+          initialDelaySeconds: 90
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8084
+          initialDelaySeconds: 60
+          periodSeconds: 20
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: similarity-service
+  namespace: enterprise-docs
+  labels:
+    app: similarity-service
+    tier: analytics
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: similarity-service
+  template:
+    metadata:
+      labels:
+        app: similarity-service
+        tier: analytics
+    spec:
+      nodeSelector:
+        workload: gpu-inference
+      containers:
+      - name: similarity-service
+        image: enterprise-docs/similarity:v1.0.0
+        ports:
+        - containerPort: 8085
+        env:
+        - name: FAISS_INDEX_PATH
+          value: "/indices/faiss"
+        - name: VECTOR_DIMENSION
+          value: "768"
+        - name: SIMILARITY_THRESHOLD
+          value: "0.85"
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 16Gi
+            nvidia.com/gpu: 1
+          limits:
+            cpu: 4000m
+            memory: 32Gi
+            nvidia.com/gpu: 1
+        volumeMounts:
+        - name: index-storage
+          mountPath: /indices
+        - name: model-storage
+          mountPath: /models
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8085
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8085
+          initialDelaySeconds: 45
+          periodSeconds: 15
+      volumes:
+      - name: index-storage
+        persistentVolumeClaim:
+          claimName: index-storage-pvc
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: translation-service
+  namespace: enterprise-docs
+  labels:
+    app: translation-service
+    tier: processing
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: translation-service
+  template:
+    metadata:
+      labels:
+        app: translation-service
+        tier: processing
+    spec:
+      nodeSelector:
+        workload: gpu-inference
+      containers:
+      - name: translation-service
+        image: enterprise-docs/translation:v1.0.0
+        ports:
+        - containerPort: 8086
+        env:
+        - name: MT5_MODEL_PATH
+          value: "/models/translation/mt5-xxl-enterprise"
+        - name: AZURE_TRANSLATOR_KEY
+          valueFrom:
+            secretKeyRef:
+              name: azure-translator-secret
+              key: api-key
+        - name: AZURE_TRANSLATOR_REGION
+          value: "eastus"
+        - name: SUPPORTED_LANGUAGES
+          value: "en,es,fr,de,it,pt,zh,ja,ko,ar"
+        resources:
+          requests:
+            cpu: 6000m
+            memory: 32Gi
+            nvidia.com/gpu: 1
+          limits:
+            cpu: 12000m
+            memory: 64Gi
+            nvidia.com/gpu: 1
+        volumeMounts:
+        - name: model-storage
+          mountPath: /models
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8086
+          initialDelaySeconds: 180
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8086
+          initialDelaySeconds: 120
+          periodSeconds: 30
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: enterprise-docs
+  labels:
+    app: api-gateway
+    tier: frontend
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+        tier: frontend
+    spec:
+      nodeSelector:
+        workload: cpu-intensive
+      containers:
+      - name: api-gateway
+        image: enterprise-docs/api-gateway:v1.0.0
+        ports:
+        - containerPort: 8000
+        env:
+        - name: OCR_SERVICE_URL
+          value: "http://ocr-service:8080"
+        - name: NLP_SERVICE_URL
+          value: "http://nlp-classification-service:8081"
+        - name: STANDARDIZATION_SERVICE_URL
+          value: "http://standardization-service:8082"
+        - name: COMPLIANCE_SERVICE_URL
+          value: "http://compliance-service:8083"
+        - name: KNOWLEDGE_GRAPH_SERVICE_URL
+          value: "http://knowledge-graph-service:8084"
+        - name: SIMILARITY_SERVICE_URL
+          value: "http://similarity-service:8085"
+        - name: TRANSLATION_SERVICE_URL
+          value: "http://translation-service:8086"
+        - name: REDIS_URL
+          value: "redis://redis-cluster:6379"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: database-secret
+              key: connection-string
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 10
+
+---
+# Services
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocr-service
+  namespace: enterprise-docs
+spec:
+  selector:
+    app: ocr-service
+  ports:
+  - port: 8080
+    targetPort: 8080
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nlp-classification-service
+  namespace: enterprise-docs
+spec:
+  selector:
+    app: nlp-classification-service
+  ports:
+  - port: 8081
+    targetPort: 8081
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: standardization-service
+  namespace: enterprise-docs
+spec:
+  selector:
+    app: standardization-service
+  ports:
+  - port: 8082
+    targetPort: 8082
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: compliance-service
+  namespace: enterprise-docs
+spec:
+  selector:
+    app: compliance-service
+  ports:
+  - port: 8083
+    targetPort: 8083
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: knowledge-graph-service
+  namespace: enterprise-docs
+spec:
+  selector:
+    app: knowledge-graph-service
+  ports:
+  - port: 8084
+    targetPort: 8084
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: similarity-service
+  namespace: enterprise-docs
+spec:
+  selector:
+    app: similarity-service
+  ports:
+  - port: 8085
+    targetPort: 8085
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: translation-service
+  namespace: enterprise-docs
+spec:
+  selector:
+    app: translation-service
+  ports:
+  - port: 8086
+    targetPort: 8086
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  namespace: enterprise-docs
+spec:
+  selector:
+    app: api-gateway
+  ports:
+  - port: 80
+    targetPort: 8000
+  type: LoadBalancer
+
+---
+# Horizontal Pod Autoscalers
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ocr-service-hpa
+  namespace: enterprise-docs
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ocr-service
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nlp-classification-hpa
+  namespace: enterprise-docs
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nlp-classification-service
+  minReplicas: 5
+  maxReplicas: 30
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-gateway-hpa
+  namespace: enterprise-docs
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api-gateway
+  minReplicas: 3
+  maxReplicas: 15
+  metrics:
+  - type: Resource
+    resource:
+    name: cpu
+    target:
+      type: Utilization
+      averageUtilization: 70

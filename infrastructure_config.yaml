@@ -1,0 +1,594 @@
+# Enterprise Documentation AI Platform - Infrastructure Configuration
+# =================================================================
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-platform-config
+  namespace: enterprise-docs
+data:
+  # AWS Infrastructure Configuration
+  aws_config: |
+    region: us-east-1
+    availability_zones:
+      - us-east-1a
+      - us-east-1b
+      - us-east-1c
+
+    # EKS Cluster Configuration
+    eks_cluster:
+      cluster_name: enterprise-docs-ai
+      version: "1.28"
+      node_groups:
+        cpu_intensive:
+          instance_types: ["c5.24xlarge", "c5.18xlarge"]
+          min_size: 5
+          max_size: 100
+          desired_size: 10
+          ami_type: AL2_x86_64
+          capacity_type: ON_DEMAND
+          disk_size: 100
+          labels:
+            workload: cpu-intensive
+            environment: production
+
+        gpu_inference:
+          instance_types: ["p3.8xlarge", "p3.16xlarge"]
+          min_size: 2
+          max_size: 50
+          desired_size: 5
+          ami_type: AL2_x86_64_GPU
+          capacity_type: ON_DEMAND
+          disk_size: 200
+          labels:
+            workload: gpu-inference
+            environment: production
+
+        gpu_training:
+          instance_types: ["p4d.24xlarge"]
+          min_size: 1
+          max_size: 20
+          desired_size: 2
+          ami_type: AL2_x86_64_GPU
+          capacity_type: SPOT
+          disk_size: 500
+          labels:
+            workload: gpu-training
+            environment: production
+
+    # Storage Configuration
+    storage:
+      s3_buckets:
+        documents:
+          name: enterprise-docs-documents
+          versioning: enabled
+          encryption: AES256
+          lifecycle_policy:
+            - transition_days: 30
+              storage_class: STANDARD_IA
+            - transition_days: 90
+              storage_class: GLACIER
+            - expiration_days: 2555  # 7 years
+
+        models:
+          name: enterprise-docs-models
+          versioning: enabled
+          encryption: KMS
+          lifecycle_policy:
+            - transition_days: 60
+              storage_class: STANDARD_IA
+
+        logs:
+          name: enterprise-docs-logs
+          versioning: enabled
+          encryption: AES256
+          lifecycle_policy:
+            - transition_days: 30
+              storage_class: STANDARD_IA
+            - transition_days: 90
+              storage_class: GLACIER
+            - expiration_days: 2555
+
+      rds:
+        identifier: enterprise-docs-metadata
+        engine: postgres
+        engine_version: "14.9"
+        instance_class: db.r5.4xlarge
+        allocated_storage: 1000
+        max_allocated_storage: 10000
+        backup_retention_period: 35
+        multi_az: true
+        encryption: true
+        performance_insights: true
+
+      documentdb:
+        cluster_identifier: enterprise-docs-documents
+        engine: docdb
+        master_username: docadmin
+        backup_retention_period: 35
+        preferred_backup_window: "07:00-09:00"
+        skip_final_snapshot: false
+        instances:
+          - instance_class: db.r5.2xlarge
+            count: 3
+
+      neptune:
+        cluster_identifier: enterprise-docs-knowledge-graph
+        engine: neptune
+        backup_retention_period: 35
+        preferred_backup_window: "03:00-05:00"
+        instances:
+          - instance_class: db.r5.2xlarge
+            count: 2
+
+      elasticache:
+        replication_group_id: enterprise-docs-cache
+        description: "Enterprise docs caching layer"
+        node_type: cache.r6g.2xlarge
+        num_cache_clusters: 3
+        engine: redis
+        engine_version: "7.0"
+        parameter_group: default.redis7
+        port: 6379
+        at_rest_encryption_enabled: true
+        transit_encryption_enabled: true
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ml-models-config
+  namespace: enterprise-docs
+data:
+  # ML Models Configuration
+  models_config: |
+    ocr_models:
+      azure_computer_vision:
+        endpoint: "https://eastus.api.cognitive.microsoft.com/"
+        api_version: "2023-02-01-preview"
+        features:
+          - text_recognition
+          - layout_analysis
+          - table_extraction
+          - handwriting_recognition
+        performance:
+          max_concurrent_requests: 100
+          timeout_seconds: 30
+          retry_attempts: 3
+
+      paddle_ocr:
+        model_path: "/models/ocr/paddleocr"
+        config:
+          use_gpu: true
+          gpu_mem: 8000
+          det_model: "ch_PP-OCRv3_det"
+          rec_model: "ch_PP-OCRv3_rec"
+          cls_model: "ch_ppocr_mobile_v2.0_cls"
+          use_space_char: true
+          use_angle_cls: true
+
+    nlp_models:
+      roberta_large:
+        model_name: "roberta-large"
+        model_path: "/models/nlp/roberta-large-enterprise"
+        tokenizer_path: "/models/nlp/roberta-large-enterprise"
+        config:
+          max_length: 512
+          batch_size: 16
+          num_labels: 50
+          dropout: 0.1
+          attention_dropout: 0.1
+
+      deberta_financial:
+        model_name: "microsoft/deberta-v3-large"
+        model_path: "/models/nlp/deberta-financial"
+        config:
+          max_length: 1024
+          batch_size: 8
+          num_labels: 25
+          learning_rate: 2e-5
+          warmup_steps: 500
+
+    standardization_models:
+      t5_template:
+        model_name: "t5-large"
+        model_path: "/models/standardization/t5-template-generator"
+        config:
+          max_source_length: 1024
+          max_target_length: 512
+          beam_size: 5
+          early_stopping: true
+          length_penalty: 1.0
+
+      sentence_bert:
+        model_name: "all-MiniLM-L12-v2"
+        model_path: "/models/embeddings/sentence-bert-enterprise"
+        config:
+          max_seq_length: 384
+          batch_size: 32
+          normalize_embeddings: true
+
+    compliance_models:
+      bert_legal:
+        model_name: "nlpaueb/legal-bert-base-uncased"
+        model_path: "/models/compliance/bert-legal"
+        config:
+          max_length: 512
+          batch_size: 16
+          num_labels: 100
+          regulations:
+            - SOX
+            - GDPR
+            - HIPAA
+            - PCI_DSS
+            - ISO27001
+
+      xgboost_risk:
+        model_path: "/models/risk/xgboost-risk-scorer"
+        config:
+          n_estimators: 1000
+          max_depth: 8
+          learning_rate: 0.1
+          subsample: 0.8
+          colsample_bytree: 0.8
+          reg_alpha: 0.1
+          reg_lambda: 1.0
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: processing-pipeline-config
+  namespace: enterprise-docs
+data:
+  # Processing Pipeline Configuration
+  pipeline_config: |
+    stages:
+      document_ingestion:
+        enabled: true
+        supported_formats:
+          - pdf
+          - docx
+          - doc
+          - txt
+          - html
+          - rtf
+          - xlsx
+          - pptx
+          - png
+          - jpg
+          - jpeg
+          - tiff
+          - bmp
+        max_file_size_mb: 100
+        batch_size: 50
+        timeout_minutes: 10
+        retry_attempts: 3
+
+      ocr_processing:
+        enabled: true
+        primary_engine: "azure_computer_vision"
+        fallback_engine: "paddle_ocr"
+        confidence_threshold: 0.8
+        parallel_processing: true
+        max_concurrent: 20
+        timeout_minutes: 5
+
+      nlp_processing:
+        enabled: true
+        tasks:
+          - classification
+          - entity_extraction
+          - sentiment_analysis
+          - topic_modeling
+          - language_detection
+        batch_size: 32
+        timeout_minutes: 15
+        confidence_threshold: 0.85
+
+      standardization:
+        enabled: true
+        template_matching_threshold: 0.8
+        similarity_threshold: 0.85
+        auto_standardization: true
+        human_review_threshold: 0.7
+        batch_size: 16
+        timeout_minutes: 20
+
+      compliance_check:
+        enabled: true
+        regulations:
+          - name: "SOX"
+            enabled: true
+            risk_threshold: 0.7
+          - name: "GDPR"
+            enabled: true
+            risk_threshold: 0.8
+          - name: "HIPAA"
+            enabled: true
+            risk_threshold: 0.75
+          - name: "PCI_DSS"
+            enabled: true
+            risk_threshold: 0.85
+        batch_size: 8
+        timeout_minutes: 10
+
+      knowledge_graph:
+        enabled: true
+        entity_extraction: true
+        relationship_extraction: true
+        graph_update_mode: "incremental"
+        batch_size: 100
+        timeout_minutes: 30
+
+      similarity_detection:
+        enabled: true
+        similarity_threshold: 0.85
+        duplicate_threshold: 0.95
+        clustering_enabled: true
+        index_update_mode: "real_time"
+        batch_size: 200
+        timeout_minutes: 5
+
+      translation:
+        enabled: true
+        source_language_detection: true
+        target_languages:
+          - en
+          - es
+          - fr
+          - de
+          - it
+          - pt
+          - zh
+          - ja
+          - ko
+          - ar
+        quality_threshold: 0.8
+        batch_size: 10
+        timeout_minutes: 25
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: security-config
+  namespace: enterprise-docs
+data:
+  # Security Configuration
+  security_config: |
+    encryption:
+      at_rest:
+        algorithm: "AES-256"
+        key_management: "AWS_KMS"
+        key_rotation_days: 90
+        customer_managed_keys: true
+
+      in_transit:
+        protocol: "TLS_1_3"
+        cipher_suites:
+          - "TLS_AES_256_GCM_SHA384"
+          - "TLS_CHACHA20_POLY1305_SHA256"
+        certificate_validation: true
+        mutual_tls: true
+
+    authentication:
+      multi_factor_required: true
+      session_timeout_minutes: 30
+      password_policy:
+        min_length: 12
+        require_uppercase: true
+        require_lowercase: true
+        require_numbers: true
+        require_special_chars: true
+        max_age_days: 90
+
+      sso_providers:
+        - type: "SAML"
+          provider: "Active Directory"
+          enabled: true
+        - type: "OIDC"
+          provider: "Azure AD"
+          enabled: true
+        - type: "OAuth2"
+          provider: "Google Workspace"
+          enabled: false
+
+    authorization:
+      rbac_enabled: true
+      abac_enabled: true
+      policy_engine: "Open Policy Agent"
+      roles:
+        - name: "admin"
+          permissions: ["*"]
+        - name: "compliance_officer"
+          permissions:
+            - "compliance:read"
+            - "compliance:write"
+            - "reports:read"
+        - name: "document_manager"
+          permissions:
+            - "documents:read"
+            - "documents:write"
+            - "templates:read"
+            - "templates:write"
+        - name: "analyst"
+          permissions:
+            - "documents:read"
+            - "reports:read"
+            - "search:read"
+        - name: "viewer"
+          permissions:
+            - "documents:read"
+
+    data_protection:
+      pii_detection:
+        enabled: true
+        patterns:
+          - ssn
+          - credit_card
+          - phone_number
+          - email
+          - passport
+          - driver_license
+        confidence_threshold: 0.9
+
+      data_masking:
+        enabled: true
+        methods:
+          - "tokenization"
+          - "pseudonymization"
+          - "format_preserving_encryption"
+        retention_policy_days: 2555  # 7 years
+
+      data_loss_prevention:
+        enabled: true
+        scan_uploads: true
+        block_sensitive_data: true
+        alert_on_violations: true
+        quarantine_violations: true
+
+    audit_logging:
+      enabled: true
+      log_level: "INFO"
+      events:
+        - authentication
+        - authorization
+        - data_access
+        - configuration_changes
+        - model_predictions
+        - compliance_violations
+      retention_days: 2555
+      immutable_storage: true
+      real_time_monitoring: true
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: monitoring-config
+  namespace: enterprise-docs
+data:
+  # Monitoring and Observability Configuration
+  monitoring_config: |
+    metrics:
+      collection_interval_seconds: 30
+      retention_days: 90
+
+      performance_metrics:
+        - name: "request_latency"
+          type: "histogram"
+          buckets: [0.1, 0.5, 1.0, 2.5, 5.0, 10.0, 30.0]
+        - name: "throughput"
+          type: "counter"
+        - name: "error_rate"
+          type: "gauge"
+        - name: "cpu_utilization"
+          type: "gauge"
+        - name: "memory_utilization"
+          type: "gauge"
+        - name: "gpu_utilization"
+          type: "gauge"
+        - name: "disk_utilization"
+          type: "gauge"
+        - name: "network_io"
+          type: "counter"
+
+      model_metrics:
+        - name: "model_accuracy"
+          type: "gauge"
+        - name: "model_latency"
+          type: "histogram"
+        - name: "model_throughput"
+          type: "counter"
+        - name: "prediction_confidence"
+          type: "histogram"
+        - name: "data_drift_score"
+          type: "gauge"
+        - name: "concept_drift_score"
+          type: "gauge"
+        - name: "bias_score"
+          type: "gauge"
+
+      business_metrics:
+        - name: "documents_processed"
+          type: "counter"
+        - name: "compliance_violations_detected"
+          type: "counter"
+        - name: "duplicates_found"
+          type: "counter"
+        - name: "standardization_rate"
+          type: "gauge"
+        - name: "user_satisfaction_score"
+          type: "gauge"
+
+    alerting:
+      channels:
+        - type: "slack"
+          webhook_url: "${SLACK_WEBHOOK_URL}"
+          enabled: true
+        - type: "email"
+          smtp_server: "${SMTP_SERVER}"
+          enabled: true
+        - type: "pagerduty"
+          integration_key: "${PAGERDUTY_KEY}"
+          enabled: true
+
+      rules:
+        - name: "high_error_rate"
+          condition: "error_rate > 0.05"
+          severity: "critical"
+          duration: "5m"
+        - name: "high_latency"
+          condition: "request_latency_p95 > 5000"
+          severity: "warning"
+          duration: "10m"
+        - name: "low_accuracy"
+          condition: "model_accuracy < 0.85"
+          severity: "critical"
+          duration: "15m"
+        - name: "data_drift_detected"
+          condition: "data_drift_score > 0.7"
+          severity: "warning"
+          duration: "30m"
+        - name: "compliance_violation"
+          condition: "compliance_violations_detected > 0"
+          severity: "critical"
+          duration: "1m"
+        - name: "high_resource_utilization"
+          condition: "cpu_utilization > 0.8 or memory_utilization > 0.8"
+          severity: "warning"
+          duration: "15m"
+
+    dashboards:
+      executive:
+        metrics:
+          - documents_processed_daily
+          - compliance_score
+          - cost_per_document
+          - user_satisfaction
+          - system_availability
+
+      operational:
+        metrics:
+          - service_health
+          - request_latency
+          - throughput
+          - error_rate
+          - resource_utilization
+
+      technical:
+        metrics:
+          - model_performance
+          - data_quality
+          - pipeline_health
+          - infrastructure_metrics
+          - security_events
+
+      compliance:
+        metrics:
+          - compliance_violations
+          - risk_scores
+          - audit_trail
+          - data_governance
+          - access_patterns

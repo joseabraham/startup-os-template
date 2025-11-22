@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role-Based Dashboard Designs - Enterprise Documentation Platform</title>
+    <link rel="stylesheet" href="design-system.css">
+    <style>
+        .dashboard-container {
+            background-color: var(--gray-50);
+            min-height: 100vh;
+            padding: var(--space-6);
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
+            color: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-6);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .dashboard-grid-large {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .widget {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .widget:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .widget-header {
+            padding: var(--space-4) var(--space-6);
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .widget-body {
+            padding: var(--space-6);
+        }
+
+        .metric {
+            text-align: center;
+            padding: var(--space-4);
+        }
+
+        .metric-value {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--primary-600);
+            display: block;
+            margin-bottom: var(--space-2);
+        }
+
+        .metric-label {
+            font-size: var(--text-sm);
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .metric-trend {
+            font-size: var(--text-sm);
+            font-weight: 500;
+            margin-top: var(--space-1);
+        }
+
+        .trend-up {
+            color: var(--success-600);
+        }
+
+        .trend-down {
+            color: var(--error-600);
+        }
+
+        .trend-neutral {
+            color: var(--gray-500);
+        }
+
+        .progress-bar {
+            background-color: var(--gray-200);
+            height: 8px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: var(--space-3) 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-500) 0%, var(--primary-600) 100%);
+            border-radius: var(--radius-md);
+            transition: width 0.3s ease;
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        .task-priority {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: var(--space-3);
+            flex-shrink: 0;
+        }
+
+        .priority-high {
+            background-color: var(--error-500);
+        }
+
+        .priority-medium {
+            background-color: var(--warning-500);
+        }
+
+        .priority-low {
+            background-color: var(--success-500);
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 500;
+            color: var(--gray-800);
+            margin-bottom: var(--space-1);
+        }
+
+        .task-meta {
+            font-size: var(--text-sm);
+            color: var(--gray-500);
+        }
+
+        .quick-action {
+            display: flex;
+            align-items: center;
+            padding: var(--space-4);
+            background-color: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--gray-700);
+            transition: all 0.2s ease;
+            margin-bottom: var(--space-3);
+        }
+
+        .quick-action:hover {
+            background-color: var(--primary-50);
+            border-color: var(--primary-200);
+            color: var(--primary-700);
+        }
+
+        .quick-action:last-child {
+            margin-bottom: 0;
+        }
+
+        .action-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-100);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--space-3);
+            font-weight: 600;
+            color: var(--primary-700);
+        }
+
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-500);
+            font-style: italic;
+        }
+
+        .document-preview {
+            display: flex;
+            align-items: center;
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .document-preview:last-child {
+            border-bottom: none;
+        }
+
+        .doc-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-100);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--space-3);
+            font-weight: 600;
+            color: var(--primary-700);
+            font-size: var(--text-sm);
+        }
+
+        .doc-info {
+            flex: 1;
+        }
+
+        .doc-title {
+            font-weight: 500;
+            color: var(--gray-800);
+            margin-bottom: var(--space-1);
+            font-size: var(--text-sm);
+        }
+
+        .doc-meta {
+            font-size: var(--text-xs);
+            color: var(--gray-500);
+        }
+
+        .alert-widget {
+            background: linear-gradient(135deg, var(--warning-50) 0%, var(--warning-100) 100%);
+            border-left: 4px solid var(--warning-500);
+        }
+
+        .alert-error {
+            background: linear-gradient(135deg, var(--error-50) 0%, var(--error-100) 100%);
+            border-left: 4px solid var(--error-500);
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, var(--success-50) 0%, var(--success-100) 100%);
+            border-left: 4px solid var(--success-500);
+        }
+
+        .compliance-score {
+            text-align: center;
+            padding: var(--space-6);
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(var(--success-500) 0% 85%, var(--gray-200) 85% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-4) auto;
+            position: relative;
+        }
+
+        .score-circle::before {
+            content: '';
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .score-text {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--success-700);
+            z-index: 1;
+        }
+
+        .mobile-responsive {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid-large {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-container {
+                padding: var(--space-4);
+            }
+
+            .mobile-responsive {
+                display: block;
+            }
+
+            .desktop-only {
+                display: none;
+            }
+        }
+
+        .role-tab {
+            display: inline-block;
+            padding: var(--space-3) var(--space-6);
+            background-color: var(--gray-100);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            margin-right: var(--space-2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .role-tab.active {
+            background-color: white;
+            border-bottom-color: white;
+            font-weight: 600;
+            color: var(--primary-700);
+        }
+
+        .role-tab:hover:not(.active) {
+            background-color: var(--gray-200);
+        }
+
+        .tab-content {
+            background-color: white;
+            border: 1px solid var(--gray-300);
+            border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
+            padding: var(--space-6);
+        }
+    </style>
+    <script>
+        function showDashboard(role) {
+            // Hide all dashboards
+            const dashboards = document.querySelectorAll('.dashboard-content');
+            dashboards.forEach(dashboard => dashboard.style.display = 'none');
+
+            // Show selected dashboard
+            document.getElementById(role + '-dashboard').style.display = 'block';
+
+            // Update active tab
+            const tabs = document.querySelectorAll('.role-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header style="padding: var(--space-8) 0; text-align: center;">
+            <h1 class="text-display">Role-Based Dashboard Designs</h1>
+            <p class="text-lg" style="color: var(--gray-600); margin-top: var(--space-2);">Enterprise Documentation Platform</p>
+        </header>
+
+        <!-- Role Tabs -->
+        <div style="margin-bottom: var(--space-6);">
+            <span class="role-tab active" onclick="showDashboard('cco')">CCO Dashboard</span>
+            <span class="role-tab" onclick="showDashboard('legal')">Legal Counsel</span>
+            <span class="role-tab" onclick="showDashboard('it')">IT Administrator</span>
+            <span class="role-tab" onclick="showDashboard('user')">End User</span>
+        </div>
+
+        <!-- CCO Dashboard -->
+        <div id="cco-dashboard" class="dashboard-content" style="display: block;">
+            <div class="dashboard-header">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-h1">Chief Compliance Officer Dashboard</h2>
+                        <p style="opacity: 0.9; margin-top: var(--space-2);">Executive oversight and strategic compliance management</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: var(--text-sm); opacity: 0.8;">Last Updated</p>
+                        <p style="font-weight: 600;">Today, 2:30 PM</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics Row -->
+            <div class="dashboard-grid">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">94%</span>
+                            <span class="metric-label">Compliance Score</span>
+                            <div class="metric-trend trend-up">↑ 3% from last month</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">23</span>
+                            <span class="metric-label">Critical Documents Expiring</span>
+                            <div class="metric-trend trend-down">Next 30 days</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">156</span>
+                            <span class="metric-label">Pending Approvals</span>
+                            <div class="metric-trend trend-neutral">Across all departments</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">$2.4M</span>
+                            <span class="metric-label">Risk Mitigation Value</span>
+                            <div class="metric-trend trend-up">↑ 12% this quarter</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="dashboard-grid-large">
+                <div>
+                    <!-- Compliance Overview -->
+                    <div class="widget" style="margin-bottom: var(--space-6);">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Compliance Overview by Department</h3>
+                            <button class="btn btn-ghost" style="font-size: var(--text-sm);">View Details</button>
+                        </div>
+                        <div class="widget-body">
+                            <div class="chart-placeholder">
+                                Compliance Score Chart by Department<br>
+                                <span style="font-size: var(--text-sm);">(Interactive chart showing Legal: 98%, Finance: 95%, HR: 92%, IT: 89%)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Assessment -->
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Risk Assessment Matrix</h3>
+                            <select class="form-input" style="width: auto; font-size: var(--text-sm);">
+                                <option>Last 30 Days</option>
+                                <option>Last Quarter</option>
+                                <option>Last Year</option>
+                            </select>
+                        </div>
+                        <div class="widget-body">
+                            <div class="chart-placeholder">
+                                Risk Heat Map<br>
+                                <span style="font-size: var(--text-sm);">(2D grid showing probability vs impact for identified risks)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- Critical Alerts -->
+                    <div class="widget alert-error" style="margin-bottom: var(--space-6);">
+                        <div class="widget-header">
+                            <h3 class="text-h3" style="color: var(--error-700);">Critical Alerts</h3>
+                            <span class="status-badge status-error">2 High</span>
+                        </div>
+                        <div class="widget-body">
+                            <ul class="task-list">
+                                <li class="task-item">
+                                    <div class="task-priority priority-high"></div>
+                                    <div class="task-content">
+                                        <div class="task-title">SOX Control Documentation Overdue</div>
+                                        <div class="task-meta">Finance Dept. • Due 3 days ago</div>
+                                    </div>
+                                </li>
+                                <li class="task-item">
+                                    <div class="task-priority priority-high"></div>
+                                    <div class="task-content">
+                                        <div class="task-title">GDPR Privacy Policy Update Required</div>
+                                        <div class="task-meta">Legal Dept. • Regulatory change detected</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="widget" style="margin-bottom: var(--space-6);">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Executive Actions</h3>
+                        </div>
+                        <div class="widget-body">
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">📊</div>
+                                <div>
+                                    <div style="font-weight: 500;">Generate Board Report</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Quarterly compliance summary</div>
+                                </div>
+                            </a>
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">🔍</div>
+                                <div>
+                                    <div style="font-weight: 500;">Audit Trail Review</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Recent document changes</div>
+                                </div>
+                            </a>
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">⚠️</div>
+                                <div>
+                                    <div style="font-weight: 500;">Risk Assessment</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Update risk parameters</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Compliance Score Detail -->
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Overall Compliance</h3>
+                        </div>
+                        <div class="widget-body">
+                            <div class="compliance-score">
+                                <div class="score-circle">
+                                    <span class="score-text">94%</span>
+                                </div>
+                                <p style="color: var(--gray-600); margin-bottom: var(--space-4);">Excellent compliance posture</p>
+                                <div style="text-align: left;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                                        <span style="font-size: var(--text-sm);">SOX Controls</span>
+                                        <span style="font-size: var(--text-sm); font-weight: 600;">98%</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                                        <span style="font-size: var(--text-sm);">GDPR Compliance</span>
+                                        <span style="font-size: var(--text-sm); font-weight: 600;">91%</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="font-size: var(--text-sm);">Industry Standards</span>
+                                        <span style="font-size: var(--text-sm); font-weight: 600;">93%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legal Counsel Dashboard -->
+        <div id="legal-dashboard" class="dashboard-content" style="display: none;">
+            <div class="dashboard-header">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-h1">Legal Counsel Dashboard</h2>
+                        <p style="opacity: 0.9; margin-top: var(--space-2);">Document review, approval workflows, and legal compliance</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: var(--text-sm); opacity: 0.8;">My Queue</p>
+                        <p style="font-weight: 600;">18 items pending</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">18</span>
+                            <span class="metric-label">Pending Reviews</span>
+                            <div class="metric-trend trend-down">3 high priority</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">2.3</span>
+                            <span class="metric-label">Avg Review Days</span>
+                            <div class="metric-trend trend-up">↓ 0.8 from target</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">147</span>
+                            <span class="metric-label">Templates Active</span>
+                            <div class="metric-trend trend-neutral">12 need updates</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">89%</span>
+                            <span class="metric-label">Standard Compliance</span>
+                            <div class="metric-trend trend-up">↑ 5% this month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid-large">
+                <div>
+                    <!-- Review Queue -->
+                    <div class="widget" style="margin-bottom: var(--space-6);">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Review Queue</h3>
+                            <div style="display: flex; gap: var(--space-2);">
+                                <button class="btn btn-ghost" style="font-size: var(--text-sm);">Filter</button>
+                                <button class="btn btn-primary" style="font-size: var(--text-sm);">Bulk Actions</button>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <ul class="task-list">
+                                <li class="task-item">
+                                    <div class="task-priority priority-high"></div>
+                                    <div class="task-content">
+                                        <div class="task-title">Software License Agreement - Salesforce</div>
+                                        <div class="task-meta">Submitted by IT Dept. • 2 days ago • Contract Review</div>
+                                    </div>
+                                    <button class="btn btn-primary" style="font-size: var(--text-sm);">Review</button>
+                                </li>
+                                <li class="task-item">
+                                    <div class="task-priority priority-medium"></div>
+                                    <div class="task-content">
+                                        <div class="task-title">Employee Handbook Update v3.2</div>
+                                        <div class="task-meta">Submitted by HR Dept. • 1 day ago • Policy Review</div>
+                                    </div>
+                                    <button class="btn btn-secondary" style="font-size: var(--text-sm);">Review</button>
+                                </li>
+                                <li class="task-item">
+                                    <div class="task-priority priority-low"></div>
+                                    <div class="task-content">
+                                        <div class="task-title">Vendor NDA Template Update</div>
+                                        <div class="task-meta">Submitted by Procurement • 3 hours ago • Template Update</div>
+                                    </div>
+                                    <button class="btn btn-secondary" style="font-size: var(--text-sm);">Review</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Document Activity -->
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Recent Document Activity</h3>
+                            <button class="btn btn-ghost" style="font-size: var(--text-sm);">View All</button>
+                        </div>
+                        <div class="widget-body">
+                            <div style="height: 250px; overflow-y: auto;">
+                                <div class="document-preview">
+                                    <div class="doc-icon">PDF</div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">Master Service Agreement Template v2.1</div>
+                                        <div class="doc-meta">Approved by M. Rodriguez • 2 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="document-preview">
+                                    <div class="doc-icon">DOC</div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">Data Processing Agreement - EU</div>
+                                        <div class="doc-meta">Under review • Assigned to Legal Team</div>
+                                    </div>
+                                </div>
+                                <div class="document-preview">
+                                    <div class="doc-icon">PDF</div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">Anti-Corruption Policy v4.0</div>
+                                        <div class="doc-meta">Published • Available to all employees</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- Quick Actions -->
+                    <div class="widget" style="margin-bottom: var(--space-6);">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Legal Tools</h3>
+                        </div>
+                        <div class="widget-body">
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">📝</div>
+                                <div>
+                                    <div style="font-weight: 500;">Create Template</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">New legal document template</div>
+                                </div>
+                            </a>
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">🔍</div>
+                                <div>
+                                    <div style="font-weight: 500;">Search Precedents</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Find similar documents</div>
+                                </div>
+                            </a>
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">📊</div>
+                                <div>
+                                    <div style="font-weight: 500;">Compliance Report</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Generate status report</div>
+                                </div>
+                            </a>
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">⚖️</div>
+                                <div>
+                                    <div style="font-weight: 500;">Risk Assessment</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Legal risk evaluation</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Template Usage -->
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Template Performance</h3>
+                        </div>
+                        <div class="widget-body">
+                            <div style="margin-bottom: var(--space-4);">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                                    <span style="font-size: var(--text-sm);">NDA Template</span>
+                                    <span style="font-size: var(--text-sm); font-weight: 600;">156 uses</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 85%;"></div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: var(--space-4);">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                                    <span style="font-size: var(--text-sm);">Service Agreement</span>
+                                    <span style="font-size: var(--text-sm); font-weight: 600;">89 uses</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                                    <span style="font-size: var(--text-sm);">Employment Contract</span>
+                                    <span style="font-size: var(--text-sm); font-weight: 600;">234 uses</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 95%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- IT Administrator Dashboard -->
+        <div id="it-dashboard" class="dashboard-content" style="display: none;">
+            <div class="dashboard-header">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-h1">IT Administrator Dashboard</h2>
+                        <p style="opacity: 0.9; margin-top: var(--space-2);">System health, security, and user management</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: var(--text-sm); opacity: 0.8;">System Status</p>
+                        <p style="font-weight: 600; color: var(--success-600);">All Systems Operational</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">99.8%</span>
+                            <span class="metric-label">System Uptime</span>
+                            <div class="metric-trend trend-up">30-day average</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">2,847</span>
+                            <span class="metric-label">Active Users</span>
+                            <div class="metric-trend trend-up">↑ 12% this month</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">156 TB</span>
+                            <span class="metric-label">Storage Used</span>
+                            <div class="metric-trend trend-neutral">78% of capacity</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">0</span>
+                            <span class="metric-label">Security Incidents</span>
+                            <div class="metric-trend trend-up">Last 30 days</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid-large">
+                <div>
+                    <!-- System Health -->
+                    <div class="widget" style="margin-bottom: var(--space-6);">
+                        <div class="widget-header">
+                            <h3 class="text-h3">System Health Monitoring</h3>
+                            <button class="btn btn-ghost" style="font-size: var(--text-sm);">View Logs</button>
+                        </div>
+                        <div class="widget-body">
+                            <div class="chart-placeholder">
+                                System Performance Metrics<br>
+                                <span style="font-size: var(--text-sm);">(CPU: 23%, Memory: 67%, Network: 12% avg utilization)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Activity -->
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="text-h3">User Activity Overview</h3>
+                            <select class="form-input" style="width: auto; font-size: var(--text-sm);">
+                                <option>Last 24 Hours</option>
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                            </select>
+                        </div>
+                        <div class="widget-body">
+                            <div class="chart-placeholder">
+                                User Activity Timeline<br>
+                                <span style="font-size: var(--text-sm);">(Login patterns, document access, peak usage times)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- System Alerts -->
+                    <div class="widget alert-warning" style="margin-bottom: var(--space-6);">
+                        <div class="widget-header">
+                            <h3 class="text-h3" style="color: var(--warning-700);">System Alerts</h3>
+                            <span class="status-badge status-warning">1 Warning</span>
+                        </div>
+                        <div class="widget-body">
+                            <ul class="task-list">
+                                <li class="task-item">
+                                    <div class="task-priority priority-medium"></div>
+                                    <div class="task-content">
+                                        <div class="task-title">Storage Capacity Alert</div>
+                                        <div class="task-meta">78% capacity reached • Consider expansion</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Admin Actions -->
+                    <div class="widget" style="margin-bottom: var(--space-6);">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Admin Tools</h3>
+                        </div>
+                        <div class="widget-body">
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">👥</div>
+                                <div>
+                                    <div style="font-weight: 500;">User Management</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Add, edit, or remove users</div>
+                                </div>
+                            </a>
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">🔒</div>
+                                <div>
+                                    <div style="font-weight: 500;">Security Settings</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Configure access controls</div>
+                                </div>
+                            </a>
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">⚙️</div>
+                                <div>
+                                    <div style="font-weight: 500;">System Configuration</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Platform settings</div>
+                                </div>
+                            </a>
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">📊</div>
+                                <div>
+                                    <div style="font-weight: 500;">Analytics Dashboard</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Detailed usage reports</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Integration Status -->
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Integration Status</h3>
+                        </div>
+                        <div class="widget-body">
+                            <div style="margin-bottom: var(--space-4);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2);">
+                                    <span style="font-size: var(--text-sm);">Active Directory</span>
+                                    <span class="status-badge status-success">Connected</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2);">
+                                    <span style="font-size: var(--text-sm);">SharePoint Online</span>
+                                    <span class="status-badge status-success">Syncing</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2);">
+                                    <span style="font-size: var(--text-sm);">Salesforce</span>
+                                    <span class="status-badge status-warning">Limited</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: var(--text-sm);">DocuSign</span>
+                                    <span class="status-badge status-success">Connected</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End User Dashboard -->
+        <div id="user-dashboard" class="dashboard-content" style="display: none;">
+            <div class="dashboard-header">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-h1">My Documents</h2>
+                        <p style="opacity: 0.9; margin-top: var(--space-2);">Quick access to documents, tasks, and recent activity</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: var(--text-sm); opacity: 0.8;">Welcome back</p>
+                        <p style="font-weight: 600;">Jennifer Davis</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">5</span>
+                            <span class="metric-label">Tasks Pending</span>
+                            <div class="metric-trend trend-neutral">2 due today</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">23</span>
+                            <span class="metric-label">Documents Accessed</span>
+                            <div class="metric-trend trend-up">This week</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">8</span>
+                            <span class="metric-label">Bookmarked Items</span>
+                            <div class="metric-trend trend-neutral">Quick access</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="metric">
+                            <span class="metric-value">12m</span>
+                            <span class="metric-label">Avg Search Time</span>
+                            <div class="metric-trend trend-up">↓ 3m improved</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid-large">
+                <div>
+                    <!-- My Tasks -->
+                    <div class="widget" style="margin-bottom: var(--space-6);">
+                        <div class="widget-header">
+                            <h3 class="text-h3">My Tasks</h3>
+                            <button class="btn btn-ghost" style="font-size: var(--text-sm);">View All</button>
+                        </div>
+                        <div class="widget-body">
+                            <ul class="task-list">
+                                <li class="task-item">
+                                    <div class="task-priority priority-high"></div>
+                                    <div class="task-content">
+                                        <div class="task-title">Review Annual Compliance Training</div>
+                                        <div class="task-meta">Due: Today • HR Department</div>
+                                    </div>
+                                    <button class="btn btn-primary" style="font-size: var(--text-sm);">Start</button>
+                                </li>
+                                <li class="task-item">
+                                    <div class="task-priority priority-medium"></div>
+                                    <div class="task-content">
+                                        <div class="task-title">Acknowledge Updated Privacy Policy</div>
+                                        <div class="task-meta">Due: Tomorrow • Legal Department</div>
+                                    </div>
+                                    <button class="btn btn-secondary" style="font-size: var(--text-sm);">Review</button>
+                                </li>
+                                <li class="task-item">
+                                    <div class="task-priority priority-low"></div>
+                                    <div class="task-content">
+                                        <div class="task-title">Submit Expense Report Template Feedback</div>
+                                        <div class="task-meta">Due: Next Week • Finance Department</div>
+                                    </div>
+                                    <button class="btn btn-ghost" style="font-size: var(--text-sm);">Later</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Recent Documents -->
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Recently Accessed</h3>
+                            <button class="btn btn-ghost" style="font-size: var(--text-sm);">Browse Library</button>
+                        </div>
+                        <div class="widget-body">
+                            <div style="height: 250px; overflow-y: auto;">
+                                <div class="document-preview">
+                                    <div class="doc-icon">PDF</div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">Employee Handbook 2024</div>
+                                        <div class="doc-meta">Accessed 2 hours ago • HR Policies</div>
+                                    </div>
+                                </div>
+                                <div class="document-preview">
+                                    <div class="doc-icon">DOC</div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">Travel & Expense Policy</div>
+                                        <div class="doc-meta">Accessed yesterday • Finance Policies</div>
+                                    </div>
+                                </div>
+                                <div class="document-preview">
+                                    <div class="doc-icon">XLS</div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">Project Budget Template</div>
+                                        <div class="doc-meta">Accessed 3 days ago • Templates</div>
+                                    </div>
+                                </div>
+                                <div class="document-preview">
+                                    <div class="doc-icon">PDF</div>
+                                    <div class="doc-info">
+                                        <div class="doc-title">IT Security Guidelines</div>
+                                        <div class="doc-meta">Accessed 1 week ago • IT Policies</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- Quick Actions -->
+                    <div class="widget" style="margin-bottom: var(--space-6);">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Quick Actions</h3>
+                        </div>
+                        <div class="widget-body">
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">🔍</div>
+                                <div>
+                                    <div style="font-weight: 500;">Search Documents</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Find policies and procedures</div>
+                                </div>
+                            </a>
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">📋</div>
+                                <div>
+                                    <div style="font-weight: 500;">View Templates</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Access form templates</div>
+                                </div>
+                            </a>
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">📤</div>
+                                <div>
+                                    <div style="font-weight: 500;">Submit Document</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Upload for review</div>
+                                </div>
+                            </a>
+                            <a href="#" class="quick-action">
+                                <div class="action-icon">💬</div>
+                                <div>
+                                    <div style="font-weight: 500;">Get Help</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Contact support team</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Bookmarks -->
+                    <div class="widget" style="margin-bottom: var(--space-6);">
+                        <div class="widget-header">
+                            <h3 class="text-h3">Bookmarks</h3>
+                            <button class="btn btn-ghost" style="font-size: var(--text-sm);">Manage</button>
+                        </div>
+                        <div class="widget-body">
+                            <div class="document-preview">
+                                <div class="doc-icon">⭐</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Company Directory</div>
+                                    <div class="doc-meta">Contact information</div>
+                                </div>
+                            </div>
+                            <div class="document-preview">
+                                <div class="doc-icon">⭐</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">IT Help Desk Procedures</div>
+                                    <div class="doc-meta">Support processes</div>
+                                </div>
+                            </div>
+                            <div class="document-preview">
+                                <div class="doc-icon">⭐</div>
+                                <div class="doc-info">
+                                    <div class="doc-title">Meeting Room Booking</div>
+                                    <div class="doc-meta">Facility guidelines</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="widget alert-success">
+                        <div class="widget-header">
+                            <h3 class="text-h3" style="color: var(--success-700);">Notifications</h3>
+                            <span class="status-badge status-success">2 New</span>
+                        </div>
+                        <div class="widget-body">
+                            <ul class="task-list">
+                                <li class="task-item">
+                                    <div class="task-content">
+                                        <div class="task-title">New IT Security Policy Published</div>
+                                        <div class="task-meta">Please review by end of week</div>
+                                    </div>
+                                </li>
+                                <li class="task-item">
+                                    <div class="task-content">
+                                        <div class="task-title">Your document feedback was approved</div>
+                                        <div class="task-meta">Changes incorporated into final version</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

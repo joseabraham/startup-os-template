@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Branding & White-Labeling - Documentation Platform</title>
+    <link rel="stylesheet" href="design-system.css">
+    <style>
+        /* White-Labeling and Branding System */
+
+        .brand-showcase {
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-800) 100%);
+            color: white;
+            padding: var(--space-8) var(--space-6);
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--space-8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-showcase::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>') repeat;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-50px, -50px) rotate(360deg); }
+        }
+
+        .brand-demo {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin-bottom: var(--space-8);
+            box-shadow: var(--shadow-xl);
+            border: 3px solid transparent;
+            position: relative;
+        }
+
+        .brand-demo.active {
+            border-color: var(--primary-500);
+        }
+
+        .brand-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+        }
+
+        .brand-option {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .brand-option:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-300);
+        }
+
+        .brand-option.selected {
+            border-color: var(--primary-500);
+            background: var(--primary-50);
+        }
+
+        .brand-logo {
+            width: 120px;
+            height: 60px;
+            margin: 0 auto var(--space-4) auto;
+            background: linear-gradient(45deg, var(--demo-primary, var(--primary-500)) 0%, var(--demo-secondary, var(--primary-600)) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: var(--text-lg);
+        }
+
+        .color-palette {
+            display: flex;
+            gap: var(--space-2);
+            justify-content: center;
+            margin-bottom: var(--space-4);
+        }
+
+        .color-swatch {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-customizer {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: var(--space-4);
+        }
+
+        .customizer-section {
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .customizer-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .color-picker {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .color-input {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+        }
+
+        .logo-upload {
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .logo-upload:hover {
+            border-color: var(--primary-500);
+            background-color: var(--primary-50);
+        }
+
+        .typography-sample {
+            margin: var(--space-4) 0;
+        }
+
+        .typography-sample h1 {
+            font-family: var(--demo-font-heading, var(--font-family-primary));
+            color: var(--demo-primary, var(--primary-600));
+        }
+
+        .typography-sample p {
+            font-family: var(--demo-font-body, var(--font-family-primary));
+            color: var(--demo-text, var(--gray-700));
+        }
+
+        .component-preview {
+            padding: var(--space-4);
+            background: var(--demo-bg, var(--gray-50));
+            border-radius: var(--radius-md);
+            margin-top: var(--space-4);
+        }
+
+        .preview-button {
+            background-color: var(--demo-primary, var(--primary-600));
+            color: var(--demo-button-text, white);
+            border: none;
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            margin-right: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .preview-button.secondary {
+            background-color: transparent;
+            color: var(--demo-primary, var(--primary-600));
+            border: 1px solid var(--demo-primary, var(--primary-600));
+        }
+
+        .preview-card {
+            background: white;
+            border: 1px solid var(--demo-border, var(--gray-200));
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .preview-nav {
+            background: var(--demo-nav-bg, white);
+            border-bottom: 1px solid var(--demo-border, var(--gray-200));
+            padding: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-6);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .preview-nav-item {
+            color: var(--demo-nav-text, var(--gray-600));
+            text-decoration: none;
+            font-weight: 500;
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            transition: background-color 0.2s ease;
+        }
+
+        .preview-nav-item:hover {
+            background-color: var(--demo-nav-hover, var(--gray-100));
+        }
+
+        .preview-nav-item.active {
+            background-color: var(--demo-primary, var(--primary-500));
+            color: white;
+        }
+
+        .integration-card {
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin-bottom: var(--space-4);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .integration-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .integration-status {
+            display: inline-block;
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-lg);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            margin-left: var(--space-3);
+        }
+
+        .status-available {
+            background-color: var(--success-100);
+            color: var(--success-700);
+        }
+
+        .status-beta {
+            background-color: var(--warning-100);
+            color: var(--warning-700);
+        }
+
+        .status-coming {
+            background-color: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+        }
+
+        .export-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .export-card:hover {
+            border-color: var(--primary-500);
+            background-color: var(--primary-50);
+        }
+
+        .export-icon {
+            font-size: 32px;
+            margin-bottom: var(--space-2);
+        }
+
+        /* Brand-specific overrides */
+        .theme-acme {
+            --demo-primary: #e11d48;
+            --demo-secondary: #f97316;
+            --demo-text: #1f2937;
+            --demo-bg: #fef2f2;
+            --demo-border: #fecaca;
+            --demo-nav-bg: #fef2f2;
+            --demo-nav-text: #7f1d1d;
+            --demo-nav-hover: #fecaca;
+            --demo-font-heading: 'Arial Black', Arial, sans-serif;
+            --demo-font-body: 'Arial', sans-serif;
+        }
+
+        .theme-techcorp {
+            --demo-primary: #3b82f6;
+            --demo-secondary: #1e40af;
+            --demo-text: #1e293b;
+            --demo-bg: #f8fafc;
+            --demo-border: #cbd5e1;
+            --demo-nav-bg: #f1f5f9;
+            --demo-nav-text: #475569;
+            --demo-nav-hover: #e2e8f0;
+            --demo-font-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --demo-font-body: 'Helvetica', Arial, sans-serif;
+        }
+
+        .theme-finance {
+            --demo-primary: #059669;
+            --demo-secondary: #047857;
+            --demo-text: #064e3b;
+            --demo-bg: #f0fdfa;
+            --demo-border: #a7f3d0;
+            --demo-nav-bg: #ecfdf5;
+            --demo-nav-text: #065f46;
+            --demo-nav-hover: #d1fae5;
+            --demo-font-heading: 'Georgia', serif;
+            --demo-font-body: 'Times New Roman', serif;
+        }
+
+        .live-preview {
+            background: var(--demo-bg, var(--gray-50));
+            min-height: 600px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .brand-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-showcase {
+                padding: var(--space-6) var(--space-4);
+                text-align: center;
+            }
+
+            .export-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+    <script>
+        // White-labeling and theming functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const brands = {
+                default: {
+                    name: 'DocuFlow',
+                    colors: ['#0ea5e9', '#0284c7', '#0369a1'],
+                    theme: 'theme-default'
+                },
+                acme: {
+                    name: 'ACME Docs',
+                    colors: ['#e11d48', '#f97316', '#1f2937'],
+                    theme: 'theme-acme'
+                },
+                techcorp: {
+                    name: 'TechCorp Flow',
+                    colors: ['#3b82f6', '#1e40af', '#1e293b'],
+                    theme: 'theme-techcorp'
+                },
+                finance: {
+                    name: 'FinanceFlow',
+                    colors: ['#059669', '#047857', '#064e3b'],
+                    theme: 'theme-finance'
+                }
+            };
+
+            let currentBrand = 'default';
+            let customizations = {};
+
+            // Brand selection
+            const brandOptions = document.querySelectorAll('.brand-option');
+            brandOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    brandOptions.forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    currentBrand = this.dataset.brand;
+                    applyBrandTheme(currentBrand);
+                });
+            });
+
+            function applyBrandTheme(brandKey) {
+                const brand = brands[brandKey];
+                const preview = document.querySelector('.live-preview');
+
+                // Remove existing theme classes
+                Object.values(brands).forEach(b => {
+                    preview.classList.remove(b.theme);
+                });
+
+                // Apply new theme
+                preview.classList.add(brand.theme);
+
+                // Update customizer values
+                updateCustomizerFromBrand(brand);
+
+                // Update preview content
+                updatePreviewContent(brand);
+            }
+
+            function updateCustomizerFromBrand(brand) {
+                // Update color pickers with brand colors
+                const primaryInput = document.getElementById('primary-color');
+                const secondaryInput = document.getElementById('secondary-color');
+
+                if (primaryInput) primaryInput.value = brand.colors[0];
+                if (secondaryInput) secondaryInput.value = brand.colors[1];
+
+                // Update logo text
+                const logoText = document.getElementById('logo-text');
+                if (logoText) logoText.value = brand.name;
+            }
+
+            function updatePreviewContent(brand) {
+                // Update logo text in preview
+                const previewLogos = document.querySelectorAll('.preview-logo');
+                previewLogos.forEach(logo => {
+                    logo.textContent = brand.name;
+                });
+
+                // Update any brand-specific content
+                const brandElements = document.querySelectorAll('[data-brand-content]');
+                brandElements.forEach(element => {
+                    const content = element.dataset.brandContent;
+                    if (content) {
+                        element.textContent = content.replace('{brand}', brand.name);
+                    }
+                });
+            }
+
+            // Color customization
+            const colorInputs = document.querySelectorAll('.color-input');
+            colorInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const property = this.dataset.cssProperty;
+                    const value = this.value;
+
+                    document.documentElement.style.setProperty(property, value);
+                    customizations[property] = value;
+
+                    updateLivePreview();
+                });
+            });
+
+            // Typography customization
+            const fontSelects = document.querySelectorAll('.font-select');
+            fontSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    const property = this.dataset.cssProperty;
+                    const value = this.value;
+
+                    document.documentElement.style.setProperty(property, value);
+                    customizations[property] = value;
+
+                    updateLivePreview();
+                });
+            });
+
+            // Logo upload simulation
+            const logoUpload = document.querySelector('.logo-upload');
+            if (logoUpload) {
+                logoUpload.addEventListener('click', function() {
+                    // Simulate file upload
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.accept = 'image/*';
+                    fileInput.onchange = function() {
+                        if (this.files[0]) {
+                            simulateLogoUpload(this.files[0]);
+                        }
+                    };
+                    fileInput.click();
+                });
+            }
+
+            function simulateLogoUpload(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Update logo preview
+                    const logoPreview = document.getElementById('logo-preview');
+                    if (logoPreview) {
+                        logoPreview.innerHTML = `<img src="${e.target.result}" style="max-width: 100%; max-height: 60px; object-fit: contain;">`;
+                    }
+
+                    // Update live preview
+                    const previewLogos = document.querySelectorAll('.preview-logo');
+                    previewLogos.forEach(logo => {
+                        logo.innerHTML = `<img src="${e.target.result}" style="height: 40px; object-fit: contain;">`;
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // Live preview updates
+            function updateLivePreview() {
+                // Apply any custom CSS variables to the preview
+                const preview = document.querySelector('.live-preview');
+                Object.keys(customizations).forEach(property => {
+                    preview.style.setProperty(property, customizations[property]);
+                });
+            }
+
+            // Export functionality
+            const exportButtons = document.querySelectorAll('.export-btn');
+            exportButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const format = this.dataset.format;
+                    exportCustomization(format);
+                });
+            });
+
+            function exportCustomization(format) {
+                const config = {
+                    brand: currentBrand,
+                    customizations: customizations,
+                    timestamp: new Date().toISOString()
+                };
+
+                switch (format) {
+                    case 'json':
+                        downloadJSON(config);
+                        break;
+                    case 'css':
+                        downloadCSS(config);
+                        break;
+                    case 'scss':
+                        downloadSCSS(config);
+                        break;
+                    case 'figma':
+                        generateFigmaExport(config);
+                        break;
+                }
+            }
+
+            function downloadJSON(config) {
+                const dataStr = JSON.stringify(config, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(dataBlob);
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'brand-config.json';
+                link.click();
+
+                URL.revokeObjectURL(url);
+            }
+
+            function downloadCSS(config) {
+                let css = ':root {\n';
+                Object.keys(config.customizations).forEach(property => {
+                    css += `  ${property}: ${config.customizations[property]};\n`;
+                });
+                css += '}\n';
+
+                const dataBlob = new Blob([css], {type: 'text/css'});
+                const url = URL.createObjectURL(dataBlob);
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'brand-variables.css';
+                link.click();
+
+                URL.revokeObjectURL(url);
+            }
+
+            function downloadSCSS(config) {
+                let scss = '// Brand Variables\n';
+                Object.keys(config.customizations).forEach(property => {
+                    const scssVar = property.replace('--', '$');
+                    scss += `${scssVar}: ${config.customizations[property]};\n`;
+                });
+
+                const dataBlob = new Blob([scss], {type: 'text/scss'});
+                const url = URL.createObjectURL(dataBlob);
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'brand-variables.scss';
+                link.click();
+
+                URL.revokeObjectURL(url);
+            }
+
+            function generateFigmaExport(config) {
+                // Simulate Figma plugin export
+                const figmaData = {
+                    name: `${brands[currentBrand].name} Design System`,
+                    colors: config.customizations,
+                    exportedAt: config.timestamp
+                };
+
+                alert('Figma export generated! In a real implementation, this would create a Figma file or plugin data.');
+                console.log('Figma export data:', figmaData);
+            }
+
+            // Domain configuration
+            const domainInput = document.getElementById('custom-domain');
+            if (domainInput) {
+                domainInput.addEventListener('input', function() {
+                    const domain = this.value;
+                    updateDomainPreview(domain);
+                });
+            }
+
+            function updateDomainPreview(domain) {
+                const previewElements = document.querySelectorAll('.domain-preview');
+                previewElements.forEach(element => {
+                    element.textContent = domain || 'your-domain.com';
+                });
+            }
+
+            // Initialize with default brand
+            applyBrandTheme('default');
+
+            // Real-time preview updates
+            const allInputs = document.querySelectorAll('input, select, textarea');
+            allInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    // Debounced preview update
+                    clearTimeout(this.updateTimer);
+                    this.updateTimer = setTimeout(() => {
+                        updateLivePreview();
+                    }, 300);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="brand-showcase">
+            <h1 class="text-display" style="position: relative; z-index: 1;">Enterprise Branding & White-Labeling</h1>
+            <p style="font-size: var(--text-xl); margin-top: var(--space-4); opacity: 0.9; position: relative; z-index: 1;">
+                Customize DocuFlow to match your organization's brand identity and create a seamless user experience
+            </p>
+        </div>
+
+        <!-- Brand Selection -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Quick Brand Templates</h2>
+
+            <div class="brand-selector">
+                <div class="brand-option selected" data-brand="default">
+                    <div class="brand-logo">DocuFlow</div>
+                    <div class="color-palette">
+                        <div class="color-swatch" style="background-color: #0ea5e9;"></div>
+                        <div class="color-swatch" style="background-color: #0284c7;"></div>
+                        <div class="color-swatch" style="background-color: #0369a1;"></div>
+                    </div>
+                    <h3 style="margin-bottom: var(--space-2);">Default Theme</h3>
+                    <p style="font-size: var(--text-sm); color: var(--gray-600);">Clean, professional design</p>
+                </div>
+
+                <div class="brand-option" data-brand="acme">
+                    <div class="brand-logo" style="background: linear-gradient(45deg, #e11d48, #f97316);">ACME Docs</div>
+                    <div class="color-palette">
+                        <div class="color-swatch" style="background-color: #e11d48;"></div>
+                        <div class="color-swatch" style="background-color: #f97316;"></div>
+                        <div class="color-swatch" style="background-color: #1f2937;"></div>
+                    </div>
+                    <h3 style="margin-bottom: var(--space-2);">Corporate Bold</h3>
+                    <p style="font-size: var(--text-sm); color: var(--gray-600);">Vibrant, energetic branding</p>
+                </div>
+
+                <div class="brand-option" data-brand="techcorp">
+                    <div class="brand-logo" style="background: linear-gradient(45deg, #3b82f6, #1e40af);">TechCorp</div>
+                    <div class="color-palette">
+                        <div class="color-swatch" style="background-color: #3b82f6;"></div>
+                        <div class="color-swatch" style="background-color: #1e40af;"></div>
+                        <div class="color-swatch" style="background-color: #1e293b;"></div>
+                    </div>
+                    <h3 style="margin-bottom: var(--space-2);">Tech Modern</h3>
+                    <p style="font-size: var(--text-sm); color: var(--gray-600);">Sleek, technology-focused</p>
+                </div>
+
+                <div class="brand-option" data-brand="finance">
+                    <div class="brand-logo" style="background: linear-gradient(45deg, #059669, #047857);">FinanceFlow</div>
+                    <div class="color-palette">
+                        <div class="color-swatch" style="background-color: #059669;"></div>
+                        <div class="color-swatch" style="background-color: #047857;"></div>
+                        <div class="color-swatch" style="background-color: #064e3b;"></div>
+                    </div>
+                    <h3 style="margin-bottom: var(--space-2);">Financial Trust</h3>
+                    <p style="font-size: var(--text-sm); color: var(--gray-600);">Conservative, trustworthy</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Customization -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Live Brand Customization</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-8);">
+                <!-- Customization Panel -->
+                <div class="theme-customizer">
+                    <!-- Logo Section -->
+                    <div class="customizer-section">
+                        <h3 class="text-h3" style="margin-bottom: var(--space-4);">Logo & Identity</h3>
+
+                        <div style="margin-bottom: var(--space-4);">
+                            <label class="form-label">Company Name</label>
+                            <input type="text" id="logo-text" class="form-input" value="DocuFlow" placeholder="Your Company Name">
+                        </div>
+
+                        <div style="margin-bottom: var(--space-4);">
+                            <label class="form-label">Custom Logo</label>
+                            <div class="logo-upload">
+                                <div style="font-size: 32px; margin-bottom: var(--space-2);">📁</div>
+                                <p style="margin: 0; font-weight: 500;">Click to upload logo</p>
+                                <p style="margin: var(--space-1) 0 0 0; font-size: var(--text-sm); color: var(--gray-600);">
+                                    SVG, PNG, or JPG (max 2MB)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div id="logo-preview" style="text-align: center; padding: var(--space-4); background-color: var(--gray-50); border-radius: var(--radius-md);">
+                            <div class="brand-logo" style="margin: 0 auto;">DocuFlow</div>
+                        </div>
+                    </div>
+
+                    <!-- Color Section -->
+                    <div class="customizer-section">
+                        <h3 class="text-h3" style="margin-bottom: var(--space-4);">Brand Colors</h3>
+
+                        <div class="color-picker">
+                            <input type="color" id="primary-color" class="color-input" value="#0ea5e9" data-css-property="--demo-primary">
+                            <div>
+                                <label class="form-label" style="margin: 0;">Primary Color</label>
+                                <p style="font-size: var(--text-sm); color: var(--gray-600); margin: 0;">Buttons, links, accents</p>
+                            </div>
+                        </div>
+
+                        <div class="color-picker">
+                            <input type="color" id="secondary-color" class="color-input" value="#0284c7" data-css-property="--demo-secondary">
+                            <div>
+                                <label class="form-label" style="margin: 0;">Secondary Color</label>
+                                <p style="font-size: var(--text-sm); color: var(--gray-600); margin: 0;">Hover states, highlights</p>
+                            </div>
+                        </div>
+
+                        <div class="color-picker">
+                            <input type="color" id="accent-color" class="color-input" value="#1f2937" data-css-property="--demo-text">
+                            <div>
+                                <label class="form-label" style="margin: 0;">Text Color</label>
+                                <p style="font-size: var(--text-sm); color: var(--gray-600); margin: 0;">Body text, headings</p>
+                            </div>
+                        </div>
+
+                        <div class="color-picker">
+                            <input type="color" id="background-color" class="color-input" value="#f9fafb" data-css-property="--demo-bg">
+                            <div>
+                                <label class="form-label" style="margin: 0;">Background</label>
+                                <p style="font-size: var(--text-sm); color: var(--gray-600); margin: 0;">Page background</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Typography Section -->
+                    <div class="customizer-section">
+                        <h3 class="text-h3" style="margin-bottom: var(--space-4);">Typography</h3>
+
+                        <div style="margin-bottom: var(--space-4);">
+                            <label class="form-label">Heading Font</label>
+                            <select class="form-input font-select" data-css-property="--demo-font-heading">
+                                <option value="'Inter', sans-serif">Inter (Default)</option>
+                                <option value="'Helvetica Neue', Helvetica, Arial, sans-serif">Helvetica</option>
+                                <option value="'Arial Black', Arial, sans-serif">Arial Bold</option>
+                                <option value="'Georgia', serif">Georgia</option>
+                                <option value="'Times New Roman', serif">Times New Roman</option>
+                                <option value="'Roboto', sans-serif">Roboto</option>
+                                <option value="'Open Sans', sans-serif">Open Sans</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: var(--space-4);">
+                            <label class="form-label">Body Font</label>
+                            <select class="form-input font-select" data-css-property="--demo-font-body">
+                                <option value="'Inter', sans-serif">Inter (Default)</option>
+                                <option value="'Helvetica', Arial, sans-serif">Helvetica</option>
+                                <option value="'Arial', sans-serif">Arial</option>
+                                <option value="'Georgia', serif">Georgia</option>
+                                <option value="'Times New Roman', serif">Times New Roman</option>
+                                <option value="'Roboto', sans-serif">Roboto</option>
+                                <option value="'Open Sans', sans-serif">Open Sans</option>
+                            </select>
+                        </div>
+
+                        <div class="typography-sample">
+                            <h1 style="font-size: var(--text-2xl); margin-bottom: var(--space-2);">Heading Sample</h1>
+                            <p style="margin: 0;">This is how your body text will appear in the platform.</p>
+                        </div>
+                    </div>
+
+                    <!-- Domain Section -->
+                    <div class="customizer-section">
+                        <h3 class="text-h3" style="margin-bottom: var(--space-4);">Custom Domain</h3>
+
+                        <div style="margin-bottom: var(--space-4);">
+                            <label class="form-label">Your Domain</label>
+                            <input type="text" id="custom-domain" class="form-input" placeholder="docs.yourcompany.com">
+                            <div style="margin-top: var(--space-2); font-size: var(--text-sm); color: var(--gray-600);">
+                                Users will access your platform at: <span class="domain-preview">your-domain.com</span>
+                            </div>
+                        </div>
+
+                        <div style="background-color: var(--primary-50); padding: var(--space-3); border-radius: var(--radius-md);">
+                            <p style="font-size: var(--text-sm); margin: 0; color: var(--primary-700);">
+                                <strong>Note:</strong> SSL certificates and DNS configuration will be handled automatically.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Preview -->
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Live Preview</h3>
+
+                    <div class="live-preview">
+                        <!-- Preview Navigation -->
+                        <div class="preview-nav">
+                            <div class="preview-logo">DocuFlow</div>
+                            <a href="#" class="preview-nav-item active">Dashboard</a>
+                            <a href="#" class="preview-nav-item">Documents</a>
+                            <a href="#" class="preview-nav-item">Search</a>
+                            <a href="#" class="preview-nav-item">Analytics</a>
+                        </div>
+
+                        <!-- Preview Content -->
+                        <div class="component-preview">
+                            <h2 style="margin-bottom: var(--space-4); font-family: var(--demo-font-heading, var(--font-family-primary)); color: var(--demo-primary, var(--primary-600));">
+                                Welcome to <span data-brand-content="Welcome to {brand}">DocuFlow</span>
+                            </h2>
+
+                            <p style="margin-bottom: var(--space-6); font-family: var(--demo-font-body, var(--font-family-primary)); color: var(--demo-text, var(--gray-700));">
+                                Your centralized document management platform for enterprise compliance and workflow automation.
+                            </p>
+
+                            <div style="margin-bottom: var(--space-6);">
+                                <button class="preview-button">Upload Document</button>
+                                <button class="preview-button secondary">Browse Library</button>
+                            </div>
+
+                            <div class="preview-card">
+                                <h4 style="margin-bottom: var(--space-3); color: var(--demo-text, var(--gray-800));">Recent Activity</h4>
+                                <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);">
+                                    <div style="width: 8px; height: 8px; background-color: var(--demo-primary, var(--primary-500)); border-radius: 50%;"></div>
+                                    <span style="color: var(--demo-text, var(--gray-700));">Employee Handbook updated</span>
+                                    <span style="font-size: var(--text-sm); color: var(--demo-text, var(--gray-500)); margin-left: auto;">2 hours ago</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);">
+                                    <div style="width: 8px; height: 8px; background-color: var(--demo-primary, var(--primary-500)); border-radius: 50%;"></div>
+                                    <span style="color: var(--demo-text, var(--gray-700));">Contract template approved</span>
+                                    <span style="font-size: var(--text-sm); color: var(--demo-text, var(--gray-500)); margin-left: auto;">5 hours ago</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                    <div style="width: 8px; height: 8px; background-color: var(--demo-primary, var(--primary-500)); border-radius: 50%;"></div>
+                                    <span style="color: var(--demo-text, var(--gray-700));">New user onboarded</span>
+                                    <span style="font-size: var(--text-sm); color: var(--demo-text, var(--gray-500)); margin-left: auto;">1 day ago</span>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+                                <div class="preview-card">
+                                    <h5 style="color: var(--demo-text, var(--gray-800)); margin-bottom: var(--space-2);">Documents</h5>
+                                    <div style="font-size: var(--text-3xl); font-weight: 700; color: var(--demo-primary, var(--primary-600));">1,247</div>
+                                    <div style="font-size: var(--text-sm); color: var(--demo-text, var(--gray-600));">Total managed</div>
+                                </div>
+                                <div class="preview-card">
+                                    <h5 style="color: var(--demo-text, var(--gray-800)); margin-bottom: var(--space-2);">Compliance</h5>
+                                    <div style="font-size: var(--text-3xl); font-weight: 700; color: var(--demo-primary, var(--primary-600));">94%</div>
+                                    <div style="font-size: var(--text-sm); color: var(--demo-text, var(--gray-600));">Score</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Integration Capabilities -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Enterprise Integration</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: var(--space-6);">
+                <div class="integration-card">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: var(--space-4);">
+                        <h3 class="text-h3">Single Sign-On (SSO)</h3>
+                        <span class="integration-status status-available">Available</span>
+                    </div>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        Seamlessly integrate with your existing identity providers for unified authentication.
+                    </p>
+                    <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                        <li>SAML 2.0 and OIDC support</li>
+                        <li>Active Directory integration</li>
+                        <li>Azure AD, Okta, Ping Identity</li>
+                        <li>Multi-factor authentication</li>
+                    </ul>
+                </div>
+
+                <div class="integration-card">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: var(--space-4);">
+                        <h3 class="text-h3">SharePoint Sync</h3>
+                        <span class="integration-status status-available">Available</span>
+                    </div>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        Maintain your existing SharePoint structure while adding advanced document management.
+                    </p>
+                    <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                        <li>Bi-directional synchronization</li>
+                        <li>Metadata preservation</li>
+                        <li>Permission mapping</li>
+                        <li>Version history maintenance</li>
+                    </ul>
+                </div>
+
+                <div class="integration-card">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: var(--space-4);">
+                        <h3 class="text-h3">Microsoft 365</h3>
+                        <span class="integration-status status-available">Available</span>
+                    </div>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        Native integration with Word, Excel, PowerPoint, and Teams for seamless workflows.
+                    </p>
+                    <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                        <li>Office Online editing</li>
+                        <li>Teams collaboration</li>
+                        <li>Outlook email integration</li>
+                        <li>OneDrive synchronization</li>
+                    </ul>
+                </div>
+
+                <div class="integration-card">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: var(--space-4);">
+                        <h3 class="text-h3">Salesforce CRM</h3>
+                        <span class="integration-status status-beta">Beta</span>
+                    </div>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        Link documents to CRM records and automate contract workflows within Salesforce.
+                    </p>
+                    <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                        <li>Contract lifecycle management</li>
+                        <li>Account-based document access</li>
+                        <li>Opportunity attachments</li>
+                        <li>Automated approval flows</li>
+                    </ul>
+                </div>
+
+                <div class="integration-card">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: var(--space-4);">
+                        <h3 class="text-h3">DocuSign eSignature</h3>
+                        <span class="integration-status status-available">Available</span>
+                    </div>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        Send documents for signature directly from the platform with automatic storage.
+                    </p>
+                    <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                        <li>One-click signature requests</li>
+                        <li>Automated envelope creation</li>
+                        <li>Status tracking and notifications</li>
+                        <li>Completed document archival</li>
+                    </ul>
+                </div>
+
+                <div class="integration-card">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: var(--space-4);">
+                        <h3 class="text-h3">Slack Notifications</h3>
+                        <span class="integration-status status-coming">Coming Soon</span>
+                    </div>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        Receive document updates and approval requests directly in your Slack channels.
+                    </p>
+                    <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                        <li>Channel-based notifications</li>
+                        <li>Interactive approval buttons</li>
+                        <li>Document preview cards</li>
+                        <li>Workflow status updates</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Export and Deployment -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Export & Deployment</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);">
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Design System Export</h3>
+
+                    <div class="export-options">
+                        <div class="export-card export-btn" data-format="json">
+                            <div class="export-icon">📄</div>
+                            <h4 style="margin-bottom: var(--space-2);">JSON Config</h4>
+                            <p style="font-size: var(--text-sm); color: var(--gray-600); margin: 0;">
+                                Complete configuration file for developers
+                            </p>
+                        </div>
+
+                        <div class="export-card export-btn" data-format="css">
+                            <div class="export-icon">🎨</div>
+                            <h4 style="margin-bottom: var(--space-2);">CSS Variables</h4>
+                            <p style="font-size: var(--text-sm); color: var(--gray-600); margin: 0;">
+                                Ready-to-use CSS custom properties
+                            </p>
+                        </div>
+
+                        <div class="export-card export-btn" data-format="scss">
+                            <div class="export-icon">⚡</div>
+                            <h4 style="margin-bottom: var(--space-2);">SCSS Variables</h4>
+                            <p style="font-size: var(--text-sm); color: var(--gray-600); margin: 0;">
+                                Sass variables for build systems
+                            </p>
+                        </div>
+
+                        <div class="export-card export-btn" data-format="figma">
+                            <div class="export-icon">🎯</div>
+                            <h4 style="margin-bottom: var(--space-2);">Figma Kit</h4>
+                            <p style="font-size: var(--text-sm); color: var(--gray-600); margin: 0;">
+                                Design system for Figma
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Deployment Options</h3>
+
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h4 class="text-h3">Cloud Hosting</h4>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                                Fully managed hosting with automatic scaling and global CDN.
+                            </p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm); margin-bottom: var(--space-4);">
+                                <li>99.9% uptime SLA</li>
+                                <li>Automatic SSL certificates</li>
+                                <li>Global edge locations</li>
+                                <li>DDoS protection included</li>
+                            </ul>
+                            <button class="btn btn-primary">Get Started</button>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h4 class="text-h3">On-Premise Installation</h4>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                                Deploy in your own data center with full control and customization.
+                            </p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm); margin-bottom: var(--space-4);">
+                                <li>Docker container deployment</li>
+                                <li>Kubernetes orchestration</li>
+                                <li>Air-gapped environments</li>
+                                <li>Custom security policies</li>
+                            </ul>
+                            <button class="btn btn-secondary">Contact Sales</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-h3">Hybrid Deployment</h4>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                                Best of both worlds with cloud management and on-premise data storage.
+                            </p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm); margin-bottom: var(--space-4);">
+                                <li>Data residency compliance</li>
+                                <li>Cloud-managed updates</li>
+                                <li>Secure tunnel connectivity</li>
+                                <li>Flexible scaling options</li>
+                            </ul>
+                            <button class="btn btn-secondary">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation Timeline -->
+        <section>
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">White-Label Implementation Timeline</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6);">
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%); color: white;">
+                        <h3 style="color: white;">Week 1-2: Design Phase</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="color: var(--gray-700);">
+                            <li>Brand guidelines review</li>
+                            <li>Logo and asset preparation</li>
+                            <li>Color palette customization</li>
+                            <li>Typography selection</li>
+                            <li>Initial mockup review</li>
+                        </ul>
+                        <div style="margin-top: var(--space-4); padding: var(--space-3); background-color: var(--gray-50); border-radius: var(--radius-md);">
+                            <strong>Deliverable:</strong> Complete design system and style guide
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, var(--success-500) 0%, var(--success-600) 100%); color: white;">
+                        <h3 style="color: white;">Week 3-4: Implementation</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="color: var(--gray-700);">
+                            <li>Theme development and testing</li>
+                            <li>Custom domain configuration</li>
+                            <li>SSO integration setup</li>
+                            <li>Content customization</li>
+                            <li>Quality assurance testing</li>
+                        </ul>
+                        <div style="margin-top: var(--space-4); padding: var(--space-3); background-color: var(--gray-50); border-radius: var(--radius-md);">
+                            <strong>Deliverable:</strong> Fully branded platform ready for staging
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" style="background: linear-gradient(135deg, var(--warning-500) 0%, var(--warning-600) 100%); color: white;">
+                        <h3 style="color: white;">Week 5-6: Deployment</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="color: var(--gray-700);">
+                            <li>Staging environment review</li>
+                            <li>User acceptance testing</li>
+                            <li>Production deployment</li>
+                            <li>DNS configuration</li>
+                            <li>Go-live support</li>
+                        </ul>
+                        <div style="margin-top: var(--space-4); padding: var(--space-3); background-color: var(--gray-50); border-radius: var(--radius-md);">
+                            <strong>Deliverable:</strong> Live white-labeled platform
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: var(--space-8);">
+                <h3 class="text-h2" style="margin-bottom: var(--space-4);">Ready to Get Started?</h3>
+                <p style="color: var(--gray-600); margin-bottom: var(--space-6); max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Transform DocuFlow into your organization's branded document platform. Our team will work with you to create a seamless experience that matches your corporate identity.
+                </p>
+                <div style="display: flex; gap: var(--space-4); justify-content: center;">
+                    <button class="btn btn-primary" style="font-size: var(--text-lg); padding: var(--space-4) var(--space-8);">
+                        Schedule Demo
+                    </button>
+                    <button class="btn btn-secondary" style="font-size: var(--text-lg); padding: var(--space-4) var(--space-8);">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

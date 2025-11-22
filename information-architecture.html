@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information Architecture - Enterprise Documentation Platform</title>
+    <link rel="stylesheet" href="design-system.css">
+    <style>
+        .ia-diagram {
+            background-color: white;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin: var(--space-6) 0;
+            overflow-x: auto;
+        }
+
+        .nav-level {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            background: linear-gradient(135deg, var(--primary-50) 0%, var(--primary-100) 100%);
+            border: 1px solid var(--primary-200);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            min-width: 200px;
+            text-align: center;
+            position: relative;
+        }
+
+        .nav-item.primary {
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .nav-item.secondary {
+            background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
+        }
+
+        .nav-item.tertiary {
+            background: var(--gray-50);
+            border: 1px dashed var(--gray-300);
+            font-size: var(--text-sm);
+        }
+
+        .connector {
+            width: 2px;
+            height: 30px;
+            background-color: var(--gray-300);
+            margin: 0 auto;
+        }
+
+        .workflow-step {
+            background-color: white;
+            border: 2px solid var(--primary-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+            position: relative;
+        }
+
+        .workflow-step::before {
+            content: attr(data-step);
+            position: absolute;
+            top: -12px;
+            left: var(--space-4);
+            background: var(--primary-600);
+            color: white;
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            font-weight: 600;
+        }
+
+        .actor {
+            display: inline-block;
+            background-color: var(--primary-100);
+            color: var(--primary-800);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            font-weight: 500;
+            margin-right: var(--space-2);
+        }
+
+        .system {
+            display: inline-block;
+            background-color: var(--gray-100);
+            color: var(--gray-700);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            margin-left: var(--space-2);
+        }
+
+        .content-type {
+            background-color: var(--success-50);
+            border: 1px solid var(--success-200);
+            border-radius: var(--radius-md);
+            padding: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .content-type h4 {
+            color: var(--success-800);
+            margin-bottom: var(--space-2);
+        }
+
+        .metadata-field {
+            background-color: var(--gray-50);
+            border-left: 3px solid var(--primary-500);
+            padding: var(--space-2) var(--space-3);
+            margin-bottom: var(--space-2);
+            font-size: var(--text-sm);
+        }
+
+        .search-facet {
+            display: inline-block;
+            background-color: var(--primary-50);
+            border: 1px solid var(--primary-200);
+            border-radius: var(--radius-sm);
+            padding: var(--space-1) var(--space-2);
+            margin: var(--space-1);
+            font-size: var(--text-xs);
+        }
+
+        .permission-level {
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-3);
+            border-left: 4px solid;
+        }
+
+        .permission-admin {
+            background-color: var(--error-50);
+            border-color: var(--error-500);
+        }
+
+        .permission-editor {
+            background-color: var(--warning-50);
+            border-color: var(--warning-500);
+        }
+
+        .permission-viewer {
+            background-color: var(--success-50);
+            border-color: var(--success-500);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header style="padding: var(--space-8) 0; text-align: center;">
+            <h1 class="text-display">Information Architecture</h1>
+            <p class="text-lg" style="color: var(--gray-600); margin-top: var(--space-2);">Enterprise Documentation Standardization Platform</p>
+        </header>
+
+        <!-- Site Map & Navigation Hierarchy -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Site Map & Navigation Hierarchy</h2>
+
+            <div class="ia-diagram">
+                <div class="nav-level">
+                    <div class="nav-item primary">
+                        <h3 class="text-h3">Enterprise Doc Platform</h3>
+                        <p style="font-size: var(--text-sm); opacity: 0.9; margin-top: var(--space-2);">Main Application</p>
+                    </div>
+                </div>
+
+                <div class="connector"></div>
+
+                <div class="nav-level">
+                    <div class="nav-item secondary">
+                        <h4>Dashboard</h4>
+                        <p style="font-size: var(--text-sm); color: var(--gray-600); margin-top: var(--space-1);">Role-specific home</p>
+                    </div>
+                    <div class="nav-item secondary">
+                        <h4>Documents</h4>
+                        <p style="font-size: var(--text-sm); color: var(--gray-600); margin-top: var(--space-1);">Library & search</p>
+                    </div>
+                    <div class="nav-item secondary">
+                        <h4>Workflows</h4>
+                        <p style="font-size: var(--text-sm); color: var(--gray-600); margin-top: var(--space-1);">Process management</p>
+                    </div>
+                    <div class="nav-item secondary">
+                        <h4>Analytics</h4>
+                        <p style="font-size: var(--text-sm); color: var(--gray-600); margin-top: var(--space-1);">Reports & insights</p>
+                    </div>
+                    <div class="nav-item secondary">
+                        <h4>Administration</h4>
+                        <p style="font-size: var(--text-sm); color: var(--gray-600); margin-top: var(--space-1);">System settings</p>
+                    </div>
+                </div>
+
+                <div class="connector"></div>
+
+                <div class="nav-level">
+                    <div class="nav-item tertiary">My Tasks</div>
+                    <div class="nav-item tertiary">Quick Actions</div>
+                    <div class="nav-item tertiary">Recent Activity</div>
+                    <div class="nav-item tertiary">Browse Library</div>
+                    <div class="nav-item tertiary">Advanced Search</div>
+                    <div class="nav-item tertiary">Document Upload</div>
+                    <div class="nav-item tertiary">Approval Queue</div>
+                    <div class="nav-item tertiary">Template Builder</div>
+                    <div class="nav-item tertiary">Audit Trail</div>
+                    <div class="nav-item tertiary">Compliance Reports</div>
+                    <div class="nav-item tertiary">Usage Analytics</div>
+                    <div class="nav-item tertiary">User Management</div>
+                    <div class="nav-item tertiary">System Configuration</div>
+                    <div class="nav-item tertiary">Integration Settings</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Document Taxonomy & Content Structure -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Document Taxonomy & Content Structure</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);">
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Content Types</h3>
+
+                    <div class="content-type">
+                        <h4 class="text-h3">Legal Documents</h4>
+                        <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                            <li>Contracts & Agreements</li>
+                            <li>Terms of Service</li>
+                            <li>Privacy Policies</li>
+                            <li>Regulatory Filings</li>
+                            <li>Legal Opinions & Memos</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-type">
+                        <h4 class="text-h3">Compliance Documentation</h4>
+                        <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                            <li>SOX Controls</li>
+                            <li>GDPR Compliance Records</li>
+                            <li>Industry Standards (ISO, SOC)</li>
+                            <li>Audit Reports</li>
+                            <li>Risk Assessments</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-type">
+                        <h4 class="text-h3">Operational Procedures</h4>
+                        <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                            <li>Standard Operating Procedures</li>
+                            <li>Process Documentation</li>
+                            <li>Training Materials</li>
+                            <li>Emergency Procedures</li>
+                            <li>Quality Manuals</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-type">
+                        <h4 class="text-h3">Templates & Forms</h4>
+                        <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                            <li>Contract Templates</li>
+                            <li>Policy Templates</li>
+                            <li>Request Forms</li>
+                            <li>Approval Forms</li>
+                            <li>Reporting Templates</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Metadata Schema</h3>
+
+                    <h4 class="text-h3" style="margin-bottom: var(--space-4);">Required Fields</h4>
+                    <div class="metadata-field">
+                        <strong>Document Title:</strong> Human-readable name
+                    </div>
+                    <div class="metadata-field">
+                        <strong>Document Type:</strong> Controlled vocabulary classification
+                    </div>
+                    <div class="metadata-field">
+                        <strong>Owner/Author:</strong> Primary responsible party
+                    </div>
+                    <div class="metadata-field">
+                        <strong>Business Unit:</strong> Organizational affiliation
+                    </div>
+                    <div class="metadata-field">
+                        <strong>Status:</strong> Draft, Review, Approved, Archived
+                    </div>
+                    <div class="metadata-field">
+                        <strong>Version Number:</strong> Semantic versioning (1.0, 1.1, 2.0)
+                    </div>
+                    <div class="metadata-field">
+                        <strong>Effective Date:</strong> When document becomes active
+                    </div>
+                    <div class="metadata-field">
+                        <strong>Expiration Date:</strong> When review/renewal required
+                    </div>
+
+                    <h4 class="text-h3" style="margin: var(--space-6) 0 var(--space-4) 0;">Optional Fields</h4>
+                    <div class="metadata-field">
+                        <strong>Tags:</strong> Free-form keywords for discovery
+                    </div>
+                    <div class="metadata-field">
+                        <strong>Related Documents:</strong> Cross-references and dependencies
+                    </div>
+                    <div class="metadata-field">
+                        <strong>Approval History:</strong> Review chain and decisions
+                    </div>
+                    <div class="metadata-field">
+                        <strong>External References:</strong> Links to regulations, standards
+                    </div>
+                    <div class="metadata-field">
+                        <strong>Risk Level:</strong> High, Medium, Low impact classification
+                    </div>
+
+                    <h4 class="text-h3" style="margin: var(--space-6) 0 var(--space-4) 0;">Search Facets</h4>
+                    <div>
+                        <span class="search-facet">Document Type</span>
+                        <span class="search-facet">Business Unit</span>
+                        <span class="search-facet">Status</span>
+                        <span class="search-facet">Author</span>
+                        <span class="search-facet">Date Range</span>
+                        <span class="search-facet">Tags</span>
+                        <span class="search-facet">Risk Level</span>
+                        <span class="search-facet">Approval State</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow Architecture -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Document Workflow Architecture</h2>
+
+            <h3 class="text-h2" style="margin-bottom: var(--space-6);">Standard Document Lifecycle</h3>
+
+            <div class="workflow-step" data-step="1">
+                <h4 class="text-h3" style="margin-bottom: var(--space-3);">Creation & Upload</h4>
+                <p style="color: var(--gray-600); margin-bottom: var(--space-3);">Author creates new document or uploads existing content to platform</p>
+                <div>
+                    <span class="actor">Author</span>
+                    <span class="actor">Administrative Assistant</span>
+                    <span class="system">Document Management System</span>
+                    <span class="system">AI Classification Engine</span>
+                </div>
+                <div style="margin-top: var(--space-3);">
+                    <strong>Key Actions:</strong>
+                    <ul style="margin-top: var(--space-2); color: var(--gray-600);">
+                        <li>Document upload with automatic format conversion</li>
+                        <li>AI-powered metadata extraction and suggestion</li>
+                        <li>Duplicate detection and version comparison</li>
+                        <li>Initial classification and tagging</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="workflow-step" data-step="2">
+                <h4 class="text-h3" style="margin-bottom: var(--space-3);">Review & Validation</h4>
+                <p style="color: var(--gray-600); margin-bottom: var(--space-3);">Subject matter experts review content for accuracy and completeness</p>
+                <div>
+                    <span class="actor">SME Reviewer</span>
+                    <span class="actor">Department Head</span>
+                    <span class="system">Workflow Engine</span>
+                    <span class="system">Notification System</span>
+                </div>
+                <div style="margin-top: var(--space-3);">
+                    <strong>Key Actions:</strong>
+                    <ul style="margin-top: var(--space-2); color: var(--gray-600);">
+                        <li>Parallel or sequential review assignment</li>
+                        <li>Collaborative editing and comments</li>
+                        <li>Version tracking and change highlighting</li>
+                        <li>Escalation for overdue reviews</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="workflow-step" data-step="3">
+                <h4 class="text-h3" style="margin-bottom: var(--space-3);">Legal & Compliance Approval</h4>
+                <p style="color: var(--gray-600); margin-bottom: var(--space-3);">Legal team ensures regulatory compliance and risk mitigation</p>
+                <div>
+                    <span class="actor">Legal Counsel</span>
+                    <span class="actor">Compliance Officer</span>
+                    <span class="system">Compliance Engine</span>
+                    <span class="system">Risk Assessment Tool</span>
+                </div>
+                <div style="margin-top: var(--space-3);">
+                    <strong>Key Actions:</strong>
+                    <ul style="margin-top: var(--space-2); color: var(--gray-600);">
+                        <li>Automated compliance checking against regulations</li>
+                        <li>Risk scoring and impact assessment</li>
+                        <li>Legal precedent matching and suggestions</li>
+                        <li>Final approval with digital signature</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="workflow-step" data-step="4">
+                <h4 class="text-h3" style="margin-bottom: var(--space-3);">Publication & Distribution</h4>
+                <p style="color: var(--gray-600); margin-bottom: var(--space-3);">Approved documents are published and distributed to relevant stakeholders</p>
+                <div>
+                    <span class="actor">System Administrator</span>
+                    <span class="actor">Communications Team</span>
+                    <span class="system">Content Distribution Network</span>
+                    <span class="system">Integration APIs</span>
+                </div>
+                <div style="margin-top: var(--space-3);">
+                    <strong>Key Actions:</strong>
+                    <ul style="margin-top: var(--space-2); color: var(--gray-600);">
+                        <li>Automatic publication to document library</li>
+                        <li>Stakeholder notification and training assignment</li>
+                        <li>Integration with external systems (intranet, HRIS)</li>
+                        <li>Access control and permission assignment</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="workflow-step" data-step="5">
+                <h4 class="text-h3" style="margin-bottom: var(--space-3);">Monitoring & Maintenance</h4>
+                <p style="color: var(--gray-600); margin-bottom: var(--space-3);">Ongoing monitoring for usage, compliance, and update requirements</p>
+                <div>
+                    <span class="actor">Document Owner</span>
+                    <span class="actor">Compliance Officer</span>
+                    <span class="system">Analytics Engine</span>
+                    <span class="system">Automated Monitoring</span>
+                </div>
+                <div style="margin-top: var(--space-3);">
+                    <strong>Key Actions:</strong>
+                    <ul style="margin-top: var(--space-2); color: var(--gray-600);">
+                        <li>Usage tracking and analytics</li>
+                        <li>Automatic expiration alerts</li>
+                        <li>Regulatory change impact assessment</li>
+                        <li>Periodic review scheduling</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Permission & Security Architecture -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Permission & Security Architecture</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);">
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Role-Based Access Control</h3>
+
+                    <div class="permission-level permission-admin">
+                        <h4 class="text-h3" style="color: var(--error-800);">System Administrator</h4>
+                        <ul style="margin-top: var(--space-2); color: var(--gray-700);">
+                            <li>Full system configuration access</li>
+                            <li>User and role management</li>
+                            <li>Integration and API settings</li>
+                            <li>System analytics and audit logs</li>
+                            <li>Backup and recovery operations</li>
+                        </ul>
+                    </div>
+
+                    <div class="permission-level permission-admin">
+                        <h4 class="text-h3" style="color: var(--error-800);">Compliance Officer</h4>
+                        <ul style="margin-top: var(--space-2); color: var(--gray-700);">
+                            <li>All document access for audit purposes</li>
+                            <li>Compliance reporting and analytics</li>
+                            <li>Workflow configuration and monitoring</li>
+                            <li>Risk assessment and classification</li>
+                        </ul>
+                    </div>
+
+                    <div class="permission-level permission-editor">
+                        <h4 class="text-h3" style="color: var(--warning-800);">Legal Counsel</h4>
+                        <ul style="margin-top: var(--space-2); color: var(--gray-700);">
+                            <li>Edit and approve legal documents</li>
+                            <li>Template creation and modification</li>
+                            <li>Workflow approval authority</li>
+                            <li>Cross-departmental document access</li>
+                        </ul>
+                    </div>
+
+                    <div class="permission-level permission-editor">
+                        <h4 class="text-h3" style="color: var(--warning-800);">Department Manager</h4>
+                        <ul style="margin-top: var(--space-2); color: var(--gray-700);">
+                            <li>Edit documents within department</li>
+                            <li>Approve departmental workflows</li>
+                            <li>Department analytics and reporting</li>
+                            <li>User management within department</li>
+                        </ul>
+                    </div>
+
+                    <div class="permission-level permission-viewer">
+                        <h4 class="text-h3" style="color: var(--success-800);">Knowledge Worker</h4>
+                        <ul style="margin-top: var(--space-2); color: var(--gray-700);">
+                            <li>View approved documents</li>
+                            <li>Search and download capabilities</li>
+                            <li>Submit documents for review</li>
+                            <li>Basic personal analytics</li>
+                        </ul>
+                    </div>
+
+                    <div class="permission-level permission-viewer">
+                        <h4 class="text-h3" style="color: var(--success-800);">External Auditor</h4>
+                        <ul style="margin-top: var(--space-2); color: var(--gray-700);">
+                            <li>Read-only access to audit-relevant documents</li>
+                            <li>Time-limited access permissions</li>
+                            <li>Download restrictions and watermarking</li>
+                            <li>Activity logging and monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Security Measures</h3>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-h3">Data Protection</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                                <li><strong>Encryption:</strong> AES-256 at rest, TLS 1.3 in transit</li>
+                                <li><strong>Key Management:</strong> HSM-backed key rotation</li>
+                                <li><strong>Data Classification:</strong> Automatic sensitivity labeling</li>
+                                <li><strong>DLP:</strong> Data loss prevention scanning</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-h3">Authentication</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                                <li><strong>SSO Integration:</strong> SAML 2.0, OIDC support</li>
+                                <li><strong>MFA:</strong> Required for privileged accounts</li>
+                                <li><strong>Session Management:</strong> Automatic timeout and renewal</li>
+                                <li><strong>Device Trust:</strong> Certificate-based device authentication</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-h3">Audit & Compliance</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                                <li><strong>Activity Logging:</strong> Comprehensive user action tracking</li>
+                                <li><strong>Immutable Audit Trail:</strong> Tamper-proof log storage</li>
+                                <li><strong>Real-time Monitoring:</strong> Anomaly detection and alerting</li>
+                                <li><strong>Compliance Reporting:</strong> Automated SOX, GDPR reporting</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-h3">Access Control</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul style="color: var(--gray-600); line-height: var(--leading-relaxed);">
+                                <li><strong>Attribute-Based Access:</strong> Context-aware permissions</li>
+                                <li><strong>Just-in-Time Access:</strong> Temporary elevated permissions</li>
+                                <li><strong>IP Restrictions:</strong> Location-based access controls</li>
+                                <li><strong>Time-Based Access:</strong> Business hours enforcement</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search & Navigation Strategy -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Search & Navigation Strategy</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);">
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Search Capabilities</h3>
+
+                    <div class="card" style="margin-bottom: var(--space-4);">
+                        <div class="card-header">
+                            <h4 class="text-h3">Natural Language Search</h4>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-3);">AI-powered search that understands context and intent</p>
+                            <ul style="color: var(--gray-600);">
+                                <li>"Show me all contracts expiring next month"</li>
+                                <li>"Find SOX controls related to financial reporting"</li>
+                                <li>"What policies changed since last quarter?"</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-bottom: var(--space-4);">
+                        <div class="card-header">
+                            <h4 class="text-h3">Faceted Search</h4>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-3);">Structured filtering for precise results</p>
+                            <ul style="color: var(--gray-600);">
+                                <li>Document type and category filters</li>
+                                <li>Date range and status filters</li>
+                                <li>Author and department filters</li>
+                                <li>Risk level and compliance filters</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-h3">Advanced Features</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul style="color: var(--gray-600);">
+                                <li><strong>Saved Searches:</strong> Persistent queries with alerts</li>
+                                <li><strong>Search Analytics:</strong> Popular searches and gaps</li>
+                                <li><strong>Auto-complete:</strong> Predictive search suggestions</li>
+                                <li><strong>Similar Documents:</strong> AI-based recommendations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Navigation Patterns</h3>
+
+                    <div class="card" style="margin-bottom: var(--space-4);">
+                        <div class="card-header">
+                            <h4 class="text-h3">Contextual Navigation</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul style="color: var(--gray-600);">
+                                <li>Role-based dashboard layouts</li>
+                                <li>Task-oriented quick actions</li>
+                                <li>Recent documents and searches</li>
+                                <li>Personalized shortcuts and bookmarks</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-bottom: var(--space-4);">
+                        <div class="card-header">
+                            <h4 class="text-h3">Progressive Disclosure</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul style="color: var(--gray-600);">
+                                <li>Summary views with expandable details</li>
+                                <li>Layered information architecture</li>
+                                <li>Contextual help and guidance</li>
+                                <li>Advanced features behind progressive disclosure</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-h3">Mobile Navigation</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul style="color: var(--gray-600);">
+                                <li>Bottom tab bar for primary navigation</li>
+                                <li>Swipe gestures for quick actions</li>
+                                <li>Voice search and dictation support</li>
+                                <li>Offline-first architecture with sync</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #2563eb;
+  --ifm-color-primary-dark: #1d4ed8;
+  --ifm-color-primary-darker: #1e40af;
+  --ifm-color-primary-darkest: #1e3a8a;
+  --ifm-color-primary-light: #3b82f6;
+  --ifm-color-primary-lighter: #60a5fa;
+  --ifm-color-primary-lightest: #93c5fd;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* DocuHarmonize Brand Colors */
+  --dh-primary: #2563eb;
+  --dh-secondary: #64748b;
+  --dh-success: #059669;
+  --dh-warning: #d97706;
+  --dh-error: #dc2626;
+  --dh-info: #0284c7;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #60a5fa;
+  --ifm-color-primary-dark: #3b82f6;
+  --ifm-color-primary-darker: #2563eb;
+  --ifm-color-primary-darkest: #1d4ed8;
+  --ifm-color-primary-light: #93c5fd;
+  --ifm-color-primary-lighter: #bfdbfe;
+  --ifm-color-primary-lightest: #dbeafe;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Custom DocuHarmonize Styling */
+.hero__title {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--dh-primary), var(--dh-info));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero__subtitle {
+  font-size: 1.25rem;
+  color: var(--dh-secondary);
+  margin-bottom: 2rem;
+}
+
+/* Enhance admonitions (tip, warning, etc.) */
+.admonition {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin: 1.5rem 0;
+}
+
+.admonition-heading {
+  font-weight: 600;
+}
+
+/* Custom button styling */
+.button--primary {
+  background: linear-gradient(135deg, var(--dh-primary), var(--dh-info));
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.button--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* Table of contents styling */
+.table-of-contents {
+  border-left: 3px solid var(--dh-primary);
+  padding-left: 1rem;
+}
+
+/* Navbar customization */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar__title {
+  font-weight: 700;
+  color: var(--dh-primary);
+}
+
+/* Sidebar customization */
+.theme-doc-sidebar-item-link {
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.theme-doc-sidebar-item-link:hover {
+  background-color: rgba(37, 99, 235, 0.1);
+}
+
+/* Code block enhancements */
+.prism-code {
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+/* Mermaid diagram styling */
+.docusaurus-mermaid-container {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+/* Custom utility classes */
+.text-gradient {
+  background: linear-gradient(135deg, var(--dh-primary), var(--dh-info));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.startup-metric {
+  background: rgba(37, 99, 235, 0.1);
+  border-left: 4px solid var(--dh-primary);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.startup-metric strong {
+  color: var(--dh-primary);
+}
+
+/* Responsive design improvements */
+@media screen and (max-width: 768px) {
+  .hero__title {
+    font-size: 2rem;
+  }
+
+  .hero__subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Print styles for documentation */
+@media print {
+  .navbar,
+  .theme-doc-sidebar-container,
+  .pagination-nav,
+  .theme-doc-toc-desktop {
+    display: none !important;
+  }
+
+  .main-wrapper {
+    margin: 0 !important;
+  }
+}

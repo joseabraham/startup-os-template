@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Management UI/UX - Enterprise Documentation Platform</title>
+    <link rel="stylesheet" href="design-system.css">
+    <style>
+        /* Change Management Specific Styles */
+
+        .adoption-stage {
+            background: linear-gradient(135deg, var(--primary-50) 0%, var(--primary-100) 100%);
+            border: 1px solid var(--primary-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin-bottom: var(--space-6);
+            position: relative;
+        }
+
+        .stage-number {
+            position: absolute;
+            top: -12px;
+            left: var(--space-4);
+            background: var(--primary-600);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-sm);
+            font-weight: 600;
+        }
+
+        .resistance-indicator {
+            display: inline-block;
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-lg);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            margin-right: var(--space-2);
+        }
+
+        .resistance-high {
+            background-color: var(--error-100);
+            color: var(--error-700);
+            border: 1px solid var(--error-300);
+        }
+
+        .resistance-medium {
+            background-color: var(--warning-100);
+            color: var(--warning-700);
+            border: 1px solid var(--warning-300);
+        }
+
+        .resistance-low {
+            background-color: var(--success-100);
+            color: var(--success-700);
+            border: 1px solid var(--success-300);
+        }
+
+        .onboarding-widget {
+            background: white;
+            border: 2px solid var(--primary-200);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .onboarding-header {
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
+            color: white;
+            padding: var(--space-6);
+            text-align: center;
+        }
+
+        .onboarding-step {
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--gray-200);
+            display: none;
+        }
+
+        .onboarding-step.active {
+            display: block;
+        }
+
+        .onboarding-step:last-child {
+            border-bottom: none;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-6);
+        }
+
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--gray-300);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .step-dot.active {
+            background-color: var(--primary-600);
+        }
+
+        .step-dot.completed {
+            background-color: var(--success-600);
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--gray-800);
+            color: white;
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: var(--z-tooltip);
+            pointer-events: none;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .help-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: var(--z-modal);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .help-overlay.active {
+            display: flex;
+        }
+
+        .help-spotlight {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 3px solid var(--primary-500);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .help-tooltip {
+            position: absolute;
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-xl);
+            max-width: 300px;
+            z-index: 1;
+        }
+
+        .progress-tracker {
+            background: linear-gradient(90deg, var(--success-500) 0%, var(--success-500) var(--progress, 0%), var(--gray-200) var(--progress, 0%), var(--gray-200) 100%);
+            height: 8px;
+            border-radius: var(--radius-md);
+            margin: var(--space-3) 0;
+        }
+
+        .adoption-metric {
+            text-align: center;
+            padding: var(--space-4);
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .metric-value {
+            display: block;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+        }
+
+        .metric-trend {
+            font-size: var(--text-sm);
+            font-weight: 500;
+        }
+
+        .trend-positive {
+            color: var(--success-600);
+        }
+
+        .trend-negative {
+            color: var(--error-600);
+        }
+
+        .trend-neutral {
+            color: var(--gray-500);
+        }
+
+        .feedback-widget {
+            position: fixed;
+            right: var(--space-4);
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--primary-600);
+            color: white;
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            cursor: pointer;
+            z-index: var(--z-dropdown);
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .feedback-widget:hover {
+            background-color: var(--primary-700);
+        }
+
+        .feature-announcement {
+            background: linear-gradient(135deg, var(--success-50) 0%, var(--success-100) 100%);
+            border: 1px solid var(--success-300);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin: var(--space-6) 0;
+            position: relative;
+        }
+
+        .announcement-badge {
+            position: absolute;
+            top: -8px;
+            left: var(--space-4);
+            background: var(--success-600);
+            color: white;
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            font-weight: 600;
+        }
+
+        .dismissible {
+            position: relative;
+        }
+
+        .dismiss-btn {
+            position: absolute;
+            top: var(--space-2);
+            right: var(--space-2);
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+        }
+
+        .dismiss-btn:hover {
+            opacity: 1;
+        }
+
+        .user-segment {
+            padding: var(--space-4);
+            margin: var(--space-3) 0;
+            border-radius: var(--radius-md);
+            border-left: 4px solid;
+        }
+
+        .segment-early-adopter {
+            background-color: var(--success-50);
+            border-color: var(--success-500);
+        }
+
+        .segment-pragmatist {
+            background-color: var(--warning-50);
+            border-color: var(--warning-500);
+        }
+
+        .segment-skeptic {
+            background-color: var(--error-50);
+            border-color: var(--error-500);
+        }
+
+        .training-module {
+            background-color: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: var(--space-4);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .training-module:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .module-header {
+            background-color: var(--gray-50);
+            padding: var(--space-4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .module-content {
+            padding: var(--space-4);
+        }
+
+        .completion-badge {
+            background-color: var(--success-500);
+            color: white;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            font-weight: 600;
+        }
+
+        .migration-timeline {
+            position: relative;
+            padding: var(--space-6) 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--gray-300);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: var(--space-8);
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 12px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background-color: var(--primary-600);
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--primary-200);
+        }
+
+        .timeline-marker.completed {
+            background-color: var(--success-600);
+            box-shadow: 0 0 0 3px var(--success-200);
+        }
+
+        .timeline-marker.current {
+            background-color: var(--warning-600);
+            box-shadow: 0 0 0 3px var(--warning-200);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 3px var(--warning-200); }
+            50% { box-shadow: 0 0 0 6px var(--warning-300); }
+            100% { box-shadow: 0 0 0 3px var(--warning-200); }
+        }
+    </style>
+    <script>
+        // Change Management Interactive Features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Onboarding Flow
+            let currentStep = 0;
+            const onboardingSteps = document.querySelectorAll('.onboarding-step');
+            const stepDots = document.querySelectorAll('.step-dot');
+
+            function showStep(stepIndex) {
+                // Hide all steps
+                onboardingSteps.forEach(step => step.classList.remove('active'));
+
+                // Show current step
+                if (onboardingSteps[stepIndex]) {
+                    onboardingSteps[stepIndex].classList.add('active');
+                }
+
+                // Update step indicators
+                stepDots.forEach((dot, index) => {
+                    dot.classList.remove('active', 'completed');
+                    if (index < stepIndex) {
+                        dot.classList.add('completed');
+                    } else if (index === stepIndex) {
+                        dot.classList.add('active');
+                    }
+                });
+            }
+
+            // Step navigation
+            document.getElementById('next-step')?.addEventListener('click', function() {
+                if (currentStep < onboardingSteps.length - 1) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            });
+
+            document.getElementById('prev-step')?.addEventListener('click', function() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            });
+
+            // Initialize first step
+            showStep(currentStep);
+
+            // Feature Tour/Spotlight
+            function startFeatureTour() {
+                const tourSteps = [
+                    { element: '.nav-item:first-child', message: 'Start here to access your dashboard and see pending tasks.' },
+                    { element: '.btn-primary', message: 'Use this button for your most common actions like uploading documents.' },
+                    { element: '.search-bar', message: 'Search for documents using keywords or advanced filters.' },
+                    { element: '.help-icon', message: 'Click here anytime you need help or have questions.' }
+                ];
+
+                let currentTourStep = 0;
+
+                function showTourStep(stepIndex) {
+                    if (stepIndex >= tourSteps.length) {
+                        hideTour();
+                        return;
+                    }
+
+                    const step = tourSteps[stepIndex];
+                    const element = document.querySelector(step.element);
+
+                    if (element) {
+                        const rect = element.getBoundingClientRect();
+                        const overlay = document.querySelector('.help-overlay');
+                        const spotlight = document.querySelector('.help-spotlight');
+                        const tooltip = document.querySelector('.help-tooltip');
+
+                        // Position spotlight
+                        spotlight.style.left = rect.left - 10 + 'px';
+                        spotlight.style.top = rect.top - 10 + 'px';
+                        spotlight.style.width = rect.width + 20 + 'px';
+                        spotlight.style.height = rect.height + 20 + 'px';
+
+                        // Position tooltip
+                        tooltip.style.left = rect.right + 20 + 'px';
+                        tooltip.style.top = rect.top + 'px';
+                        tooltip.innerHTML = `
+                            <h4 style="margin-bottom: var(--space-2);">Step ${stepIndex + 1} of ${tourSteps.length}</h4>
+                            <p style="margin-bottom: var(--space-4);">${step.message}</p>
+                            <div style="display: flex; justify-content: space-between;">
+                                <button onclick="hideTour()" class="btn btn-ghost">Skip Tour</button>
+                                <button onclick="nextTourStep()" class="btn btn-primary">Next</button>
+                            </div>
+                        `;
+
+                        overlay.classList.add('active');
+                    }
+                }
+
+                window.nextTourStep = function() {
+                    currentTourStep++;
+                    showTourStep(currentTourStep);
+                };
+
+                window.hideTour = function() {
+                    document.querySelector('.help-overlay').classList.remove('active');
+                };
+
+                showTourStep(currentTourStep);
+            }
+
+            // Feature announcement dismissal
+            document.querySelectorAll('.dismiss-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.dismissible').style.display = 'none';
+                    // Store dismissal in localStorage
+                    localStorage.setItem('dismissed-' + this.dataset.id, 'true');
+                });
+            });
+
+            // Check for previously dismissed announcements
+            document.querySelectorAll('.dismissible').forEach(element => {
+                const dismissBtn = element.querySelector('.dismiss-btn');
+                if (dismissBtn && localStorage.getItem('dismissed-' + dismissBtn.dataset.id)) {
+                    element.style.display = 'none';
+                }
+            });
+
+            // Feedback widget
+            document.querySelector('.feedback-widget')?.addEventListener('click', function() {
+                // Open feedback modal or form
+                const feedback = prompt('How can we improve your experience?');
+                if (feedback) {
+                    console.log('Feedback submitted:', feedback);
+                    alert('Thank you for your feedback! We\'ll use it to improve the platform.');
+                }
+            });
+
+            // Progressive disclosure
+            document.querySelectorAll('.advanced-toggle').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const target = document.querySelector(this.dataset.target);
+                    if (target) {
+                        target.style.display = target.style.display === 'none' ? 'block' : 'none';
+                        this.textContent = target.style.display === 'none' ? 'Show Advanced Options' : 'Hide Advanced Options';
+                    }
+                });
+            });
+
+            // Training module progress tracking
+            document.querySelectorAll('.training-module').forEach(module => {
+                const completeBtn = module.querySelector('.complete-module');
+                if (completeBtn) {
+                    completeBtn.addEventListener('click', function() {
+                        const moduleId = this.dataset.moduleId;
+                        localStorage.setItem('completed-' + moduleId, 'true');
+
+                        const badge = document.createElement('span');
+                        badge.className = 'completion-badge';
+                        badge.textContent = 'Completed';
+
+                        const header = module.querySelector('.module-header');
+                        header.appendChild(badge);
+
+                        this.style.display = 'none';
+                    });
+                }
+
+                // Check for completed modules
+                const moduleId = module.querySelector('.complete-module')?.dataset.moduleId;
+                if (moduleId && localStorage.getItem('completed-' + moduleId)) {
+                    const badge = document.createElement('span');
+                    badge.className = 'completion-badge';
+                    badge.textContent = 'Completed';
+
+                    const header = module.querySelector('.module-header');
+                    header.appendChild(badge);
+
+                    const completeBtn = module.querySelector('.complete-module');
+                    if (completeBtn) completeBtn.style.display = 'none';
+                }
+            });
+
+            // Usage analytics simulation
+            function trackUserAction(action, element) {
+                console.log('User action tracked:', {
+                    action: action,
+                    element: element.tagName + (element.className ? '.' + element.className.split(' ')[0] : ''),
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+            }
+
+            // Track clicks on major UI elements
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('button, .btn, .nav-item, .card')) {
+                    trackUserAction('click', e.target);
+                }
+            });
+
+            // Expose tour function globally
+            window.startFeatureTour = startFeatureTour;
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header style="padding: var(--space-8) 0; text-align: center;">
+            <h1 class="text-display">Change Management UI/UX</h1>
+            <p class="text-lg" style="color: var(--gray-600); margin-top: var(--space-2);">Facilitating Smooth Enterprise Platform Adoption</p>
+        </header>
+
+        <!-- Feature Announcement -->
+        <div class="feature-announcement dismissible">
+            <div class="announcement-badge">New Feature</div>
+            <button class="dismiss-btn" data-id="feature-smart-search" aria-label="Dismiss announcement">×</button>
+            <h3 style="margin-bottom: var(--space-3);">Introducing Smart Search with AI</h3>
+            <p style="margin-bottom: var(--space-4); color: var(--gray-700);">
+                Find documents faster with our new AI-powered search that understands natural language queries.
+                Try searching for "contracts expiring next month" or "SOX compliance policies."
+            </p>
+            <div style="display: flex; gap: var(--space-3);">
+                <button class="btn btn-primary">Try Smart Search</button>
+                <button onclick="startFeatureTour()" class="btn btn-secondary">Take a Tour</button>
+            </div>
+        </div>
+
+        <!-- User Adoption Strategy -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">User Adoption Strategy</h2>
+
+            <!-- User Segments -->
+            <div style="margin-bottom: var(--space-8);">
+                <h3 class="text-h2" style="margin-bottom: var(--space-6);">User Segmentation & Targeting</h3>
+
+                <div class="user-segment segment-early-adopter">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: var(--space-3);">
+                        <h4 class="text-h3" style="color: var(--success-800);">Early Adopters (15%)</h4>
+                        <span class="resistance-indicator resistance-low">Low Resistance</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-6);">
+                        <div>
+                            <p style="color: var(--success-700); margin-bottom: var(--space-3);"><strong>Characteristics:</strong></p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>Tech-savvy power users</li>
+                                <li>Process optimization enthusiasts</li>
+                                <li>Natural change agents</li>
+                                <li>Influence peer behavior</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p style="color: var(--success-700); margin-bottom: var(--space-3);"><strong>Engagement Strategy:</strong></p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>Beta access to new features</li>
+                                <li>Advanced training sessions</li>
+                                <li>Feedback collection partnerships</li>
+                                <li>Champion program participation</li>
+                                <li>Success story documentation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-segment segment-pragmatist">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: var(--space-3);">
+                        <h4 class="text-h3" style="color: var(--warning-800);">Pragmatic Majority (60%)</h4>
+                        <span class="resistance-indicator resistance-medium">Medium Resistance</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-6);">
+                        <div>
+                            <p style="color: var(--warning-700); margin-bottom: var(--space-3);"><strong>Characteristics:</strong></p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>Need proven value proposition</li>
+                                <li>Prefer incremental changes</li>
+                                <li>Follow peer recommendations</li>
+                                <li>Risk-averse decision makers</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p style="color: var(--warning-700); margin-bottom: var(--space-3);"><strong>Engagement Strategy:</strong></p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>Gradual feature rollout</li>
+                                <li>Peer success stories</li>
+                                <li>ROI demonstrations</li>
+                                <li>Comprehensive training</li>
+                                <li>Ongoing support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-segment segment-skeptic">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: var(--space-3);">
+                        <h4 class="text-h3" style="color: var(--error-800);">Skeptics & Laggards (25%)</h4>
+                        <span class="resistance-indicator resistance-high">High Resistance</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-6);">
+                        <div>
+                            <p style="color: var(--error-700); margin-bottom: var(--space-3);"><strong>Characteristics:</strong></p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>Comfortable with status quo</li>
+                                <li>Fear of technology changes</li>
+                                <li>Need compelling reasons</li>
+                                <li>Require extra support</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p style="color: var(--error-700); margin-bottom: var(--space-3);"><strong>Engagement Strategy:</strong></p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>One-on-one support</li>
+                                <li>Mandatory adoption phases</li>
+                                <li>Simplified interfaces</li>
+                                <li>Change necessity communication</li>
+                                <li>Intensive training programs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adoption Metrics -->
+            <div style="margin-bottom: var(--space-8);">
+                <h3 class="text-h2" style="margin-bottom: var(--space-6);">Adoption Metrics Dashboard</h3>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-6);">
+                    <div class="adoption-metric">
+                        <span class="metric-value" style="color: var(--primary-600);">67%</span>
+                        <div style="font-weight: 500; margin-bottom: var(--space-1);">Active Users</div>
+                        <div class="metric-trend trend-positive">↑ 12% this month</div>
+                    </div>
+
+                    <div class="adoption-metric">
+                        <span class="metric-value" style="color: var(--success-600);">4.2</span>
+                        <div style="font-weight: 500; margin-bottom: var(--space-1);">User Satisfaction</div>
+                        <div class="metric-trend trend-positive">↑ 0.3 from last quarter</div>
+                    </div>
+
+                    <div class="adoption-metric">
+                        <span class="metric-value" style="color: var(--warning-600);">23%</span>
+                        <div style="font-weight: 500; margin-bottom: var(--space-1);">Feature Discovery</div>
+                        <div class="metric-trend trend-negative">↓ 5% this week</div>
+                    </div>
+
+                    <div class="adoption-metric">
+                        <span class="metric-value" style="color: var(--primary-600);">156</span>
+                        <div style="font-weight: 500; margin-bottom: var(--space-1);">Support Tickets</div>
+                        <div class="metric-trend trend-neutral">→ Stable</div>
+                    </div>
+
+                    <div class="adoption-metric">
+                        <span class="metric-value" style="color: var(--success-600);">89%</span>
+                        <div style="font-weight: 500; margin-bottom: var(--space-1);">Training Completion</div>
+                        <div class="metric-trend trend-positive">↑ 18% this quarter</div>
+                    </div>
+
+                    <div class="adoption-metric">
+                        <span class="metric-value" style="color: var(--error-600);">12%</span>
+                        <div style="font-weight: 500; margin-bottom: var(--space-1);">User Churn</div>
+                        <div class="metric-trend trend-positive">↓ 8% improvement</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progressive Onboarding -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Progressive Onboarding Experience</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);">
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Guided First-Time Experience</h3>
+
+                    <div class="onboarding-widget">
+                        <div class="onboarding-header">
+                            <h3>Welcome to DocuFlow!</h3>
+                            <p style="opacity: 0.9; margin: var(--space-2) 0 0 0;">Let's get you started with a quick tour</p>
+                        </div>
+
+                        <div style="padding: var(--space-4);">
+                            <div class="step-indicator">
+                                <div class="step-dot active"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-dot"></div>
+                            </div>
+                        </div>
+
+                        <div class="onboarding-step active">
+                            <h4 style="margin-bottom: var(--space-4);">Set Up Your Profile</h4>
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                                Let us know your role and department so we can customize your experience.
+                            </p>
+                            <div style="margin-bottom: var(--space-4);">
+                                <label class="form-label">Your Role</label>
+                                <select class="form-input">
+                                    <option>Select your role...</option>
+                                    <option>Legal Counsel</option>
+                                    <option>Compliance Officer</option>
+                                    <option>IT Administrator</option>
+                                    <option>Business Manager</option>
+                                    <option>Executive</option>
+                                </select>
+                            </div>
+                            <div style="margin-bottom: var(--space-6);">
+                                <label class="form-label">Department</label>
+                                <select class="form-input">
+                                    <option>Select department...</option>
+                                    <option>Legal</option>
+                                    <option>Human Resources</option>
+                                    <option>Finance</option>
+                                    <option>Information Technology</option>
+                                    <option>Operations</option>
+                                </select>
+                            </div>
+                            <div style="display: flex; justify-content: between;">
+                                <button class="btn btn-ghost" disabled>Previous</button>
+                                <button id="next-step" class="btn btn-primary">Next Step</button>
+                            </div>
+                        </div>
+
+                        <div class="onboarding-step">
+                            <h4 style="margin-bottom: var(--space-4);">Explore Key Features</h4>
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                                Here are the features you'll use most often in your role.
+                            </p>
+                            <div style="display: grid; gap: var(--space-3);">
+                                <div style="padding: var(--space-3); background-color: var(--gray-50); border-radius: var(--radius-md);">
+                                    <strong>📊 Dashboard:</strong> Your personalized overview of tasks and documents
+                                </div>
+                                <div style="padding: var(--space-3); background-color: var(--gray-50); border-radius: var(--radius-md);">
+                                    <strong>🔍 Smart Search:</strong> AI-powered document discovery
+                                </div>
+                                <div style="padding: var(--space-3); background-color: var(--gray-50); border-radius: var(--radius-md);">
+                                    <strong>📋 Approval Workflows:</strong> Streamlined review and approval processes
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: between; margin-top: var(--space-6);">
+                                <button id="prev-step" class="btn btn-ghost">Previous</button>
+                                <button id="next-step" class="btn btn-primary">Next Step</button>
+                            </div>
+                        </div>
+
+                        <div class="onboarding-step">
+                            <h4 style="margin-bottom: var(--space-4);">Quick Training Modules</h4>
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                                Complete these short modules to get up to speed quickly.
+                            </p>
+                            <div style="display: grid; gap: var(--space-3);">
+                                <label style="display: flex; align-items: center; gap: var(--space-2);">
+                                    <input type="checkbox" checked>
+                                    <span>Basic Navigation (3 min)</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: var(--space-2);">
+                                    <input type="checkbox">
+                                    <span>Document Upload & Metadata (5 min)</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: var(--space-2);">
+                                    <input type="checkbox">
+                                    <span>Search & Discovery (4 min)</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: var(--space-2);">
+                                    <input type="checkbox">
+                                    <span>Approval Workflows (6 min)</span>
+                                </label>
+                            </div>
+                            <div style="display: flex; justify-content: between; margin-top: var(--space-6);">
+                                <button class="btn btn-ghost">Previous</button>
+                                <button class="btn btn-primary">Next Step</button>
+                            </div>
+                        </div>
+
+                        <div class="onboarding-step">
+                            <h4 style="margin-bottom: var(--space-4);">You're All Set! 🎉</h4>
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                                Your DocuFlow workspace is ready. Remember, you can access help anytime by clicking the help icon.
+                            </p>
+                            <div style="background-color: var(--primary-50); padding: var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-4);">
+                                <strong>Pro Tip:</strong> Bookmark frequently used documents for quick access from your dashboard.
+                            </div>
+                            <div style="display: flex; justify-content: between;">
+                                <button class="btn btn-ghost">Previous</button>
+                                <button class="btn btn-primary">Start Using DocuFlow</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Training & Support</h3>
+
+                    <div class="training-module">
+                        <div class="module-header">
+                            <div>
+                                <h4>Getting Started Guide</h4>
+                                <p style="font-size: var(--text-sm); color: var(--gray-600); margin: 0;">15 minutes • Beginner</p>
+                            </div>
+                            <button class="complete-module btn btn-primary" style="font-size: var(--text-sm);" data-module-id="getting-started">
+                                Start Module
+                            </button>
+                        </div>
+                        <div class="module-content">
+                            <p style="color: var(--gray-700); font-size: var(--text-sm);">
+                                Learn the basics of navigating DocuFlow, uploading your first document, and setting up your workspace.
+                            </p>
+                            <div style="margin-top: var(--space-3);">
+                                <div class="progress-tracker" style="--progress: 0%;"></div>
+                                <span style="font-size: var(--text-sm); color: var(--gray-600);">0% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="training-module">
+                        <div class="module-header">
+                            <div>
+                                <h4>Advanced Search Techniques</h4>
+                                <p style="font-size: var(--text-sm); color: var(--gray-600); margin: 0;">8 minutes • Intermediate</p>
+                            </div>
+                            <button class="complete-module btn btn-secondary" style="font-size: var(--text-sm);" data-module-id="advanced-search">
+                                Start Module
+                            </button>
+                        </div>
+                        <div class="module-content">
+                            <p style="color: var(--gray-700); font-size: var(--text-sm);">
+                                Master DocuFlow's powerful search features including filters, saved searches, and AI-powered queries.
+                            </p>
+                            <div style="margin-top: var(--space-3);">
+                                <div class="progress-tracker" style="--progress: 0%;"></div>
+                                <span style="font-size: var(--text-sm); color: var(--gray-600);">0% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="training-module">
+                        <div class="module-header">
+                            <div>
+                                <h4>Workflow Management</h4>
+                                <p style="font-size: var(--text-sm); color: var(--gray-600); margin: 0;">12 minutes • Advanced</p>
+                            </div>
+                            <button class="complete-module btn btn-secondary" style="font-size: var(--text-sm);" data-module-id="workflow-management">
+                                Start Module
+                            </button>
+                        </div>
+                        <div class="module-content">
+                            <p style="color: var(--gray-700); font-size: var(--text-sm);">
+                                Learn to create, customize, and manage approval workflows for different types of documents.
+                            </p>
+                            <div style="margin-top: var(--space-3);">
+                                <div class="progress-tracker" style="--progress: 0%;"></div>
+                                <span style="font-size: var(--text-sm); color: var(--gray-600);">0% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Help Resources -->
+                    <div class="card" style="margin-top: var(--space-6);">
+                        <div class="card-header">
+                            <h4 class="text-h3">Additional Resources</h4>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: grid; gap: var(--space-3);">
+                                <a href="#" style="display: flex; align-items: center; gap: var(--space-3); text-decoration: none; color: var(--gray-700);">
+                                    <span style="font-size: 20px;">📖</span>
+                                    <div>
+                                        <div style="font-weight: 500;">User Manual</div>
+                                        <div style="font-size: var(--text-sm); color: var(--gray-500);">Comprehensive documentation</div>
+                                    </div>
+                                </a>
+                                <a href="#" style="display: flex; align-items: center; gap: var(--space-3); text-decoration: none; color: var(--gray-700);">
+                                    <span style="font-size: 20px;">❓</span>
+                                    <div>
+                                        <div style="font-weight: 500;">FAQ</div>
+                                        <div style="font-size: var(--text-sm); color: var(--gray-500);">Common questions and answers</div>
+                                    </div>
+                                </a>
+                                <a href="#" style="display: flex; align-items: center; gap: var(--space-3); text-decoration: none; color: var(--gray-700);">
+                                    <span style="font-size: 20px;">💬</span>
+                                    <div>
+                                        <div style="font-weight: 500;">Live Chat Support</div>
+                                        <div style="font-size: var(--text-sm); color: var(--gray-500);">Get help in real-time</div>
+                                    </div>
+                                </a>
+                                <a href="#" style="display: flex; align-items: center; gap: var(--space-3); text-decoration: none; color: var(--gray-700);">
+                                    <span style="font-size: 20px;">🎥</span>
+                                    <div>
+                                        <div style="font-weight: 500;">Video Tutorials</div>
+                                        <div style="font-size: var(--text-sm); color: var(--gray-500);">Watch and learn</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Migration Timeline -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Migration Timeline & Milestones</h2>
+
+            <div class="migration-timeline">
+                <div class="timeline-line"></div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker completed"></div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-h3">Phase 1: Foundation Setup</h3>
+                            <span style="color: var(--success-600); font-weight: 600;">Completed</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-3);">
+                                Initial platform configuration, user accounts creation, and basic document import.
+                            </p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>✓ Platform deployment and security configuration</li>
+                                <li>✓ User accounts and role assignment</li>
+                                <li>✓ Legacy document inventory and classification</li>
+                                <li>✓ Initial metadata schema definition</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker completed"></div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-h3">Phase 2: Pilot Deployment</h3>
+                            <span style="color: var(--success-600); font-weight: 600;">Completed</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-3);">
+                                Limited rollout to early adopters in Legal and Compliance departments.
+                            </p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>✓ 50 pilot users onboarded successfully</li>
+                                <li>✓ Core workflows configured and tested</li>
+                                <li>✓ Integration with existing legal tools</li>
+                                <li>✓ Initial feedback collection and analysis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker current"></div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-h3">Phase 3: Department Rollout</h3>
+                            <span style="color: var(--warning-600); font-weight: 600;">In Progress</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-3);">
+                                Expanding to HR, Finance, and IT departments with role-specific customizations.
+                            </p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>✓ HR department onboarding (89% complete)</li>
+                                <li>🔄 Finance department training in progress</li>
+                                <li>⏳ IT department technical integration pending</li>
+                                <li>⏳ Department-specific workflow customization</li>
+                            </ul>
+                            <div style="margin-top: var(--space-4);">
+                                <div class="progress-tracker" style="--progress: 65%;"></div>
+                                <span style="font-size: var(--text-sm); color: var(--gray-600);">65% Complete • Estimated completion: April 15, 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-h3">Phase 4: Organization-wide Launch</h3>
+                            <span style="color: var(--gray-500); font-weight: 600;">Planned</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-3);">
+                                Full deployment to all employees with comprehensive training and support.
+                            </p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>🗓 All remaining departments onboarding</li>
+                                <li>🗓 Advanced features training rollout</li>
+                                <li>🗓 Legacy system decommissioning</li>
+                                <li>🗓 Success metrics evaluation</li>
+                            </ul>
+                            <div style="margin-top: var(--space-4); padding: var(--space-3); background-color: var(--gray-50); border-radius: var(--radius-md);">
+                                <strong>Target Date:</strong> May 1, 2024
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-h3">Phase 5: Optimization & Enhancement</h3>
+                            <span style="color: var(--gray-500); font-weight: 600;">Future</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-3);">
+                                Continuous improvement based on usage data and user feedback.
+                            </p>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>🗓 Advanced analytics implementation</li>
+                                <li>🗓 AI-powered features enhancement</li>
+                                <li>🗓 Mobile app development</li>
+                                <li>🗓 Integration with additional enterprise tools</li>
+                            </ul>
+                            <div style="margin-top: var(--space-4); padding: var(--space-3); background-color: var(--gray-50); border-radius: var(--radius-md);">
+                                <strong>Timeline:</strong> Ongoing from June 2024
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Change Resistance Mitigation -->
+        <section style="margin-bottom: var(--space-16);">
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Change Resistance Mitigation</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);">
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Common Resistance Patterns</h3>
+
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h4 class="text-h3">"Too Complex" Objection</h4>
+                            <span class="resistance-indicator resistance-high">High Impact</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                                Users perceive the new system as overly complicated compared to familiar tools.
+                            </p>
+                            <h5 style="color: var(--primary-700); margin-bottom: var(--space-2);">UI/UX Solutions:</h5>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>Progressive disclosure of advanced features</li>
+                                <li>Simplified "beginner mode" interface</li>
+                                <li>Contextual help and tooltips</li>
+                                <li>Familiar design patterns from existing tools</li>
+                                <li>One-click common actions</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h4 class="text-h3">"No Time to Learn" Resistance</h4>
+                            <span class="resistance-indicator resistance-medium">Medium Impact</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                                Busy professionals reluctant to invest time in learning new systems.
+                            </p>
+                            <h5 style="color: var(--primary-700); margin-bottom: var(--space-2);">UI/UX Solutions:</h5>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>Micro-learning modules (2-3 minutes each)</li>
+                                <li>Just-in-time learning tooltips</li>
+                                <li>Quick wins and immediate value demonstration</li>
+                                <li>Learning integrated into daily workflows</li>
+                                <li>Voice-guided tours for hands-free learning</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-h3">"Loss of Control" Anxiety</h4>
+                            <span class="resistance-indicator resistance-medium">Medium Impact</span>
+                        </div>
+                        <div class="card-body">
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                                Fear of losing familiar processes and personal document organization systems.
+                            </p>
+                            <h5 style="color: var(--primary-700); margin-bottom: var(--space-2);">UI/UX Solutions:</h5>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm);">
+                                <li>Migration tools that preserve existing organization</li>
+                                <li>Customizable personal workspaces</li>
+                                <li>Granular permission controls</li>
+                                <li>Undo/redo functionality throughout the system</li>
+                                <li>Export capabilities to maintain data ownership feeling</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-h2" style="margin-bottom: var(--space-6);">Proactive Support Strategies</h3>
+
+                    <div class="adoption-stage">
+                        <div class="stage-number">1</div>
+                        <h4 style="color: var(--primary-800); margin-bottom: var(--space-3);">Pre-Launch Communication</h4>
+                        <ul style="color: var(--gray-700); margin-bottom: var(--space-4);">
+                            <li>Executive sponsorship videos</li>
+                            <li>Clear "what's in it for me" messaging</li>
+                            <li>Timeline and expectation setting</li>
+                            <li>Early adopter success story sharing</li>
+                        </ul>
+                        <div style="background-color: white; padding: var(--space-3); border-radius: var(--radius-md);">
+                            <strong>UI Elements:</strong> Countdown widgets, announcement banners, progress indicators
+                        </div>
+                    </div>
+
+                    <div class="adoption-stage">
+                        <div class="stage-number">2</div>
+                        <h4 style="color: var(--primary-800); margin-bottom: var(--space-3);">First Contact Excellence</h4>
+                        <ul style="color: var(--gray-700); margin-bottom: var(--space-4);">
+                            <li>Personalized welcome experience</li>
+                            <li>Role-specific quick start guides</li>
+                            <li>Interactive product tours</li>
+                            <li>Immediate value demonstration</li>
+                        </ul>
+                        <div style="background-color: white; padding: var(--space-3); border-radius: var(--radius-md);">
+                            <strong>UI Elements:</strong> Welcome modals, guided tours, quick-start checklists
+                        </div>
+                    </div>
+
+                    <div class="adoption-stage">
+                        <div class="stage-number">3</div>
+                        <h4 style="color: var(--primary-800); margin-bottom: var(--space-3);">Continuous Engagement</h4>
+                        <ul style="color: var(--gray-700); margin-bottom: var(--space-4);">
+                            <li>Progress tracking and gamification</li>
+                            <li>Peer success story sharing</li>
+                            <li>Feature discovery notifications</li>
+                            <li>Usage analytics and feedback loops</li>
+                        </ul>
+                        <div style="background-color: white; padding: var(--space-3); border-radius: var(--radius-md);">
+                            <strong>UI Elements:</strong> Progress badges, peer activity feeds, feature spotlights
+                        </div>
+                    </div>
+
+                    <div class="adoption-stage">
+                        <div class="stage-number">4</div>
+                        <h4 style="color: var(--primary-800); margin-bottom: var(--space-3);">Advanced Mastery</h4>
+                        <ul style="color: var(--gray-700); margin-bottom: var(--space-4);">
+                            <li>Power user training programs</li>
+                            <li>Advanced feature rollout</li>
+                            <li>Champion network development</li>
+                            <li>Feedback-driven improvements</li>
+                        </ul>
+                        <div style="background-color: white; padding: var(--space-3); border-radius: var(--radius-md);">
+                            <strong>UI Elements:</strong> Advanced mode toggles, power user dashboards, feedback widgets
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Support Elements -->
+        <section>
+            <h2 class="text-h1" style="margin-bottom: var(--space-8);">Interactive Support Elements</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6);">
+                <!-- Contextual Help Example -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-h3">Contextual Help System</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="position: relative; padding: var(--space-4); background-color: var(--gray-50); border-radius: var(--radius-md);">
+                            <label class="form-label">
+                                Document Classification
+                                <span class="tooltip" data-tooltip="Choose the category that best describes your document type">ℹ️</span>
+                            </label>
+                            <select class="form-input">
+                                <option>Select classification...</option>
+                                <option>Policy</option>
+                                <option>Procedure</option>
+                                <option>Contract</option>
+                            </select>
+                            <div style="margin-top: var(--space-2); font-size: var(--text-sm); color: var(--gray-600);">
+                                💡 <strong>Tip:</strong> Proper classification helps colleagues find your document faster
+                            </div>
+                        </div>
+                        <div style="margin-top: var(--space-4);">
+                            <button class="btn btn-ghost advanced-toggle" data-target="#advanced-classification">
+                                Show Advanced Options
+                            </button>
+                            <div id="advanced-classification" style="display: none; margin-top: var(--space-3); padding: var(--space-3); background-color: var(--gray-50); border-radius: var(--radius-md);">
+                                <label class="form-label">Compliance Category</label>
+                                <select class="form-input" style="margin-bottom: var(--space-3);">
+                                    <option>Not applicable</option>
+                                    <option>SOX Compliance</option>
+                                    <option>GDPR Related</option>
+                                    <option>Industry Standard</option>
+                                </select>
+                                <label class="form-label">Retention Period</label>
+                                <select class="form-input">
+                                    <option>Standard (7 years)</option>
+                                    <option>Extended (10 years)</option>
+                                    <option>Permanent</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Tracking -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-h3">Learning Progress</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="text-align: center; margin-bottom: var(--space-6);">
+                            <div style="width: 80px; height: 80px; border-radius: 50%; background: conic-gradient(var(--success-500) 0% 75%, var(--gray-200) 75% 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3) auto; position: relative;">
+                                <div style="width: 60px; height: 60px; background-color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <span style="font-weight: 700; color: var(--success-700);">75%</span>
+                                </div>
+                            </div>
+                            <div style="font-weight: 600; color: var(--gray-800);">Platform Mastery</div>
+                            <div style="font-size: var(--text-sm); color: var(--gray-600);">3 of 4 modules complete</div>
+                        </div>
+
+                        <div style="margin-bottom: var(--space-4);">
+                            <div style="display: flex; justify-content: between; margin-bottom: var(--space-2);">
+                                <span style="font-size: var(--text-sm);">Basic Navigation</span>
+                                <span style="font-size: var(--text-sm); color: var(--success-600);">✓</span>
+                            </div>
+                            <div style="display: flex; justify-content: between; margin-bottom: var(--space-2);">
+                                <span style="font-size: var(--text-sm);">Document Upload</span>
+                                <span style="font-size: var(--text-sm); color: var(--success-600);">✓</span>
+                            </div>
+                            <div style="display: flex; justify-content: between; margin-bottom: var(--space-2);">
+                                <span style="font-size: var(--text-sm);">Search & Discovery</span>
+                                <span style="font-size: var(--text-sm); color: var(--success-600);">✓</span>
+                            </div>
+                            <div style="display: flex; justify-content: between;">
+                                <span style="font-size: var(--text-sm);">Advanced Workflows</span>
+                                <span style="font-size: var(--text-sm); color: var(--warning-600);">In Progress</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" style="width: 100%;">Continue Learning</button>
+                    </div>
+                </div>
+
+                <!-- Peer Activity Feed -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-h3">Team Activity</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-bottom: var(--space-4);">
+                            <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);">
+                                <div style="width: 32px; height: 32px; background-color: var(--primary-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary-700); font-size: var(--text-sm);">JW</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: var(--text-sm); font-weight: 500;">John Wilson completed Advanced Search training</div>
+                                    <div style="font-size: var(--text-xs); color: var(--gray-500);">2 hours ago</div>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);">
+                                <div style="width: 32px; height: 32px; background-color: var(--success-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--success-700); font-size: var(--text-sm);">MK</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: var(--text-sm); font-weight: 500;">Maria Kim uploaded 15 policy documents</div>
+                                    <div style="font-size: var(--text-xs); color: var(--gray-500);">Yesterday</div>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                <div style="width: 32px; height: 32px; background-color: var(--warning-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--warning-700); font-size: var(--text-sm);">RJ</div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: var(--text-sm); font-weight: 500;">Robert Johnson became a DocuFlow Champion</div>
+                                    <div style="font-size: var(--text-xs); color: var(--gray-500);">2 days ago</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; padding: var(--space-3); background-color: var(--primary-50); border-radius: var(--radius-md);">
+                            <div style="font-weight: 600; margin-bottom: var(--space-1);">🎯 Team Goal</div>
+                            <div style="font-size: var(--text-sm); color: var(--gray-700);">95% completion rate by month-end</div>
+                            <div style="margin-top: var(--space-2);">
+                                <div class="progress-tracker" style="--progress: 78%;"></div>
+                                <span style="font-size: var(--text-sm);">78% achieved</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Feedback Widget -->
+    <div class="feedback-widget">Give Feedback</div>
+
+    <!-- Feature Tour Overlay -->
+    <div class="help-overlay">
+        <div class="help-spotlight"></div>
+        <div class="help-tooltip"></div>
+    </div>
+</body>
+</html>

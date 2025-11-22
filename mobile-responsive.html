@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile-First Responsive Design - Enterprise Documentation Platform</title>
+    <link rel="stylesheet" href="design-system.css">
+    <style>
+        /* Mobile-First Responsive Design Strategy */
+
+        /* Base Mobile Styles (320px+) */
+        .mobile-app {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: var(--gray-50);
+            min-height: 100vh;
+        }
+
+        .mobile-header {
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
+            color: white;
+            padding: var(--space-4);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            box-shadow: var(--shadow-md);
+        }
+
+        .mobile-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .mobile-search {
+            width: 100%;
+            padding: var(--space-3);
+            margin: var(--space-4) 0;
+            border: none;
+            border-radius: var(--radius-lg);
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: var(--text-base);
+        }
+
+        .mobile-search::placeholder {
+            color: var(--gray-500);
+        }
+
+        /* Bottom Navigation */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--space-2);
+            text-decoration: none;
+            color: var(--gray-500);
+            transition: color 0.2s ease;
+            min-width: 60px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-600);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: var(--space-1);
+        }
+
+        .nav-label {
+            font-size: var(--text-xs);
+            font-weight: 500;
+        }
+
+        /* Mobile Content Area */
+        .mobile-content {
+            padding: var(--space-4);
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+
+        /* Mobile Cards */
+        .mobile-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--space-4);
+            overflow: hidden;
+        }
+
+        .mobile-card-header {
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-card-body {
+            padding: var(--space-4);
+        }
+
+        /* Touch-Friendly Buttons */
+        .mobile-btn {
+            display: block;
+            width: 100%;
+            padding: var(--space-4);
+            margin: var(--space-2) 0;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--text-base);
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 48px; /* WCAG AA touch target size */
+        }
+
+        .mobile-btn-primary {
+            background-color: var(--primary-600);
+            color: white;
+        }
+
+        .mobile-btn-primary:hover {
+            background-color: var(--primary-700);
+        }
+
+        .mobile-btn-secondary {
+            background-color: white;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+
+        .mobile-btn-secondary:hover {
+            background-color: var(--gray-50);
+        }
+
+        /* Mobile List Items */
+        .mobile-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-list-item {
+            display: flex;
+            align-items: center;
+            padding: var(--space-4);
+            background-color: white;
+            border-bottom: 1px solid var(--gray-200);
+            text-decoration: none;
+            color: var(--gray-800);
+            transition: background-color 0.2s ease;
+        }
+
+        .mobile-list-item:hover {
+            background-color: var(--gray-50);
+        }
+
+        .mobile-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-100);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--space-3);
+            font-weight: 600;
+            color: var(--primary-700);
+        }
+
+        .list-item-content {
+            flex: 1;
+        }
+
+        .list-item-title {
+            font-weight: 500;
+            margin-bottom: var(--space-1);
+            color: var(--gray-800);
+        }
+
+        .list-item-meta {
+            font-size: var(--text-sm);
+            color: var(--gray-500);
+        }
+
+        .list-item-action {
+            color: var(--gray-400);
+            font-size: 18px;
+        }
+
+        /* Mobile Metrics */
+        .mobile-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+
+        .mobile-metric {
+            background-color: white;
+            padding: var(--space-4);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .mobile-metric-value {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--primary-600);
+            display: block;
+            margin-bottom: var(--space-1);
+        }
+
+        .mobile-metric-label {
+            font-size: var(--text-sm);
+            color: var(--gray-600);
+        }
+
+        /* Pull-to-Refresh Indicator */
+        .pull-refresh {
+            text-align: center;
+            padding: var(--space-4);
+            color: var(--gray-500);
+            font-size: var(--text-sm);
+        }
+
+        /* Swipe Actions */
+        .swipe-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .swipe-actions {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .swipe-action {
+            display: flex;
+            align-items: center;
+            padding: 0 var(--space-4);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            min-width: 80px;
+            justify-content: center;
+        }
+
+        .swipe-approve {
+            background-color: var(--success-500);
+        }
+
+        .swipe-reject {
+            background-color: var(--error-500);
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 90px; /* Above bottom nav */
+            right: var(--space-4);
+            width: 56px;
+            height: 56px;
+            background-color: var(--primary-600);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: var(--shadow-lg);
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            z-index: var(--z-dropdown);
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        /* Modal/Overlay */
+        .mobile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: var(--z-modal);
+            display: none;
+        }
+
+        .mobile-modal.active {
+            display: block;
+        }
+
+        .modal-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            padding: var(--space-6);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .modal-handle {
+            width: 40px;
+            height: 4px;
+            background-color: var(--gray-300);
+            border-radius: 2px;
+            margin: 0 auto var(--space-4) auto;
+        }
+
+        /* Voice Search Button */
+        .voice-btn {
+            position: absolute;
+            right: var(--space-3);
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray-500);
+            font-size: 18px;
+            padding: var(--space-2);
+        }
+
+        /* Tablet Styles (768px+) */
+        @media (min-width: 768px) {
+            .mobile-app {
+                max-width: 768px;
+                margin: 0 auto;
+            }
+
+            .mobile-content {
+                padding: var(--space-6);
+            }
+
+            .mobile-metrics {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .mobile-nav {
+                position: relative;
+                border: none;
+                border-bottom: 1px solid var(--gray-200);
+            }
+
+            .mobile-content {
+                padding-bottom: var(--space-6);
+            }
+
+            .fab {
+                bottom: var(--space-4);
+            }
+        }
+
+        /* Desktop Styles (1024px+) */
+        @media (min-width: 1024px) {
+            .mobile-app {
+                max-width: 1200px;
+                display: grid;
+                grid-template-columns: 250px 1fr;
+                gap: 0;
+            }
+
+            .mobile-nav {
+                grid-row: 1 / 3;
+                position: static;
+                flex-direction: column;
+                padding: var(--space-6);
+                border-right: 1px solid var(--gray-200);
+                border-bottom: none;
+            }
+
+            .nav-item {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: var(--space-3) var(--space-4);
+                border-radius: var(--radius-md);
+                margin-bottom: var(--space-2);
+                width: 100%;
+            }
+
+            .nav-icon {
+                margin-right: var(--space-3);
+                margin-bottom: 0;
+            }
+
+            .nav-label {
+                font-size: var(--text-sm);
+            }
+
+            .mobile-header {
+                position: static;
+            }
+
+            .mobile-content {
+                padding: var(--space-8);
+            }
+
+            .mobile-metrics {
+                grid-template-columns: repeat(6, 1fr);
+            }
+
+            .fab {
+                display: none;
+            }
+        }
+
+        /* Progressive Web App Styles */
+        .pwa-install {
+            background: linear-gradient(135deg, var(--primary-50) 0%, var(--primary-100) 100%);
+            border: 1px solid var(--primary-200);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+            text-align: center;
+        }
+
+        .pwa-install h3 {
+            color: var(--primary-800);
+            margin-bottom: var(--space-2);
+        }
+
+        .pwa-install p {
+            color: var(--primary-700);
+            font-size: var(--text-sm);
+            margin-bottom: var(--space-3);
+        }
+
+        /* Offline Indicator */
+        .offline-banner {
+            background-color: var(--warning-500);
+            color: white;
+            text-align: center;
+            padding: var(--space-2);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            display: none;
+        }
+
+        .offline-banner.active {
+            display: block;
+        }
+
+        /* Loading States */
+        .skeleton {
+            background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-text {
+            height: 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-2);
+        }
+
+        .skeleton-card {
+            height: 120px;
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-4);
+        }
+    </style>
+    <script>
+        // Mobile app functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Bottom navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Remove active class from all nav items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    // Add active class to clicked item
+                    this.classList.add('active');
+
+                    // Show corresponding content
+                    const targetId = this.getAttribute('data-target');
+                    contentSections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    document.getElementById(targetId).style.display = 'block';
+                });
+            });
+
+            // Floating Action Button
+            const fab = document.querySelector('.fab');
+            const modal = document.querySelector('.mobile-modal');
+
+            if (fab && modal) {
+                fab.addEventListener('click', function() {
+                    modal.classList.add('active');
+                });
+
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                    }
+                });
+            }
+
+            // Pull to refresh simulation
+            let startY = 0;
+            let currentY = 0;
+            let pullThreshold = 100;
+
+            document.addEventListener('touchstart', function(e) {
+                startY = e.touches[0].pageY;
+            });
+
+            document.addEventListener('touchmove', function(e) {
+                currentY = e.touches[0].pageY;
+                const diff = currentY - startY;
+
+                if (diff > 0 && window.scrollY === 0) {
+                    e.preventDefault();
+                    if (diff > pullThreshold) {
+                        document.querySelector('.pull-refresh').style.display = 'block';
+                    }
+                }
+            });
+
+            document.addEventListener('touchend', function() {
+                if (currentY - startY > pullThreshold && window.scrollY === 0) {
+                    // Simulate refresh
+                    setTimeout(() => {
+                        document.querySelector('.pull-refresh').style.display = 'none';
+                    }, 1000);
+                }
+            });
+
+            // Offline detection
+            window.addEventListener('online', function() {
+                document.querySelector('.offline-banner').classList.remove('active');
+            });
+
+            window.addEventListener('offline', function() {
+                document.querySelector('.offline-banner').classList.add('active');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="mobile-app">
+        <!-- Offline Banner -->
+        <div class="offline-banner">
+            📵 You're offline. Some features may be limited.
+        </div>
+
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <div class="mobile-header-content">
+                <h1 class="mobile-title">DocuFlow</h1>
+                <button style="background: none; border: none; color: white; font-size: 18px;">👤</button>
+            </div>
+            <div style="position: relative;">
+                <input type="search" class="mobile-search" placeholder="Search documents..." autocomplete="off">
+                <button class="voice-btn" title="Voice search">🎤</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="mobile-content">
+            <!-- Pull to Refresh Indicator -->
+            <div class="pull-refresh" style="display: none;">
+                🔄 Release to refresh
+            </div>
+
+            <!-- PWA Install Prompt -->
+            <div class="pwa-install" id="pwa-prompt" style="display: none;">
+                <h3>Install DocuFlow</h3>
+                <p>Get quick access with our mobile app. Works offline and syncs when connected.</p>
+                <button class="mobile-btn mobile-btn-primary">Add to Home Screen</button>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="content-section">
+                <!-- Key Metrics -->
+                <div class="mobile-metrics">
+                    <div class="mobile-metric">
+                        <span class="mobile-metric-value">5</span>
+                        <span class="mobile-metric-label">Tasks</span>
+                    </div>
+                    <div class="mobile-metric">
+                        <span class="mobile-metric-value">12</span>
+                        <span class="mobile-metric-label">Recent</span>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="mobile-card">
+                    <div class="mobile-card-header">
+                        <h3>Quick Actions</h3>
+                    </div>
+                    <div class="mobile-card-body">
+                        <button class="mobile-btn mobile-btn-primary">📸 Scan Document</button>
+                        <button class="mobile-btn mobile-btn-secondary">📋 View Templates</button>
+                        <button class="mobile-btn mobile-btn-secondary">🔍 Advanced Search</button>
+                    </div>
+                </div>
+
+                <!-- My Tasks -->
+                <div class="mobile-card">
+                    <div class="mobile-card-header">
+                        <h3>My Tasks</h3>
+                        <span style="color: var(--primary-600); font-weight: 600;">5 pending</span>
+                    </div>
+                    <div class="mobile-card-body" style="padding: 0;">
+                        <ul class="mobile-list">
+                            <li class="swipe-item">
+                                <a href="#" class="mobile-list-item">
+                                    <div class="list-item-icon">⚠️</div>
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Review Compliance Training</div>
+                                        <div class="list-item-meta">Due today • HR Department</div>
+                                    </div>
+                                    <div class="list-item-action">→</div>
+                                </a>
+                                <div class="swipe-actions">
+                                    <a href="#" class="swipe-action swipe-approve">✓</a>
+                                    <a href="#" class="swipe-action swipe-reject">✗</a>
+                                </div>
+                            </li>
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">📄</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Acknowledge Policy Update</div>
+                                    <div class="list-item-meta">Due tomorrow • Legal</div>
+                                </div>
+                                <div class="list-item-action">→</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documents Section -->
+            <div id="documents-section" class="content-section" style="display: none;">
+                <!-- Filter/Sort Options -->
+                <div class="mobile-card">
+                    <div class="mobile-card-body">
+                        <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-4);">
+                            <select class="form-input" style="flex: 1;">
+                                <option>All Types</option>
+                                <option>Policies</option>
+                                <option>Contracts</option>
+                                <option>Templates</option>
+                            </select>
+                            <button style="padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-md); background: white;">📶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Documents -->
+                <div class="mobile-card">
+                    <div class="mobile-card-header">
+                        <h3>Recently Accessed</h3>
+                    </div>
+                    <div class="mobile-card-body" style="padding: 0;">
+                        <ul class="mobile-list">
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">📄</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Employee Handbook 2024</div>
+                                    <div class="list-item-meta">Accessed 2 hours ago</div>
+                                </div>
+                                <div class="list-item-action">📱</div>
+                            </li>
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">📊</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Budget Template</div>
+                                    <div class="list-item-meta">Accessed yesterday</div>
+                                </div>
+                                <div class="list-item-action">📱</div>
+                            </li>
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">🔒</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">IT Security Policy</div>
+                                    <div class="list-item-meta">Accessed 3 days ago</div>
+                                </div>
+                                <div class="list-item-action">📱</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Bookmarks -->
+                <div class="mobile-card">
+                    <div class="mobile-card-header">
+                        <h3>Bookmarks</h3>
+                    </div>
+                    <div class="mobile-card-body" style="padding: 0;">
+                        <ul class="mobile-list">
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">⭐</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Company Directory</div>
+                                    <div class="list-item-meta">Contact information</div>
+                                </div>
+                                <div class="list-item-action">📱</div>
+                            </li>
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">⭐</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Travel Policy</div>
+                                    <div class="list-item-meta">Expense guidelines</div>
+                                </div>
+                                <div class="list-item-action">📱</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Section -->
+            <div id="search-section" class="content-section" style="display: none;">
+                <!-- Advanced Search Filters -->
+                <div class="mobile-card">
+                    <div class="mobile-card-header">
+                        <h3>Search Filters</h3>
+                    </div>
+                    <div class="mobile-card-body">
+                        <div style="margin-bottom: var(--space-4);">
+                            <label class="form-label">Document Type</label>
+                            <select class="form-input">
+                                <option>All Types</option>
+                                <option>Policies</option>
+                                <option>Procedures</option>
+                                <option>Contracts</option>
+                                <option>Templates</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: var(--space-4);">
+                            <label class="form-label">Department</label>
+                            <select class="form-input">
+                                <option>All Departments</option>
+                                <option>HR</option>
+                                <option>Legal</option>
+                                <option>Finance</option>
+                                <option>IT</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: var(--space-4);">
+                            <label class="form-label">Date Range</label>
+                            <input type="date" class="form-input" style="margin-bottom: var(--space-2);">
+                            <input type="date" class="form-input">
+                        </div>
+                        <button class="mobile-btn mobile-btn-primary">Apply Filters</button>
+                    </div>
+                </div>
+
+                <!-- Search Results -->
+                <div class="mobile-card">
+                    <div class="mobile-card-header">
+                        <h3>Search Results</h3>
+                        <span style="color: var(--gray-600); font-size: var(--text-sm);">23 found</span>
+                    </div>
+                    <div class="mobile-card-body" style="padding: 0;">
+                        <ul class="mobile-list">
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">📄</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Remote Work Policy 2024</div>
+                                    <div class="list-item-meta">HR Department • Updated last week</div>
+                                </div>
+                                <div class="list-item-action">→</div>
+                            </li>
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">📋</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Expense Report Guidelines</div>
+                                    <div class="list-item-meta">Finance • Current version</div>
+                                </div>
+                                <div class="list-item-action">→</div>
+                            </li>
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">🔐</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Data Security Standards</div>
+                                    <div class="list-item-meta">IT Security • Confidential</div>
+                                </div>
+                                <div class="list-item-action">→</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div id="profile-section" class="content-section" style="display: none;">
+                <!-- User Info -->
+                <div class="mobile-card">
+                    <div class="mobile-card-body" style="text-align: center;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-200) 0%, var(--primary-300) 100%); border-radius: 50%; margin: 0 auto var(--space-4) auto; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl); font-weight: 600; color: var(--primary-700);">JD</div>
+                        <h3 style="margin-bottom: var(--space-1);">Jennifer Davis</h3>
+                        <p style="color: var(--gray-600); margin-bottom: var(--space-4);">Business Operations Manager</p>
+                        <button class="mobile-btn mobile-btn-secondary">Edit Profile</button>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div class="mobile-card">
+                    <div class="mobile-card-header">
+                        <h3>Settings</h3>
+                    </div>
+                    <div class="mobile-card-body" style="padding: 0;">
+                        <ul class="mobile-list">
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">🔔</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Notifications</div>
+                                    <div class="list-item-meta">Push, email preferences</div>
+                                </div>
+                                <div class="list-item-action">→</div>
+                            </li>
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">🌙</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Dark Mode</div>
+                                    <div class="list-item-meta">Appearance settings</div>
+                                </div>
+                                <div class="list-item-action">→</div>
+                            </li>
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">🔒</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Privacy & Security</div>
+                                    <div class="list-item-meta">Data and access controls</div>
+                                </div>
+                                <div class="list-item-action">→</div>
+                            </li>
+                            <li class="mobile-list-item">
+                                <div class="list-item-icon">💬</div>
+                                <div class="list-item-content">
+                                    <div class="list-item-title">Help & Support</div>
+                                    <div class="list-item-meta">FAQs and contact options</div>
+                                </div>
+                                <div class="list-item-action">→</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- App Info -->
+                <div class="mobile-card">
+                    <div class="mobile-card-body" style="text-align: center;">
+                        <p style="color: var(--gray-500); font-size: var(--text-sm); margin-bottom: var(--space-2);">DocuFlow Mobile v2.1.0</p>
+                        <button class="mobile-btn mobile-btn-secondary">Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Action Button -->
+        <button class="fab" title="Quick upload">+</button>
+
+        <!-- Bottom Navigation -->
+        <nav class="mobile-nav">
+            <a href="#" class="nav-item active" data-target="dashboard-section">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Home</div>
+            </a>
+            <a href="#" class="nav-item" data-target="documents-section">
+                <div class="nav-icon">📁</div>
+                <div class="nav-label">Documents</div>
+            </a>
+            <a href="#" class="nav-item" data-target="search-section">
+                <div class="nav-icon">🔍</div>
+                <div class="nav-label">Search</div>
+            </a>
+            <a href="#" class="nav-item" data-target="profile-section">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profile</div>
+            </a>
+        </nav>
+
+        <!-- Upload Modal -->
+        <div class="mobile-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <h3 style="margin-bottom: var(--space-4); text-align: center;">Upload Document</h3>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-6);">
+                    <button class="mobile-btn mobile-btn-secondary" style="display: flex; flex-direction: column; align-items: center; gap: var(--space-2);">
+                        <span style="font-size: 24px;">📸</span>
+                        <span>Camera</span>
+                    </button>
+                    <button class="mobile-btn mobile-btn-secondary" style="display: flex; flex-direction: column; align-items: center; gap: var(--space-2);">
+                        <span style="font-size: 24px;">📁</span>
+                        <span>Files</span>
+                    </button>
+                </div>
+
+                <div style="margin-bottom: var(--space-4);">
+                    <label class="form-label">Document Type</label>
+                    <select class="form-input">
+                        <option>Select type...</option>
+                        <option>Policy</option>
+                        <option>Procedure</option>
+                        <option>Contract</option>
+                        <option>Form</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom: var(--space-6);">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-input" rows="3" placeholder="Brief description of the document..."></textarea>
+                </div>
+
+                <button class="mobile-btn mobile-btn-primary">Upload Document</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Skeletons Example -->
+    <div id="loading-skeletons" style="display: none; padding: var(--space-4);">
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-text" style="width: 60%;"></div>
+        <div class="skeleton skeleton-text" style="width: 80%;"></div>
+        <div class="skeleton skeleton-text" style="width: 40%;"></div>
+    </div>
+</body>
+</html>
